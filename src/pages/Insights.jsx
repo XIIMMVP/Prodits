@@ -4,42 +4,8 @@ export default function Insights() {
   return (
     <>
 <div className="flex h-screen overflow-hidden">
-  <aside className="w-64 border-r border-apple-border flex flex-col bg-[#F5F5F7] hidden lg:flex">
-    <div className="p-6 flex items-center gap-3">
-      <div className="size-8 bg-primary rounded-lg flex items-center justify-center text-white">
-        <span className="material-symbols-outlined text-[20px]">insights</span>
-      </div>
-      <span className="text-lg font-semibold tracking-tight">Performance</span>
-    </div>
-    <nav className="flex-1 px-4 py-4 space-y-1">
-      <Link className="flex items-center gap-3 px-3 py-2.5 rounded-xl text-apple-gray hover:bg-white/50 transition-all" to="#">
-        <span className="material-symbols-outlined">dashboard</span>
-        <span className="text-sm font-medium">Dashboard</span>
-      </Link>
-      <Link className="flex items-center gap-3 px-3 py-2.5 rounded-xl sidebar-item-active" to="/insights">
-        <span className="material-symbols-outlined fill-1">analytics</span>
-        <span className="text-sm font-semibold">Insights</span>
-      </Link>
-      <Link className="flex items-center gap-3 px-3 py-2.5 rounded-xl text-apple-gray hover:bg-white/50 transition-all" to="#">
-        <span className="material-symbols-outlined">calendar_today</span>
-        <span className="text-sm font-medium">Schedule</span>
-      </Link>
-      <Link className="flex items-center gap-3 px-3 py-2.5 rounded-xl text-apple-gray hover:bg-white/50 transition-all" to="#">
-        <span className="material-symbols-outlined">auto_stories</span>
-        <span className="text-sm font-medium">Library</span>
-      </Link>
-    </nav>
-    <div className="p-6 border-t border-apple-border">
-      <div className="flex items-center gap-3">
-        <img alt="User" className="size-9 rounded-full object-cover bg-gray-200" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBS0Cc2ib-vFH91wzXHhPO8FAposzFFtk3HjaVke62LmWwLDPNwRLeTYXuTJDjVWqiOaXN0cdCm5UNixszgTFtBCEZDXM1cd6BTFmTJg9XniKEDCu9gVX6LLTLxp2R-_sUirrY_uCR2cDNj4VGXrkQ1KwTW32nM6VJ981Fi_iE9QFJPzS6Xx8ykoYV_JxEcoWnjPQEbhtqVZOopTjuh1dPaXe1YV2M1HCcLmDmZkojozWkxXjoKhOtU5xa4YpoqscWXKbdsf5EK1CwN" />
-        <div className="flex flex-col">
-          <span className="text-xs font-semibold">Alex Rivera</span>
-          <span className="text-[10px] text-apple-gray uppercase tracking-wider">Premium Member</span>
-        </div>
-      </div>
-    </div>
-  </aside>
-  <main className="flex-1 overflow-y-auto relative">
+  
+  <main className="w-full h-full max-w-7xl mx-auto">
     <header className="sticky top-0 z-30 bg-apple-bg/80 backdrop-blur-md px-8 py-6 flex items-center justify-between">
       <h1 className="text-2xl font-bold tracking-tight">Unified Insights</h1>
       <div className="flex items-center gap-4">

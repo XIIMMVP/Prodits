@@ -4,34 +4,8 @@ export default function Routine() {
   return (
     <>
 <div>
-  <aside className="fixed left-0 top-0 h-full w-20 flex flex-col items-center py-8 border-r border-slate-200/60 bg-[var(--ios-sidebar-bg)] sidebar-blur z-50">
-    <div className="mb-10 text-[var(--ios-blue)]">
-      <span className="material-symbols-outlined text-3xl font-bold">auto_awesome</span>
-    </div>
-    <nav className="flex flex-col gap-9 flex-1">
-      <Link className="group flex flex-col items-center gap-1 text-slate-400 hover:text-[var(--ios-blue)] transition-colors" to="#">
-        <span className="material-symbols-outlined text-2xl">grid_view</span>
-      </Link>
-      <Link className="group flex flex-col items-center gap-1 text-[var(--ios-blue)]" to="#">
-        <span className="material-symbols-outlined text-2xl fill">rebase_edit</span>
-      </Link>
-      <Link className="group flex flex-col items-center gap-1 text-slate-400 hover:text-[var(--ios-blue)] transition-colors" to="#">
-        <span className="material-symbols-outlined text-2xl">calendar_today</span>
-      </Link>
-      <Link className="group flex flex-col items-center gap-1 text-slate-400 hover:text-[var(--ios-blue)] transition-colors" to="#">
-        <span className="material-symbols-outlined text-2xl">analytics</span>
-      </Link>
-      <Link className="group flex flex-col items-center gap-1 text-slate-400 hover:text-[var(--ios-blue)] transition-colors" to="#">
-        <span className="material-symbols-outlined text-2xl">settings</span>
-      </Link>
-    </nav>
-    <div className="mt-auto">
-      <div className="w-10 h-10 rounded-full border border-slate-200 overflow-hidden">
-        <img alt="Profile" className="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD-grKXE6PDnslv22dmaq60b1UlUtA13xiFfc9W1yK-HZnwgino0J6-ua_zggGItQi-zHaANzZImP1Lys-wg5bNjzZZiUA0IiF3vAhOjlnATu9Kt4rrV810cwpK-n_PY-Op5tG3OZn9czGsU83GJ44PBeHgRBS7AWSxkfc78zSBF8XqUITgPOa5Yn5Wal_7yJHlZ47epge_52vZV1G4qcOH3td6ZGSgK7Yip464hKrwziMEghgjlxz4pvKhzwRzzM9mmGc3GcqtK3XE" />
-      </div>
-    </div>
-  </aside>
-  <main className="ml-20 min-h-screen pb-24">
+  
+  <main className="w-full h-full max-w-7xl mx-auto">
     <div className="max-w-4xl mx-auto px-8 pt-16">
       <header className="flex items-center justify-between mb-12">
         <div>

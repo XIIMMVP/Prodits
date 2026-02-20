@@ -4,44 +4,8 @@ export default function Journal() {
   return (
     <>
 <div>
-  <aside className="w-64 border-r border-[var(--border)] bg-[var(--sidebar-bg)] flex flex-col fixed h-full z-30">
-    <div className="p-6">
-      <div className="flex items-center gap-2 mb-8">
-        <div className="size-8 bg-[var(--primary)] rounded-lg flex items-center justify-center text-white">
-          <span className="material-symbols-outlined text-[20px] font-bold">diamond</span>
-        </div>
-        <span className="font-bold text-lg tracking-tight">Success Journal</span>
-      </div>
-      <nav className="space-y-1">
-        <Link className="flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium text-[var(--text-secondary)] hover:bg-gray-50 transition-colors" to="#">
-          <span className="material-symbols-outlined">dashboard</span>
-          Overview
-        </Link>
-        <Link className="flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-semibold sidebar-item-active transition-colors" to="#">
-          <span className="material-symbols-outlined font-variation-fill">auto_awesome</span>
-          Journal
-        </Link>
-        <Link className="flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium text-[var(--text-secondary)] hover:bg-gray-50 transition-colors" to="#">
-          <span className="material-symbols-outlined">calendar_today</span>
-          Schedule
-        </Link>
-        <Link className="flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium text-[var(--text-secondary)] hover:bg-gray-50 transition-colors" to="#">
-          <span className="material-symbols-outlined">analytics</span>
-          Insights
-        </Link>
-      </nav>
-    </div>
-    <div className="mt-auto p-6 border-t border-[var(--border)]">
-      <div className="flex items-center gap-3">
-        <img alt="User profile" className="size-9 rounded-full object-cover border border-[var(--border)]" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBWbBZWa6AgMjjTYv85OMgDN1X_4JByP80qAEDz_lcnwVoGWvyjYxgcR1dpc0uOe34gbH6RFLGaDMxfpO9fZ2EnSet0TaqoQeeLSD1tG_8tTWzZkXREvV8q-SWP46CPXDcmxjwe3_3WcaW_ObuJsTSZPNHbP_MSf_WyEHA8BQ71UtH3geCdThQh8ZJqfAN9VCK5-DqzzP5gLuRnAMS9IymtbcIYAaL054ecPCahStSf2CHEaQ5ek0e-eb3AdOYg_Vj5gV2uNuRvlrh-" />
-        <div className="flex flex-col">
-          <span className="text-sm font-semibold">Alex Rivera</span>
-          <span className="text-[11px] text-[var(--text-secondary)]">Elite Member</span>
-        </div>
-      </div>
-    </div>
-  </aside>
-  <main className="flex-1 ml-64 min-h-screen relative pb-24">
+  
+  <main className="w-full h-full max-w-7xl mx-auto">
     <header className="sticky top-0 z-20 glass-header px-8 py-4">
       <div className="max-w-6xl mx-auto flex items-center justify-between gap-6">
         <div className="relative flex-1 max-w-xl">

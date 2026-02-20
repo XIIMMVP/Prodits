@@ -4,42 +4,8 @@ export default function Dashboard() {
   return (
     <>
 <div>
-  <aside className="fixed left-0 top-0 h-full w-20 lg:w-64 bg-white border-r border-gray-100 hidden md:flex flex-col z-40 transition-all duration-300">
-    <div className="p-6 flex items-center gap-3">
-      <div className="w-10 h-10 rounded-xl bg-[var(--primary)] flex items-center justify-center text-white">
-        <span className="material-symbols-outlined font-bold">bolt</span>
-      </div>
-      <span className="text-xl font-bold tracking-tight hidden lg:block">Strive</span>
-    </div>
-    <nav className="flex-1 px-4 space-y-2 mt-4">
-      <Link className="flex items-center gap-4 px-4 py-3 rounded-2xl sidebar-item-active group transition-all" to="/">
-        <span className="material-symbols-outlined fill-1">grid_view</span>
-        <span className="font-semibold hidden lg:block">Today</span>
-      </Link>
-      <Link className="flex items-center gap-4 px-4 py-3 rounded-2xl text-gray-500 hover:bg-gray-50 transition-all" to="/routine">
-        <span className="material-symbols-outlined">repeat</span>
-        <span className="font-medium hidden lg:block">Routines</span>
-      </Link>
-      <Link className="flex items-center gap-4 px-4 py-3 rounded-2xl text-gray-500 hover:bg-gray-50 transition-all" to="/insights">
-        <span className="material-symbols-outlined">monitoring</span>
-        <span className="font-medium hidden lg:block">Insights</span>
-      </Link>
-      <Link className="flex items-center gap-4 px-4 py-3 rounded-2xl text-gray-500 hover:bg-gray-50 transition-all" to="/journal">
-        <span className="material-symbols-outlined">military_tech</span>
-        <span className="font-medium hidden lg:block">Successes</span>
-      </Link>
-    </nav>
-    <div className="p-6 mt-auto">
-      <div className="flex items-center gap-3 p-2 rounded-2xl hover:bg-gray-50 transition-all cursor-pointer">
-        <img alt="Profile" className="w-10 h-10 rounded-full object-cover border border-gray-100" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDL3aOu6IA_E5k2bPGBTMwRGrgOw9yztlmwwUkZEXSxPfEMU9amVIUoAGEldQyLt22-C6aNUHN2t_xi8AFdw08BtDrlWOEMuw-JtfzaEojLyDookEOPnBiiUAkXJ0FRO83b9wrjCZ6n5rVG-STNvMwfwRiwUUIW8g46FxCbGSGPf4P6v0nQ8IDgpy5hpBFZkZqio3S8K2F3bSAD1c2AQZ4g22-XYrIVUGWX8abl3lglPVAn7NBsWvddjqSakASD9XsZTWChNV_AkzC5" />
-        <div className="hidden lg:block overflow-hidden">
-          <p className="text-sm font-semibold truncate">Alex Rivera</p>
-          <p className="text-xs text-gray-400">Pro Member</p>
-        </div>
-      </div>
-    </div>
-  </aside>
-  <main className="md:ml-20 lg:ml-64 min-h-screen pb-32 md:pb-12">
+  
+  <main className="w-full h-full max-w-7xl mx-auto">
     <div className="max-w-4xl mx-auto px-6 pt-12">
       <header className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-10">
         <div>
@@ -149,24 +115,7 @@ export default function Dashboard() {
       </div>
     </div>
   </main>
-  <nav className="fixed bottom-0 left-0 right-0 glass-nav border-t border-gray-100 px-6 py-4 flex md:hidden justify-between items-center z-50">
-    <Link className="text-[var(--primary)] flex flex-col items-center gap-1" to="/">
-      <span className="material-symbols-outlined fill-1">grid_view</span>
-      <span className="text-[10px] font-bold">Today</span>
-    </Link>
-    <Link className="text-gray-400 flex flex-col items-center gap-1" to="/routine">
-      <span className="material-symbols-outlined">repeat</span>
-      <span className="text-[10px] font-medium">Routines</span>
-    </Link>
-    <Link className="text-gray-400 flex flex-col items-center gap-1" to="/insights">
-      <span className="material-symbols-outlined">monitoring</span>
-      <span className="text-[10px] font-medium">Insights</span>
-    </Link>
-    <Link className="text-gray-400 flex flex-col items-center gap-1" to="/journal">
-      <span className="material-symbols-outlined">military_tech</span>
-      <span className="text-[10px] font-medium">Wins</span>
-    </Link>
-  </nav>
+  
 </div>
 
     </>
