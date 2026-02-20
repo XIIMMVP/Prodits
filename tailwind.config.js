@@ -7,8 +7,11 @@ export default {
   theme: {
     extend: {
       colors: {
-        "primary": "#007AFF",
-        "apple-gray": "#F5F5F7",
+        "primary": "var(--primary)",
+        "apple-gray": "var(--text-secondary)",
+        "apple-bg": "var(--background)",
+        "apple-card": "var(--card-bg)",
+        "apple-border": "var(--border)",
         "emergency": "#FF9500",
       },
       fontFamily: {
