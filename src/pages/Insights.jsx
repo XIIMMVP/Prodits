@@ -12,22 +12,22 @@ export default function Insights() {
       <span className="text-lg font-semibold tracking-tight">Performance</span>
     </div>
     <nav className="flex-1 px-4 py-4 space-y-1">
-      <a className="flex items-center gap-3 px-3 py-2.5 rounded-xl text-apple-gray hover:bg-white/50 transition-all" href="#">
+      <Link className="flex items-center gap-3 px-3 py-2.5 rounded-xl text-apple-gray hover:bg-white/50 transition-all" to="#">
         <span className="material-symbols-outlined">dashboard</span>
         <span className="text-sm font-medium">Dashboard</span>
-      </a>
-      <a className="flex items-center gap-3 px-3 py-2.5 rounded-xl sidebar-item-active" href="#">
+      </Link>
+      <Link className="flex items-center gap-3 px-3 py-2.5 rounded-xl sidebar-item-active" to="/insights">
         <span className="material-symbols-outlined fill-1">analytics</span>
         <span className="text-sm font-semibold">Insights</span>
-      </a>
-      <a className="flex items-center gap-3 px-3 py-2.5 rounded-xl text-apple-gray hover:bg-white/50 transition-all" href="#">
+      </Link>
+      <Link className="flex items-center gap-3 px-3 py-2.5 rounded-xl text-apple-gray hover:bg-white/50 transition-all" to="#">
         <span className="material-symbols-outlined">calendar_today</span>
         <span className="text-sm font-medium">Schedule</span>
-      </a>
-      <a className="flex items-center gap-3 px-3 py-2.5 rounded-xl text-apple-gray hover:bg-white/50 transition-all" href="#">
+      </Link>
+      <Link className="flex items-center gap-3 px-3 py-2.5 rounded-xl text-apple-gray hover:bg-white/50 transition-all" to="#">
         <span className="material-symbols-outlined">auto_stories</span>
         <span className="text-sm font-medium">Library</span>
-      </a>
+      </Link>
     </nav>
     <div className="p-6 border-t border-apple-border">
       <div className="flex items-center gap-3">

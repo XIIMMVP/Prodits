@@ -13,22 +13,22 @@ export default function Journal() {
         <span className="font-bold text-lg tracking-tight">Success Journal</span>
       </div>
       <nav className="space-y-1">
-        <a className="flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium text-[var(--text-secondary)] hover:bg-gray-50 transition-colors" href="#">
+        <Link className="flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium text-[var(--text-secondary)] hover:bg-gray-50 transition-colors" to="#">
           <span className="material-symbols-outlined">dashboard</span>
           Overview
-        </a>
-        <a className="flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-semibold sidebar-item-active transition-colors" href="#">
+        </Link>
+        <Link className="flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-semibold sidebar-item-active transition-colors" to="#">
           <span className="material-symbols-outlined font-variation-fill">auto_awesome</span>
           Journal
-        </a>
-        <a className="flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium text-[var(--text-secondary)] hover:bg-gray-50 transition-colors" href="#">
+        </Link>
+        <Link className="flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium text-[var(--text-secondary)] hover:bg-gray-50 transition-colors" to="#">
           <span className="material-symbols-outlined">calendar_today</span>
           Schedule
-        </a>
-        <a className="flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium text-[var(--text-secondary)] hover:bg-gray-50 transition-colors" href="#">
+        </Link>
+        <Link className="flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium text-[var(--text-secondary)] hover:bg-gray-50 transition-colors" to="#">
           <span className="material-symbols-outlined">analytics</span>
           Insights
-        </a>
+        </Link>
       </nav>
     </div>
     <div className="mt-auto p-6 border-t border-[var(--border)]">

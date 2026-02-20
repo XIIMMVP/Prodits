@@ -12,22 +12,22 @@ export default function Dashboard() {
       <span className="text-xl font-bold tracking-tight hidden lg:block">Strive</span>
     </div>
     <nav className="flex-1 px-4 space-y-2 mt-4">
-      <a className="flex items-center gap-4 px-4 py-3 rounded-2xl sidebar-item-active group transition-all" href="#">
+      <Link className="flex items-center gap-4 px-4 py-3 rounded-2xl sidebar-item-active group transition-all" to="/">
         <span className="material-symbols-outlined fill-1">grid_view</span>
         <span className="font-semibold hidden lg:block">Today</span>
-      </a>
-      <a className="flex items-center gap-4 px-4 py-3 rounded-2xl text-gray-500 hover:bg-gray-50 transition-all" href="#">
+      </Link>
+      <Link className="flex items-center gap-4 px-4 py-3 rounded-2xl text-gray-500 hover:bg-gray-50 transition-all" to="/routine">
         <span className="material-symbols-outlined">repeat</span>
         <span className="font-medium hidden lg:block">Routines</span>
-      </a>
-      <a className="flex items-center gap-4 px-4 py-3 rounded-2xl text-gray-500 hover:bg-gray-50 transition-all" href="#">
+      </Link>
+      <Link className="flex items-center gap-4 px-4 py-3 rounded-2xl text-gray-500 hover:bg-gray-50 transition-all" to="/insights">
         <span className="material-symbols-outlined">monitoring</span>
         <span className="font-medium hidden lg:block">Insights</span>
-      </a>
-      <a className="flex items-center gap-4 px-4 py-3 rounded-2xl text-gray-500 hover:bg-gray-50 transition-all" href="#">
+      </Link>
+      <Link className="flex items-center gap-4 px-4 py-3 rounded-2xl text-gray-500 hover:bg-gray-50 transition-all" to="/journal">
         <span className="material-symbols-outlined">military_tech</span>
         <span className="font-medium hidden lg:block">Successes</span>
-      </a>
+      </Link>
     </nav>
     <div className="p-6 mt-auto">
       <div className="flex items-center gap-3 p-2 rounded-2xl hover:bg-gray-50 transition-all cursor-pointer">
@@ -150,22 +150,22 @@ export default function Dashboard() {
     </div>
   </main>
   <nav className="fixed bottom-0 left-0 right-0 glass-nav border-t border-gray-100 px-6 py-4 flex md:hidden justify-between items-center z-50">
-    <a className="text-[var(--primary)] flex flex-col items-center gap-1" href="#">
+    <Link className="text-[var(--primary)] flex flex-col items-center gap-1" to="/">
       <span className="material-symbols-outlined fill-1">grid_view</span>
       <span className="text-[10px] font-bold">Today</span>
-    </a>
-    <a className="text-gray-400 flex flex-col items-center gap-1" href="#">
+    </Link>
+    <Link className="text-gray-400 flex flex-col items-center gap-1" to="/routine">
       <span className="material-symbols-outlined">repeat</span>
       <span className="text-[10px] font-medium">Routines</span>
-    </a>
-    <a className="text-gray-400 flex flex-col items-center gap-1" href="#">
+    </Link>
+    <Link className="text-gray-400 flex flex-col items-center gap-1" to="/insights">
       <span className="material-symbols-outlined">monitoring</span>
       <span className="text-[10px] font-medium">Insights</span>
-    </a>
-    <a className="text-gray-400 flex flex-col items-center gap-1" href="#">
+    </Link>
+    <Link className="text-gray-400 flex flex-col items-center gap-1" to="/journal">
       <span className="material-symbols-outlined">military_tech</span>
       <span className="text-[10px] font-medium">Wins</span>
-    </a>
+    </Link>
   </nav>
 </div>
 

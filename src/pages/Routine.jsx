@@ -9,21 +9,21 @@ export default function Routine() {
       <span className="material-symbols-outlined text-3xl font-bold">auto_awesome</span>
     </div>
     <nav className="flex flex-col gap-9 flex-1">
-      <a className="group flex flex-col items-center gap-1 text-slate-400 hover:text-[var(--ios-blue)] transition-colors" href="#">
+      <Link className="group flex flex-col items-center gap-1 text-slate-400 hover:text-[var(--ios-blue)] transition-colors" to="#">
         <span className="material-symbols-outlined text-2xl">grid_view</span>
-      </a>
-      <a className="group flex flex-col items-center gap-1 text-[var(--ios-blue)]" href="#">
+      </Link>
+      <Link className="group flex flex-col items-center gap-1 text-[var(--ios-blue)]" to="#">
         <span className="material-symbols-outlined text-2xl fill">rebase_edit</span>
-      </a>
-      <a className="group flex flex-col items-center gap-1 text-slate-400 hover:text-[var(--ios-blue)] transition-colors" href="#">
+      </Link>
+      <Link className="group flex flex-col items-center gap-1 text-slate-400 hover:text-[var(--ios-blue)] transition-colors" to="#">
         <span className="material-symbols-outlined text-2xl">calendar_today</span>
-      </a>
-      <a className="group flex flex-col items-center gap-1 text-slate-400 hover:text-[var(--ios-blue)] transition-colors" href="#">
+      </Link>
+      <Link className="group flex flex-col items-center gap-1 text-slate-400 hover:text-[var(--ios-blue)] transition-colors" to="#">
         <span className="material-symbols-outlined text-2xl">analytics</span>
-      </a>
-      <a className="group flex flex-col items-center gap-1 text-slate-400 hover:text-[var(--ios-blue)] transition-colors" href="#">
+      </Link>
+      <Link className="group flex flex-col items-center gap-1 text-slate-400 hover:text-[var(--ios-blue)] transition-colors" to="#">
         <span className="material-symbols-outlined text-2xl">settings</span>
-      </a>
+      </Link>
     </nav>
     <div className="mt-auto">
       <div className="w-10 h-10 rounded-full border border-slate-200 overflow-hidden">
