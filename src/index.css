@@ -4,8 +4,16 @@
 
 @layer base {
   :root {
-    --bg-main: #FFFFFF;
+    --bg-main: #FBFBFD;
     --bg-container: #F5F5F7;
+    --background: #FBFBFD;
+    --card-bg: #FFFFFF;
+    --ios-bg: #F5F5F7;
+    --primary: #007AFF;
+    --ios-blue: #007AFF;
+    --text-main: #1C1C1E;
+    --text-secondary: #8E8E93;
+    --border: #E5E5EA;
     --shadow-soft: 0 10px 40px -10px rgba(0, 0, 0, 0.08);
     --shadow-deep: 0 20px 50px -12px rgba(0, 0, 0, 0.12);
   }
