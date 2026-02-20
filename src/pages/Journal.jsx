@@ -1,129 +1,204 @@
-import { Link } from 'react-router-dom';
+import { useState, useRef } from 'react';
+import { useStore, uid, today } from '../store/useStore';
+
+const CATEGORY_LABELS = { health: 'Health & Vitality', mind: 'Personal Growth', career: 'Productivity', home: 'Lifestyle' };
+const FILTER_TABS = ['All', 'Health', 'Career', 'Mind', 'Home'];
+const CATEGORY_MAP = { All: null, Health: 'health', Career: 'career', Mind: 'mind', Home: 'home' };
+
+const PLACEHOLDER_PHOTOS = [
+  'https://images.unsplash.com/photo-1571019614242-c5c5dee9f50b?w=600&q=80',
+  'https://images.unsplash.com/photo-1498050108023-c5249f4df085?w=600&q=80',
+  'https://images.unsplash.com/photo-1512621776951-a57141f2eefd?w=600&q=80',
+  'https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?w=600&q=80',
+  'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=600&q=80',
+];
+
+function NewEntryModal({ onSave, onClose }) {
+  const [form, setForm] = useState({ title: '', text: '', category: 'health', photo: '' });
+  const update = (k, v) => setForm(p => ({ ...p, [k]: v }));
+
+  const now = new Date();
+  const time = now.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', hour12: true });
+
+  return (
+    <div className="fixed inset-0 bg-black/40 backdrop-blur-sm z-[100] flex items-end sm:items-center justify-center p-0 sm:p-4" onClick={onClose}>
+      <div className="bg-white rounded-t-3xl sm:rounded-3xl p-6 w-full max-w-lg max-h-[90vh] overflow-y-auto ios-shadow" onClick={e => e.stopPropagation()}>
+        <div className="flex items-center justify-between mb-6">
+          <h2 className="text-xl font-bold">New Success Entry</h2>
+          <button onClick={onClose} className="w-8 h-8 rounded-full bg-gray-100 flex items-center justify-center">
+            <span className="material-symbols-outlined text-lg">close</span>
+          </button>
+        </div>
+
+        <div className="mb-4">
+          <label className="text-xs font-bold text-[var(--text-secondary)] uppercase tracking-wider mb-2 block">Title</label>
+          <input value={form.title} onChange={e => update('title', e.target.value)} placeholder="e.g. Morning Run" className="w-full border border-[var(--border)] rounded-2xl px-4 py-3 text-sm outline-none focus:ring-2 focus:ring-[var(--primary)]/20 focus:border-[var(--primary)]" />
+        </div>
+
+        <div className="mb-4">
+          <label className="text-xs font-bold text-[var(--text-secondary)] uppercase tracking-wider mb-2 block">Description</label>
+          <textarea value={form.text} onChange={e => update('text', e.target.value)} placeholder="What did you accomplish?" className="w-full border border-[var(--border)] rounded-2xl px-4 py-3 text-sm outline-none h-24 resize-none focus:ring-2 focus:ring-[var(--primary)]/20" />
+        </div>
+
+        <div className="mb-4">
+          <label className="text-xs font-bold text-[var(--text-secondary)] uppercase tracking-wider mb-2 block">Category</label>
+          <div className="flex flex-wrap gap-2">
+            {Object.entries(CATEGORY_MAP).filter(([k]) => k !== 'All').map(([label, val]) => (
+              <button key={val} onClick={() => update('category', val)} className={`px-4 py-2 rounded-xl text-xs font-semibold transition-all ${form.category === val ? 'bg-[var(--primary)] text-white' : 'bg-gray-50 text-[var(--text-secondary)]'}`}>
+                {label}
+              </button>
+            ))}
+          </div>
+        </div>
+
+        <div className="mb-4">
+          <label className="text-xs font-bold text-[var(--text-secondary)] uppercase tracking-wider mb-2 block">Photo URL (optional)</label>
+          <input value={form.photo} onChange={e => update('photo', e.target.value)} placeholder="https://..." className="w-full border border-[var(--border)] rounded-2xl px-4 py-3 text-sm outline-none focus:ring-2 focus:ring-[var(--primary)]/20" />
+          <p className="text-[10px] text-[var(--text-secondary)] mt-1">Paste an image URL or leave blank for a default image</p>
+        </div>
+
+        <div className="flex gap-3 pt-2">
+          <button onClick={onClose} className="flex-1 py-3.5 rounded-2xl bg-gray-100 text-[var(--text-secondary)] font-semibold">Cancel</button>
+          <button onClick={() => {
+            if (form.title.trim()) {
+              onSave({
+                ...form,
+                photo: form.photo || PLACEHOLDER_PHOTOS[Math.floor(Math.random() * PLACEHOLDER_PHOTOS.length)],
+                time,
+              });
+              onClose();
+            }
+          }} className="flex-1 py-3.5 rounded-2xl bg-[var(--primary)] text-white font-semibold hover:opacity-90 transition-all">
+            Save Entry
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+}
 
 export default function Journal() {
-  return (
-    <>
-      <div>
+  const { state, dispatch } = useStore();
+  const [activeFilter, setActiveFilter] = useState('All');
+  const [search, setSearch] = useState('');
+  const [showNew, setShowNew] = useState(false);
 
-        <main className="w-full h-full max-w-7xl mx-auto">
-          <header className="sticky top-0 z-20 glass-header px-8 py-4">
-            <div className="max-w-6xl mx-auto flex items-center justify-between gap-6">
-              <div className="relative flex-1 max-w-xl">
-                <span className="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-[var(--text-secondary)] text-xl">search</span>
-                <input className="w-full bg-[#F2F2F7] border-none rounded-2xl py-2.5 pl-12 pr-4 text-sm focus:ring-2 focus:ring-[var(--primary)]/20 transition-all placeholder:text-[var(--text-secondary)]" placeholder="Search entries, tags, or milestones..." type="text" />
-              </div>
-              <div className="flex items-center gap-3">
-                <button className="size-10 rounded-full flex items-center justify-center hover:bg-gray-100 transition-colors text-[var(--text-secondary)]">
-                  <span className="material-symbols-outlined">filter_list</span>
-                </button>
-                <button className="bg-[var(--primary)] text-white px-5 py-2.5 rounded-full text-sm font-semibold flex items-center gap-2 ios-shadow hover:brightness-110 transition-all">
-                  <span className="material-symbols-outlined text-xl">add</span>
-                  New Entry
-                </button>
-              </div>
-            </div>
-          </header>
-          <div className="max-w-6xl mx-auto px-8 py-10">
-            <div className="flex items-center justify-between mb-10">
-              <div>
-                <h2 className="text-3xl font-bold tracking-tight mb-1 text-[var(--text-main)]">Your Success Feed</h2>
-                <p className="text-[var(--text-secondary)] font-medium">Tracking your path to excellence.</p>
-              </div>
-              <div className="flex gap-1.5 bg-[#F2F2F7] p-1 rounded-xl border border-[var(--border)]">
-                <button className="px-5 py-1.5 rounded-lg text-sm font-semibold bg-white text-[var(--text-main)] ios-shadow">All</button>
-                <button className="px-5 py-1.5 rounded-lg text-sm font-medium text-[var(--text-secondary)] hover:text-[var(--text-main)] transition-colors">Health</button>
-                <button className="px-5 py-1.5 rounded-lg text-sm font-medium text-[var(--text-secondary)] hover:text-[var(--text-main)] transition-colors">Career</button>
-                <button className="px-5 py-1.5 rounded-lg text-sm font-medium text-[var(--text-secondary)] hover:text-[var(--text-main)] transition-colors">Mind</button>
-              </div>
-            </div>
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-              <div className="bg-[var(--card-bg)] rounded-3xl overflow-hidden ios-shadow ios-shadow-hover transition-all group border border-[var(--border)]/50">
-                <div className="aspect-[4/3] overflow-hidden relative">
-                  <img alt="Gym" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDFDsiCGGsa0p-NVx6GK1CJUa7iuwp2jRoMxCe8PiYcPQVtaVqpsC0yfBq2XQisLGmamuwvmaEcIVW13-2v6CXOGiauFy0HH4ZHdYDc63mOyahkgjAdKp-W5eUsDF4n3VI-ZPuIuHCyFRyhz1P1rXTwSnNb3W86gSEU2etcc9f5j69EuOII3LzjYXJAF5TvLTuFo0SeWSq3wqiVnJVwd9ZBSgZtrgLGxvHX22HzjsJpFJOmEqO4GBH4pKOX44hpSKPzNkmqKM8CRJJq" />
-                  <div className="absolute top-4 right-4 bg-black/30 backdrop-blur-md text-white text-[10px] font-bold px-2.5 py-1 rounded-full border border-white/20">
-                    07:30 AM
-                  </div>
-                </div>
-                <div className="p-6">
-                  <div className="flex items-center gap-2 mb-2">
-                    <span className="text-[var(--primary)] text-[10px] font-bold uppercase tracking-wider">Health &amp; Vitality</span>
-                  </div>
-                  <h3 className="font-bold text-lg mb-2">Morning Discipline</h3>
-                  <p className="text-sm text-[var(--text-secondary)] leading-relaxed line-clamp-2">5km run completed at sunrise. Pushing beyond the comfort zone to set the pace for the day.</p>
-                </div>
-              </div>
-              <div className="bg-[var(--card-bg)] rounded-3xl overflow-hidden ios-shadow ios-shadow-hover transition-all group border border-[var(--border)]/50">
-                <div className="aspect-[4/3] overflow-hidden relative">
-                  <img alt="Meal" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDmdYLXY0xebcmOUoukMhZLA1AakD4W-oyXZZfh_qBYUog6zr6sb9FDkR9XMQ1WMcxSfYzbD3obcSSBTRoNXYqGsq5igbJU6KWr6Sqi2XY97s-NGlDVwBBbdXB8M08pwtC1J6ukZglYr2nq8FCS5BrN00ziLVHZEagEl-OWmK0wKu1ageEFUqWWtwq41GWn9Fta10YFnoZpMu0S8wEoHZD49Hisab-o3oii2eRsXJU3IzxmH7TS5fEC7KQe3SoN52KbTTvfLQ50ZEHI" />
-                  <div className="absolute top-4 right-4 bg-black/30 backdrop-blur-md text-white text-[10px] font-bold px-2.5 py-1 rounded-full border border-white/20">
-                    12:45 PM
-                  </div>
-                </div>
-                <div className="p-6">
-                  <div className="flex items-center gap-2 mb-2">
-                    <span className="text-[var(--primary)] text-[10px] font-bold uppercase tracking-wider">Nutrition</span>
-                  </div>
-                  <h3 className="font-bold text-lg mb-2">Nutritional Balance</h3>
-                  <p className="text-sm text-[var(--text-secondary)] leading-relaxed line-clamp-2">Organic greens and high protein fuel. Clarity starts with what you consume.</p>
-                </div>
-              </div>
-              <div className="bg-[var(--card-bg)] rounded-3xl overflow-hidden ios-shadow ios-shadow-hover transition-all group border border-[var(--border)]/50">
-                <div className="aspect-[4/3] overflow-hidden relative">
-                  <img alt="Workspace" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAaUfRmeoD7ojYcw7sDuN_pOss5Z85_CS0rvAtbgyWCJRFxO8wu80Jq-FRKe6HtviK87aACLjZQsqZxgpTp6z25yXqOeBqX5rXEKvomp2ip5RpvP-gMV2eZohO-kQUoKDRA0B4jJBMGwWngjCfcCsF7RUNnOB86UUgNgkuMzL3EGvVFxpgX0Q_yBkq_aQX_sfpUnIuR8tRotY1OGF-0QdmeE_uWTtm6QVQu6N0_-ymmcft4tQTR2lYDNb97Z3heajUPVIbtV02I4Ylt" />
-                  <div className="absolute top-4 right-4 bg-black/30 backdrop-blur-md text-white text-[10px] font-bold px-2.5 py-1 rounded-full border border-white/20">
-                    04:00 PM
-                  </div>
-                </div>
-                <div className="p-6">
-                  <div className="flex items-center gap-2 mb-2">
-                    <span className="text-[var(--primary)] text-[10px] font-bold uppercase tracking-wider">Productivity</span>
-                  </div>
-                  <h3 className="font-bold text-lg mb-2">Deep Work Session</h3>
-                  <p className="text-sm text-[var(--text-secondary)] leading-relaxed line-clamp-2">3 hours of focused coding with zero distractions. Milestone achieved on redesign.</p>
-                </div>
-              </div>
-              <div className="bg-[var(--card-bg)] rounded-3xl overflow-hidden ios-shadow ios-shadow-hover transition-all group border border-[var(--border)]/50">
-                <div className="aspect-[4/3] overflow-hidden relative">
-                  <img alt="Reading" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDXMYPwGHXQcSq7ifmFocdWFS66OWhDs_DXOvzzFwA6qhzofEKd0RTsrC5Xmbq3kNzXcfLz3JOo_YulK7ODEQaq6_FQ9-A2H81m4FqV-VPedtrD2rhwlBvei2wSoKsBvengLeAycqLYfKT8Q9zN03nKaLmeRhIy-r7EDFkxPBZrSiPIyC7aADY7mHbklZWajMLC8QpEaVbLSN9qzkUIM3LnEVpKo5x0NkZJztqh7oI9bezTEJm4DD9bfEZ88ttsfnlZCBEEl-j8uwor" />
-                  <div className="absolute top-4 right-4 bg-black/30 backdrop-blur-md text-white text-[10px] font-bold px-2.5 py-1 rounded-full border border-white/20">
-                    09:00 PM
-                  </div>
-                </div>
-                <div className="p-6">
-                  <div className="flex items-center gap-2 mb-2">
-                    <span className="text-[var(--primary)] text-[10px] font-bold uppercase tracking-wider">Personal Growth</span>
-                  </div>
-                  <h3 className="font-bold text-lg mb-2">Mindful Reading</h3>
-                  <p className="text-sm text-[var(--text-secondary)] leading-relaxed line-clamp-2">Finished 'Atomic Habits' chapter 4. Internalizing the compound effect of tiny gains.</p>
-                </div>
-              </div>
-              <div className="bg-[var(--card-bg)] rounded-3xl overflow-hidden ios-shadow ios-shadow-hover transition-all group border border-[var(--border)]/50">
-                <div className="aspect-[4/3] overflow-hidden relative">
-                  <img alt="Workout" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" src="https://lh3.googleusercontent.com/aida-public/AB6AXuALKYm0lElqthN2u6NT-NIzWVeZhCAtfEwfvAt4ZhaHyDPZyBTuEn1zyDcYVmqR0ymwIEVVlLbDweNnpc5UdVHdNLF3wnJEgS-GINetwTEjjI_RmLFeXb5T2ZEKFvzAhgZ1Ijc7PprCnh4bEwUmEgbWWuW-dbs6skjHy7hvRAw2witqhFlq2RqIQI-Cgg8gCcy14Zs0DuzxX4sa-aRIrUiZDS9djTzCu7Ped943NC2nmoh2L8EWIHnM8GVQlsUsw4VpChZo_VECblQO" />
-                  <div className="absolute top-4 right-4 bg-black/30 backdrop-blur-md text-white text-[10px] font-bold px-2.5 py-1 rounded-full border border-white/20">
-                    06:15 AM
-                  </div>
-                </div>
-                <div className="p-6">
-                  <div className="flex items-center gap-2 mb-2">
-                    <span className="text-[var(--primary)] text-[10px] font-bold uppercase tracking-wider">Physical Strength</span>
-                  </div>
-                  <h3 className="font-bold text-lg mb-2">Gym Milestone</h3>
-                  <p className="text-sm text-[var(--text-secondary)] leading-relaxed line-clamp-2">New personal record on deadlifts. The body achieves what the mind believes.</p>
-                </div>
-              </div>
-              <div className="rounded-3xl border-2 border-dashed border-[var(--border)] flex flex-col items-center justify-center p-8 bg-[var(--background)] hover:bg-white hover:border-[var(--primary)]/30 transition-all cursor-pointer group">
-                <div className="size-16 rounded-full bg-white border border-[var(--border)] flex items-center justify-center mb-4 group-hover:border-[var(--primary)] transition-colors ios-shadow">
-                  <span className="material-symbols-outlined text-3xl text-[var(--primary)]">add_a_photo</span>
-                </div>
-                <span className="font-bold text-[var(--text-main)]">Add Success</span>
-                <p className="text-[var(--text-secondary)] text-sm text-center mt-1">Capture your next victory and visualize progress</p>
-              </div>
-            </div>
-          </div>
-        </main>
+  const catKey = CATEGORY_MAP[activeFilter];
+  let entries = state.journal;
+  if (catKey) entries = entries.filter(e => e.category === catKey);
+  if (search.trim()) {
+    const q = search.toLowerCase();
+    entries = entries.filter(e => e.title.toLowerCase().includes(q) || e.text.toLowerCase().includes(q));
+  }
+
+  return (
+    <main className="w-full max-w-6xl mx-auto px-6 pt-8 pb-10">
+      {/* Search Header */}
+      <header className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-8">
+        <div className="relative flex-1 max-w-xl">
+          <span className="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-[var(--text-secondary)] text-xl">search</span>
+          <input
+            value={search}
+            onChange={e => setSearch(e.target.value)}
+            className="w-full bg-[#F2F2F7] border-none rounded-2xl py-3 pl-12 pr-4 text-sm focus:ring-2 focus:ring-[var(--primary)]/20 transition-all outline-none placeholder:text-[var(--text-secondary)]"
+            placeholder="Search entries, tags, or milestones..."
+          />
+        </div>
+        <button
+          onClick={() => setShowNew(true)}
+          className="bg-[var(--primary)] text-white px-5 py-2.5 rounded-full text-sm font-semibold flex items-center gap-2 ios-shadow hover:brightness-110 transition-all"
+        >
+          <span className="material-symbols-outlined text-xl">add</span>
+          New Entry
+        </button>
+      </header>
+
+      {/* Title + Filters */}
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-8">
+        <div>
+          <h2 className="text-3xl font-bold tracking-tight mb-1 text-[var(--text-main)]">Your Success Feed</h2>
+          <p className="text-[var(--text-secondary)] font-medium">Tracking your path to excellence.</p>
+        </div>
+        <div className="flex gap-1.5 bg-[#F2F2F7] p-1 rounded-xl border border-[var(--border)]">
+          {FILTER_TABS.map(tab => (
+            <button
+              key={tab}
+              onClick={() => setActiveFilter(tab)}
+              className={`px-4 py-1.5 rounded-lg text-sm font-semibold transition-all ${activeFilter === tab ? 'bg-white text-[var(--text-main)] ios-shadow' : 'text-[var(--text-secondary)] hover:text-[var(--text-main)]'
+                }`}
+            >
+              {tab}
+            </button>
+          ))}
+        </div>
       </div>
 
-    </>
+      {/* Grid */}
+      {entries.length === 0 ? (
+        <div className="flex flex-col items-center justify-center py-20 text-center">
+          <div className="w-24 h-24 rounded-full bg-blue-50 flex items-center justify-center mb-6">
+            <span className="material-symbols-outlined text-5xl text-[var(--primary)]">photo_camera</span>
+          </div>
+          <h3 className="text-xl font-bold mb-2">No entries yet</h3>
+          <p className="text-[var(--text-secondary)] max-w-sm mb-6">Start documenting your victories. Every small win counts towards the bigger picture.</p>
+          <button onClick={() => setShowNew(true)} className="bg-[var(--primary)] text-white px-6 py-3 rounded-2xl font-semibold text-sm hover:opacity-90 transition-all">
+            Add Your First Entry
+          </button>
+        </div>
+      ) : (
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          {entries.map(entry => (
+            <div key={entry.id} className="bg-white rounded-3xl overflow-hidden ios-shadow border border-[var(--border)]/50 group transition-all hover:shadow-lg">
+              <div className="aspect-[4/3] overflow-hidden relative">
+                <img
+                  alt={entry.title}
+                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
+                  src={entry.photo}
+                />
+                <div className="absolute top-4 right-4 bg-black/30 backdrop-blur-md text-white text-[10px] font-bold px-2.5 py-1 rounded-full border border-white/20">
+                  {entry.time}
+                </div>
+                <button
+                  onClick={() => dispatch({ type: 'DELETE_JOURNAL', id: entry.id })}
+                  className="absolute top-4 left-4 bg-black/30 backdrop-blur-md text-white w-7 h-7 rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity border border-white/20"
+                >
+                  <span className="material-symbols-outlined text-sm">close</span>
+                </button>
+              </div>
+              <div className="p-5">
+                <div className="flex items-center gap-2 mb-2">
+                  <span className="text-[var(--primary)] text-[10px] font-bold uppercase tracking-wider">
+                    {CATEGORY_LABELS[entry.category] || entry.category}
+                  </span>
+                </div>
+                <h3 className="font-bold text-lg mb-2 text-[var(--text-main)]">{entry.title}</h3>
+                <p className="text-sm text-[var(--text-secondary)] leading-relaxed line-clamp-2">{entry.text}</p>
+                <p className="text-[10px] text-[var(--text-secondary)] mt-3">{entry.date}</p>
+              </div>
+            </div>
+          ))}
+
+          {/* Add new card */}
+          <div
+            onClick={() => setShowNew(true)}
+            className="rounded-3xl border-2 border-dashed border-[var(--border)] flex flex-col items-center justify-center p-8 bg-[var(--background)] hover:bg-white hover:border-[var(--primary)]/30 transition-all cursor-pointer group min-h-[300px]"
+          >
+            <div className="w-16 h-16 rounded-full bg-white border border-[var(--border)] flex items-center justify-center mb-4 group-hover:border-[var(--primary)] transition-colors ios-shadow">
+              <span className="material-symbols-outlined text-3xl text-[var(--primary)]">add_a_photo</span>
+            </div>
+            <span className="font-bold text-[var(--text-main)]">Add Success</span>
+            <p className="text-[var(--text-secondary)] text-sm text-center mt-1">Capture your next victory</p>
+          </div>
+        </div>
+      )}
+
+      {/* New Entry Modal */}
+      {showNew && (
+        <NewEntryModal
+          onSave={(entry) => dispatch({ type: 'ADD_JOURNAL', entry })}
+          onClose={() => setShowNew(false)}
+        />
+      )}
+    </main>
   );
 }

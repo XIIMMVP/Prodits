@@ -1,4 +1,5 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { StoreProvider } from './store/useStore';
 import Layout from './components/Layout';
 import Dashboard from './pages/Dashboard';
 import Routine from './pages/Routine';
@@ -7,16 +8,18 @@ import Journal from './pages/Journal';
 
 function App() {
   return (
-    <Router>
-      <Layout>
-        <Routes>
-          <Route path="/" element={<Dashboard />} />
-          <Route path="/routine" element={<Routine />} />
-          <Route path="/insights" element={<Insights />} />
-          <Route path="/journal" element={<Journal />} />
-        </Routes>
-      </Layout>
-    </Router>
+    <StoreProvider>
+      <Router>
+        <Layout>
+          <Routes>
+            <Route path="/" element={<Dashboard />} />
+            <Route path="/routine" element={<Routine />} />
+            <Route path="/insights" element={<Insights />} />
+            <Route path="/journal" element={<Journal />} />
+          </Routes>
+        </Layout>
+      </Router>
+    </StoreProvider>
   );
 }
 
