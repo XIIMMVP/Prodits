@@ -1,115 +1,185 @@
 import { Link } from 'react-router-dom';
 
 export default function Journal() {
-    return (
-        <div className="font-display bg-white text-[#1c1c1e] min-h-screen">
-            <header className="sticky top-0 z-50 apple-blur px-8 py-5 border-b border-black/[0.05]">
-                <div className="max-w-[1400px] mx-auto flex items-center justify-between gap-12">
-                    <div className="flex items-center gap-3">
-                        <div className="w-8 h-8 bg-black flex items-center justify-center rounded-lg text-white">
-                            <span className="material-symbols-outlined text-[20px]">auto_awesome</span>
-                        </div>
-                        <h1 className="text-lg font-semibold tracking-tight">Success Journal</h1>
-                    </div>
-                    <div className="flex-1 max-w-xl relative hidden md:block">
-                        <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-                            <span className="material-symbols-outlined text-gray-400 text-xl">search</span>
-                        </div>
-                        <input className="w-full bg-[#8E8E93]/10 border-none focus:ring-1 focus:ring-black/5 rounded-2xl py-2.5 pl-11 pr-4 text-[15px] transition-all placeholder:text-gray-500" placeholder="Search milestones..." type="text" />
-                    </div>
-                    <div className="flex items-center gap-6">
-                        <button className="text-gray-400 hover:text-black transition-colors">
-                            <span className="material-symbols-outlined">notifications</span>
-                        </button>
-                    </div>
-                </div>
-            </header>
-
-            <main className="max-w-[1400px] mx-auto px-6 md:px-8 py-8 md:py-16 pb-32">
-                <div className="flex flex-col md:flex-row md:items-end justify-between mb-16 gap-8">
-                    <div className="space-y-2">
-                        <h2 className="text-5xl font-semibold tracking-tight text-black">Gallery</h2>
-                        <p className="text-gray-500 text-lg font-light tracking-tight">A visual chronicle of your daily growth and discipline.</p>
-                    </div>
-                    <div className="flex gap-1 p-1 bg-gray-100 rounded-2xl w-fit">
-                        <button className="px-6 py-2 rounded-xl text-sm font-medium bg-white text-black shadow-sm">All</button>
-                        <button className="px-6 py-2 rounded-xl text-sm font-medium text-gray-500 hover:text-black transition-all">Health</button>
-                        <button className="px-6 py-2 rounded-xl text-sm font-medium text-gray-500 hover:text-black transition-all">Work</button>
-                        <button className="px-6 py-2 rounded-xl text-sm font-medium text-gray-500 hover:text-black transition-all">Mind</button>
-                    </div>
-                </div>
-
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-x-8 gap-y-14">
-                    <div className="group cursor-pointer">
-                        <div className="relative aspect-[4/5] overflow-hidden rounded-3xl border border-gray-100 bg-gray-50 shadow-sm hover:shadow-lg mb-5">
-                            <img alt="Gym" className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDFDsiCGGsa0p-NVx6GK1CJUa7iuwp2jRoMxCe8PiYcPQVtaVqpsC0yfBq2XQisLGmamuwvmaEcIVW13-2v6CXOGiauFy0HH4ZHdYDc63mOyahkgjAdKp-W5eUsDF4n3VI-ZPuIuHCyFRyhz1P1rXTwSnNb3W86gSEU2etcc9f5j69EuOII3LzjYXJAF5TvLTuFo0SeWSq3wqiVnJVwd9ZBSgZtrgLGxvHX22HzjsJpFJOmEqO4GBH4pKOX44hpSKPzNkmqKM8CRJJq" />
-                            <div className="absolute top-5 right-5 apple-blur px-3 py-1.5 rounded-full border border-black/5">
-                                <span className="text-[10px] font-semibold tracking-widest text-black/80 uppercase">07:30 AM</span>
-                            </div>
-                        </div>
-                        <div className="space-y-1 px-1">
-                            <h3 className="text-[17px] font-semibold text-black">Morning Discipline</h3>
-                            <p className="text-[14px] text-gray-500 leading-relaxed font-light">5km run completed at sunrise. Pushing beyond the comfort zone.</p>
-                        </div>
-                    </div>
-
-                    <div className="group cursor-pointer">
-                        <div className="relative aspect-[4/5] overflow-hidden rounded-3xl border border-gray-100 bg-gray-50 shadow-sm hover:shadow-lg mb-5">
-                            <img alt="Meal" className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDmdYLXY0xebcmOUoukMhZLA1AakD4W-oyXZZfh_qBYUog6zr6sb9FDkR9XMQ1WMcxSfYzbD3obcSSBTRoNXYqGsq5igbJU6KWr6Sqi2XY97s-NGlDVwBBbdXB8M08pwtC1J6ukZglYr2nq8FCS5BrN00ziLVHZEagEl-OWmK0wKu1ageEFUqWWtwq41GWn9Fta10YFnoZpMu0S8wEoHZD49Hisab-o3oii2eRsXJU3IzxmH7TS5fEC7KQe3SoN52KbTTvfLQ50ZEHI" />
-                            <div className="absolute top-5 right-5 apple-blur px-3 py-1.5 rounded-full border border-black/5">
-                                <span className="text-[10px] font-semibold tracking-widest text-black/80 uppercase">12:45 PM</span>
-                            </div>
-                        </div>
-                        <div className="space-y-1 px-1">
-                            <h3 className="text-[17px] font-semibold text-black">Nutritional Balance</h3>
-                            <p className="text-[14px] text-gray-500 leading-relaxed font-light">Organic greens and high protein fuel. Clarity starts from within.</p>
-                        </div>
-                    </div>
-
-                    <div className="group cursor-pointer">
-                        <div className="relative aspect-[4/5] overflow-hidden rounded-3xl border border-gray-100 bg-gray-50 shadow-sm hover:shadow-lg mb-5">
-                            <img alt="Work" className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAaUfRmeoD7ojYcw7sDuN_pOss5Z85_CS0rvAtbgyWCJRFxO8wu80Jq-FRKe6HtviK87aACLjZQsqZxgpTp6z25yXqOeBqX5rXEKvomp2ip5RpvP-gMV2eZohO-kQUoKDRA0B4jJBMGwWngjCfcCsF7RUNnOB86UUgNgkuMzL3EGvVFxpgX0Q_yBkq_aQX_sfpUnIuR8tRotY1OGF-0QdmeE_uWTtm6QVQu6N0_-ymmcft4tQTR2lYDNb97Z3heajUPVIbtV02I4Ylt" />
-                            <div className="absolute top-5 right-5 apple-blur px-3 py-1.5 rounded-full border border-black/5">
-                                <span className="text-[10px] font-semibold tracking-widest text-black/80 uppercase">04:00 PM</span>
-                            </div>
-                        </div>
-                        <div className="space-y-1 px-1">
-                            <h3 className="text-[17px] font-semibold text-black">Deep Work Session</h3>
-                            <p className="text-[14px] text-gray-500 leading-relaxed font-light">3 hours of focused coding with zero distractions. Milestone achieved.</p>
-                        </div>
-                    </div>
-
-                    <div className="group cursor-pointer">
-                        <div className="relative aspect-[4/5] rounded-3xl border-2 border-dashed border-gray-200 flex flex-col items-center justify-center gap-4 bg-gray-50/50 hover:bg-gray-50 transition-all mb-5">
-                            <div className="w-16 h-16 rounded-full bg-white border border-gray-100 flex items-center justify-center shadow-sm group-hover:scale-105 transition-transform">
-                                <span className="material-symbols-outlined text-3xl text-gray-400 group-hover:text-black">add</span>
-                            </div>
-                            <span className="text-[15px] font-medium text-gray-500">Capture Win</span>
-                        </div>
-                        <div className="px-1 opacity-0 group-hover:opacity-100 transition-opacity">
-                            <h3 className="text-[17px] font-semibold text-black">New Entry</h3>
-                            <p className="text-[14px] text-gray-500">Record a new milestone.</p>
-                        </div>
-                    </div>
-                </div>
-            </main>
-
-            <nav className="fixed md:hidden bottom-8 left-1/2 -translate-x-1/2 w-[calc(100%-48px)] max-w-[400px] z-50">
-                <div className="apple-blur rounded-[2.5rem] p-2 flex items-center justify-around deep-shadow border border-white/40">
-                    <Link to="/" className="flex flex-col items-center justify-center w-14 h-14 rounded-full text-slate-400 hover:text-slate-600 transition-colors">
-                        <span className="material-symbols-outlined">space_dashboard</span>
-                    </Link>
-                    <Link to="/routine" className="flex flex-col items-center justify-center w-14 h-14 rounded-full text-slate-400 hover:text-slate-600 transition-colors">
-                        <span className="material-symbols-outlined">calendar_today</span>
-                    </Link>
-                    <Link to="/insights" className="flex flex-col items-center justify-center w-14 h-14 rounded-full text-slate-400 hover:text-slate-600 transition-colors">
-                        <span className="material-symbols-outlined">bar_chart</span>
-                    </Link>
-                    <Link to="/journal" className="flex flex-col items-center justify-center w-14 h-14 rounded-full bg-primary text-white shadow-lg shadow-primary/20">
-                        <span className="material-symbols-outlined">photo_camera</span>
-                    </Link>
-                </div>
-            </nav>
+  return (
+    <>
+<div>
+  <aside className="w-64 border-r border-[var(--border)] bg-[var(--sidebar-bg)] flex flex-col fixed h-full z-30">
+    <div className="p-6">
+      <div className="flex items-center gap-2 mb-8">
+        <div className="size-8 bg-[var(--primary)] rounded-lg flex items-center justify-center text-white">
+          <span className="material-symbols-outlined text-[20px] font-bold">diamond</span>
         </div>
-    );
+        <span className="font-bold text-lg tracking-tight">Success Journal</span>
+      </div>
+      <nav className="space-y-1">
+        <a className="flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium text-[var(--text-secondary)] hover:bg-gray-50 transition-colors" href="#">
+          <span className="material-symbols-outlined">dashboard</span>
+          Overview
+        </a>
+        <a className="flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-semibold sidebar-item-active transition-colors" href="#">
+          <span className="material-symbols-outlined font-variation-fill">auto_awesome</span>
+          Journal
+        </a>
+        <a className="flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium text-[var(--text-secondary)] hover:bg-gray-50 transition-colors" href="#">
+          <span className="material-symbols-outlined">calendar_today</span>
+          Schedule
+        </a>
+        <a className="flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium text-[var(--text-secondary)] hover:bg-gray-50 transition-colors" href="#">
+          <span className="material-symbols-outlined">analytics</span>
+          Insights
+        </a>
+      </nav>
+    </div>
+    <div className="mt-auto p-6 border-t border-[var(--border)]">
+      <div className="flex items-center gap-3">
+        <img alt="User profile" className="size-9 rounded-full object-cover border border-[var(--border)]" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBWbBZWa6AgMjjTYv85OMgDN1X_4JByP80qAEDz_lcnwVoGWvyjYxgcR1dpc0uOe34gbH6RFLGaDMxfpO9fZ2EnSet0TaqoQeeLSD1tG_8tTWzZkXREvV8q-SWP46CPXDcmxjwe3_3WcaW_ObuJsTSZPNHbP_MSf_WyEHA8BQ71UtH3geCdThQh8ZJqfAN9VCK5-DqzzP5gLuRnAMS9IymtbcIYAaL054ecPCahStSf2CHEaQ5ek0e-eb3AdOYg_Vj5gV2uNuRvlrh-" />
+        <div className="flex flex-col">
+          <span className="text-sm font-semibold">Alex Rivera</span>
+          <span className="text-[11px] text-[var(--text-secondary)]">Elite Member</span>
+        </div>
+      </div>
+    </div>
+  </aside>
+  <main className="flex-1 ml-64 min-h-screen relative pb-24">
+    <header className="sticky top-0 z-20 glass-header px-8 py-4">
+      <div className="max-w-6xl mx-auto flex items-center justify-between gap-6">
+        <div className="relative flex-1 max-w-xl">
+          <span className="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-[var(--text-secondary)] text-xl">search</span>
+          <input className="w-full bg-[#F2F2F7] border-none rounded-2xl py-2.5 pl-12 pr-4 text-sm focus:ring-2 focus:ring-[var(--primary)]/20 transition-all placeholder:text-[var(--text-secondary)]" placeholder="Search entries, tags, or milestones..." type="text" />
+        </div>
+        <div className="flex items-center gap-3">
+          <button className="size-10 rounded-full flex items-center justify-center hover:bg-gray-100 transition-colors text-[var(--text-secondary)]">
+            <span className="material-symbols-outlined">filter_list</span>
+          </button>
+          <button className="bg-[var(--primary)] text-white px-5 py-2.5 rounded-full text-sm font-semibold flex items-center gap-2 ios-shadow hover:brightness-110 transition-all">
+            <span className="material-symbols-outlined text-xl">add</span>
+            New Entry
+          </button>
+        </div>
+      </div>
+    </header>
+    <div className="max-w-6xl mx-auto px-8 py-10">
+      <div className="flex items-center justify-between mb-10">
+        <div>
+          <h2 className="text-3xl font-bold tracking-tight mb-1 text-[var(--text-main)]">Your Success Feed</h2>
+          <p className="text-[var(--text-secondary)] font-medium">Tracking your path to excellence.</p>
+        </div>
+        <div className="flex gap-1.5 bg-[#F2F2F7] p-1 rounded-xl border border-[var(--border)]">
+          <button className="px-5 py-1.5 rounded-lg text-sm font-semibold bg-white text-[var(--text-main)] ios-shadow">All</button>
+          <button className="px-5 py-1.5 rounded-lg text-sm font-medium text-[var(--text-secondary)] hover:text-[var(--text-main)] transition-colors">Health</button>
+          <button className="px-5 py-1.5 rounded-lg text-sm font-medium text-[var(--text-secondary)] hover:text-[var(--text-main)] transition-colors">Career</button>
+          <button className="px-5 py-1.5 rounded-lg text-sm font-medium text-[var(--text-secondary)] hover:text-[var(--text-main)] transition-colors">Mind</button>
+        </div>
+      </div>
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+        <div className="bg-[var(--card-bg)] rounded-3xl overflow-hidden ios-shadow ios-shadow-hover transition-all group border border-[var(--border)]/50">
+          <div className="aspect-[4/3] overflow-hidden relative">
+            <img alt="Gym" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDFDsiCGGsa0p-NVx6GK1CJUa7iuwp2jRoMxCe8PiYcPQVtaVqpsC0yfBq2XQisLGmamuwvmaEcIVW13-2v6CXOGiauFy0HH4ZHdYDc63mOyahkgjAdKp-W5eUsDF4n3VI-ZPuIuHCyFRyhz1P1rXTwSnNb3W86gSEU2etcc9f5j69EuOII3LzjYXJAF5TvLTuFo0SeWSq3wqiVnJVwd9ZBSgZtrgLGxvHX22HzjsJpFJOmEqO4GBH4pKOX44hpSKPzNkmqKM8CRJJq" />
+            <div className="absolute top-4 right-4 bg-black/30 backdrop-blur-md text-white text-[10px] font-bold px-2.5 py-1 rounded-full border border-white/20">
+              07:30 AM
+            </div>
+          </div>
+          <div className="p-6">
+            <div className="flex items-center gap-2 mb-2">
+              <span className="text-[var(--primary)] text-[10px] font-bold uppercase tracking-wider">Health &amp; Vitality</span>
+            </div>
+            <h3 className="font-bold text-lg mb-2">Morning Discipline</h3>
+            <p className="text-sm text-[var(--text-secondary)] leading-relaxed line-clamp-2">5km run completed at sunrise. Pushing beyond the comfort zone to set the pace for the day.</p>
+          </div>
+        </div>
+        <div className="bg-[var(--card-bg)] rounded-3xl overflow-hidden ios-shadow ios-shadow-hover transition-all group border border-[var(--border)]/50">
+          <div className="aspect-[4/3] overflow-hidden relative">
+            <img alt="Meal" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDmdYLXY0xebcmOUoukMhZLA1AakD4W-oyXZZfh_qBYUog6zr6sb9FDkR9XMQ1WMcxSfYzbD3obcSSBTRoNXYqGsq5igbJU6KWr6Sqi2XY97s-NGlDVwBBbdXB8M08pwtC1J6ukZglYr2nq8FCS5BrN00ziLVHZEagEl-OWmK0wKu1ageEFUqWWtwq41GWn9Fta10YFnoZpMu0S8wEoHZD49Hisab-o3oii2eRsXJU3IzxmH7TS5fEC7KQe3SoN52KbTTvfLQ50ZEHI" />
+            <div className="absolute top-4 right-4 bg-black/30 backdrop-blur-md text-white text-[10px] font-bold px-2.5 py-1 rounded-full border border-white/20">
+              12:45 PM
+            </div>
+          </div>
+          <div className="p-6">
+            <div className="flex items-center gap-2 mb-2">
+              <span className="text-[var(--primary)] text-[10px] font-bold uppercase tracking-wider">Nutrition</span>
+            </div>
+            <h3 className="font-bold text-lg mb-2">Nutritional Balance</h3>
+            <p className="text-sm text-[var(--text-secondary)] leading-relaxed line-clamp-2">Organic greens and high protein fuel. Clarity starts with what you consume.</p>
+          </div>
+        </div>
+        <div className="bg-[var(--card-bg)] rounded-3xl overflow-hidden ios-shadow ios-shadow-hover transition-all group border border-[var(--border)]/50">
+          <div className="aspect-[4/3] overflow-hidden relative">
+            <img alt="Workspace" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAaUfRmeoD7ojYcw7sDuN_pOss5Z85_CS0rvAtbgyWCJRFxO8wu80Jq-FRKe6HtviK87aACLjZQsqZxgpTp6z25yXqOeBqX5rXEKvomp2ip5RpvP-gMV2eZohO-kQUoKDRA0B4jJBMGwWngjCfcCsF7RUNnOB86UUgNgkuMzL3EGvVFxpgX0Q_yBkq_aQX_sfpUnIuR8tRotY1OGF-0QdmeE_uWTtm6QVQu6N0_-ymmcft4tQTR2lYDNb97Z3heajUPVIbtV02I4Ylt" />
+            <div className="absolute top-4 right-4 bg-black/30 backdrop-blur-md text-white text-[10px] font-bold px-2.5 py-1 rounded-full border border-white/20">
+              04:00 PM
+            </div>
+          </div>
+          <div className="p-6">
+            <div className="flex items-center gap-2 mb-2">
+              <span className="text-[var(--primary)] text-[10px] font-bold uppercase tracking-wider">Productivity</span>
+            </div>
+            <h3 className="font-bold text-lg mb-2">Deep Work Session</h3>
+            <p className="text-sm text-[var(--text-secondary)] leading-relaxed line-clamp-2">3 hours of focused coding with zero distractions. Milestone achieved on redesign.</p>
+          </div>
+        </div>
+        <div className="bg-[var(--card-bg)] rounded-3xl overflow-hidden ios-shadow ios-shadow-hover transition-all group border border-[var(--border)]/50">
+          <div className="aspect-[4/3] overflow-hidden relative">
+            <img alt="Reading" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDXMYPwGHXQcSq7ifmFocdWFS66OWhDs_DXOvzzFwA6qhzofEKd0RTsrC5Xmbq3kNzXcfLz3JOo_YulK7ODEQaq6_FQ9-A2H81m4FqV-VPedtrD2rhwlBvei2wSoKsBvengLeAycqLYfKT8Q9zN03nKaLmeRhIy-r7EDFkxPBZrSiPIyC7aADY7mHbklZWajMLC8QpEaVbLSN9qzkUIM3LnEVpKo5x0NkZJztqh7oI9bezTEJm4DD9bfEZ88ttsfnlZCBEEl-j8uwor" />
+            <div className="absolute top-4 right-4 bg-black/30 backdrop-blur-md text-white text-[10px] font-bold px-2.5 py-1 rounded-full border border-white/20">
+              09:00 PM
+            </div>
+          </div>
+          <div className="p-6">
+            <div className="flex items-center gap-2 mb-2">
+              <span className="text-[var(--primary)] text-[10px] font-bold uppercase tracking-wider">Personal Growth</span>
+            </div>
+            <h3 className="font-bold text-lg mb-2">Mindful Reading</h3>
+            <p className="text-sm text-[var(--text-secondary)] leading-relaxed line-clamp-2">Finished 'Atomic Habits' chapter 4. Internalizing the compound effect of tiny gains.</p>
+          </div>
+        </div>
+        <div className="bg-[var(--card-bg)] rounded-3xl overflow-hidden ios-shadow ios-shadow-hover transition-all group border border-[var(--border)]/50">
+          <div className="aspect-[4/3] overflow-hidden relative">
+            <img alt="Workout" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" src="https://lh3.googleusercontent.com/aida-public/AB6AXuALKYm0lElqthN2u6NT-NIzWVeZhCAtfEwfvAt4ZhaHyDPZyBTuEn1zyDcYVmqR0ymwIEVVlLbDweNnpc5UdVHdNLF3wnJEgS-GINetwTEjjI_RmLFeXb5T2ZEKFvzAhgZ1Ijc7PprCnh4bEwUmEgbWWuW-dbs6skjHy7hvRAw2witqhFlq2RqIQI-Cgg8gCcy14Zs0DuzxX4sa-aRIrUiZDS9djTzCu7Ped943NC2nmoh2L8EWIHnM8GVQlsUsw4VpChZo_VECblQO" />
+            <div className="absolute top-4 right-4 bg-black/30 backdrop-blur-md text-white text-[10px] font-bold px-2.5 py-1 rounded-full border border-white/20">
+              06:15 AM
+            </div>
+          </div>
+          <div className="p-6">
+            <div className="flex items-center gap-2 mb-2">
+              <span className="text-[var(--primary)] text-[10px] font-bold uppercase tracking-wider">Physical Strength</span>
+            </div>
+            <h3 className="font-bold text-lg mb-2">Gym Milestone</h3>
+            <p className="text-sm text-[var(--text-secondary)] leading-relaxed line-clamp-2">New personal record on deadlifts. The body achieves what the mind believes.</p>
+          </div>
+        </div>
+        <div className="rounded-3xl border-2 border-dashed border-[var(--border)] flex flex-col items-center justify-center p-8 bg-[var(--background)] hover:bg-white hover:border-[var(--primary)]/30 transition-all cursor-pointer group">
+          <div className="size-16 rounded-full bg-white border border-[var(--border)] flex items-center justify-center mb-4 group-hover:border-[var(--primary)] transition-colors ios-shadow">
+            <span className="material-symbols-outlined text-3xl text-[var(--primary)]">add_a_photo</span>
+          </div>
+          <span className="font-bold text-[var(--text-main)]">Add Success</span>
+          <p className="text-[var(--text-secondary)] text-sm text-center mt-1">Capture your next victory and visualize progress</p>
+        </div>
+      </div>
+    </div>
+    <div className="fixed bottom-0 left-64 right-0 p-6 z-40 flex justify-center pointer-events-none">
+      <nav className="bg-white/80 backdrop-blur-xl ios-shadow border border-[var(--border)] px-8 py-3 rounded-full flex items-center gap-12 pointer-events-auto">
+        <button className="flex flex-col items-center text-[var(--primary)]">
+          <span className="material-symbols-outlined font-variation-fill">grid_view</span>
+          <span className="text-[10px] font-bold mt-0.5">Gallery</span>
+        </button>
+        <button className="flex flex-col items-center text-[var(--text-secondary)] hover:text-[var(--text-main)] transition-colors">
+          <span className="material-symbols-outlined">timeline</span>
+          <span className="text-[10px] font-medium mt-0.5">Stats</span>
+        </button>
+        <button className="flex flex-col items-center text-[var(--text-secondary)] hover:text-[var(--text-main)] transition-colors">
+          <span className="material-symbols-outlined">award_star</span>
+          <span className="text-[10px] font-medium mt-0.5">Awards</span>
+        </button>
+        <button className="flex flex-col items-center text-[var(--text-secondary)] hover:text-[var(--text-main)] transition-colors">
+          <span className="material-symbols-outlined">settings</span>
+          <span className="text-[10px] font-medium mt-0.5">Settings</span>
+        </button>
+      </nav>
+    </div>
+  </main>
+</div>
+
+    </>
+  );
 }

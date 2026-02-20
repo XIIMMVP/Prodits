@@ -1,129 +1,245 @@
 import { Link } from 'react-router-dom';
 
 export default function Insights() {
-    return (
-        <div className="relative flex min-h-screen w-full flex-col overflow-x-hidden bg-[#FBFBFD] text-[#1D1D1F]">
-            <header className="flex items-center justify-between border-b border-[#E5E5EA] px-8 py-3 sticky top-0 apple-blur z-50">
-                <div className="flex items-center gap-10">
-                    <div className="flex items-center gap-2.5">
-                        <div className="w-8 h-8 bg-black rounded-[9px] flex items-center justify-center">
-                            <span className="material-symbols-outlined text-white text-lg font-light">insights</span>
-                        </div>
-                        <h1 className="text-lg font-semibold tracking-tight">Performance</h1>
-                    </div>
-                    <nav className="hidden md:flex items-center gap-7">
-                        <Link to="/" className="text-[#86868B] hover:text-black transition-colors text-sm font-medium">Dashboard</Link>
-                        <Link to="/insights" className="text-black border-b-2 border-black py-4 -mb-4 text-sm font-semibold">Insights</Link>
-                        <Link to="/routine" className="text-[#86868B] hover:text-black transition-colors text-sm font-medium">Schedule</Link>
-                        <Link to="/journal" className="text-[#86868B] hover:text-black transition-colors text-sm font-medium">Journal</Link>
-                    </nav>
-                </div>
-            </header>
-
-            <main className="flex-1 px-4 md:px-8 py-12 max-w-7xl mx-auto w-full pb-32 md:pb-12">
-                <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12">
-                    <div>
-                        <span className="text-[11px] font-bold uppercase tracking-widest text-[#86868B] mb-2 block">Metrics Overview</span>
-                        <h2 className="text-4xl md:text-5xl font-bold tracking-tight text-[#1D1D1F]">Predictive Insights</h2>
-                        <p className="text-[#86868B] mt-3 text-lg font-medium">Mental clarity and performance patterns for this cycle.</p>
-                    </div>
-                    <div className="flex gap-3">
-                        <button className="flex items-center gap-2 px-5 py-2.5 rounded-full border border-[#E5E5EA] bg-white hover:bg-gray-50 transition-all font-semibold text-sm shadow-sm">
-                            <span className="material-symbols-outlined text-lg">calendar_month</span>
-                            Last 30 Days
-                        </button>
-                    </div>
-                </div>
-
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
-                    <div className="bg-white p-10 rounded-3xl flex flex-col items-center text-center shadow-sm border border-[#E5E5EA]/50">
-                        <div className="relative w-44 h-44 mb-6">
-                            <svg className="w-full h-full -rotate-90" viewBox="0 0 36 36">
-                                <circle className="stroke-[#F5F5F7]" cx="18" cy="18" fill="none" r="15.5" strokeWidth="3" />
-                                <circle className="stroke-[#34C759]" cx="18" cy="18" fill="none" r="15.5" strokeDasharray="82, 100" strokeLinecap="round" strokeWidth="3" />
-                            </svg>
-                            <div className="absolute inset-0 flex flex-col items-center justify-center">
-                                <span className="text-4xl font-bold text-[#1D1D1F]">82</span>
-                                <span className="text-[10px] font-bold uppercase tracking-widest text-[#86868B]">Vitality</span>
-                            </div>
-                        </div>
-                        <h3 className="text-xl font-bold text-[#1D1D1F] mb-1">Health</h3>
-                        <p className="text-[#34C759] font-semibold text-sm flex items-center gap-1">
-                            <span className="material-symbols-outlined text-sm font-bold">trending_up</span> +2% vs yesterday
-                        </p>
-                    </div>
-
-                    <div className="bg-white p-10 rounded-3xl flex flex-col items-center text-center shadow-sm border border-[#E5E5EA]/50">
-                        <div className="relative w-44 h-44 mb-6">
-                            <svg className="w-full h-full -rotate-90" viewBox="0 0 36 36">
-                                <circle className="stroke-[#F5F5F7]" cx="18" cy="18" fill="none" r="15.5" strokeWidth="3" />
-                                <circle className="stroke-[#007AFF]" cx="18" cy="18" fill="none" r="15.5" strokeDasharray="95, 100" strokeLinecap="round" strokeWidth="3" />
-                            </svg>
-                            <div className="absolute inset-0 flex flex-col items-center justify-center">
-                                <span className="text-4xl font-bold text-[#1D1D1F]">95</span>
-                                <span className="text-[10px] font-bold uppercase tracking-widest text-[#86868B]">Clarity</span>
-                            </div>
-                        </div>
-                        <h3 className="text-xl font-bold text-[#1D1D1F] mb-1">Mind</h3>
-                        <p className="text-[#34C759] font-semibold text-sm flex items-center gap-1">
-                            <span className="material-symbols-outlined text-sm font-bold">trending_up</span> +5% vs yesterday
-                        </p>
-                    </div>
-
-                    <div className="bg-white p-10 rounded-3xl flex flex-col items-center text-center shadow-sm border border-[#E5E5EA]/50">
-                        <div className="relative w-44 h-44 mb-6">
-                            <svg className="w-full h-full -rotate-90" viewBox="0 0 36 36">
-                                <circle className="stroke-[#F5F5F7]" cx="18" cy="18" fill="none" r="15.5" strokeWidth="3" />
-                                <circle className="stroke-[#FF9500]" cx="18" cy="18" fill="none" r="15.5" strokeDasharray="78, 100" strokeLinecap="round" strokeWidth="3" />
-                            </svg>
-                            <div className="absolute inset-0 flex flex-col items-center justify-center">
-                                <span className="text-4xl font-bold text-[#1D1D1F]">78</span>
-                                <span className="text-[10px] font-bold uppercase tracking-widest text-[#86868B]">Presence</span>
-                            </div>
-                        </div>
-                        <h3 className="text-xl font-bold text-[#1D1D1F] mb-1">Home</h3>
-                        <p className="text-[#FF3B30] font-semibold text-sm flex items-center gap-1">
-                            <span className="material-symbols-outlined text-sm font-bold">trending_down</span> -1% vs yesterday
-                        </p>
-                    </div>
-                </div>
-
-                <div className="grid grid-cols-1 lg:grid-cols-5 gap-8 mb-12">
-                    <div className="lg:col-span-3 apple-blur rounded-3xl p-10 relative overflow-hidden flex flex-col shadow-sm border border-gray-100">
-                        <div className="flex items-center gap-3 mb-8">
-                            <div className="h-11 w-11 rounded-xl bg-[#007AFF]/10 flex items-center justify-center">
-                                <span className="material-symbols-outlined text-[#007AFF] font-light">psychology_alt</span>
-                            </div>
-                            <span className="font-bold text-sm tracking-tight text-[#007AFF] uppercase">Proactive Insight</span>
-                        </div>
-                        <p className="text-2xl font-medium leading-snug text-[#1D1D1F] mb-10 max-w-lg">
-                            "You usually miss <span className="bg-[#007AFF]/5 px-1 rounded text-[#007AFF] font-semibold underline decoration-[#007AFF] decoration-2 underline-offset-4">reading sessions</span> on Thursday afternoons. Move it to the morning?"
-                        </p>
-                        <div className="flex flex-wrap gap-4 mt-auto">
-                            <button className="bg-[#007AFF] text-white px-8 py-3.5 rounded-2xl font-semibold transition-all shadow-lg hover:scale-[1.02]">
-                                Accept Suggestion
-                            </button>
-                        </div>
-                    </div>
-                </div>
-
-                <nav className="fixed md:hidden bottom-8 left-1/2 -translate-x-1/2 w-[calc(100%-48px)] max-w-[400px] z-50">
-                    <div className="apple-blur rounded-[2.5rem] p-2 flex items-center justify-around deep-shadow border border-white/40">
-                        <Link to="/" className="flex flex-col items-center justify-center w-14 h-14 rounded-full text-slate-400 hover:text-slate-600 transition-colors">
-                            <span className="material-symbols-outlined">space_dashboard</span>
-                        </Link>
-                        <Link to="/routine" className="flex flex-col items-center justify-center w-14 h-14 rounded-full text-slate-400 hover:text-slate-600 transition-colors">
-                            <span className="material-symbols-outlined">calendar_today</span>
-                        </Link>
-                        <Link to="/insights" className="flex flex-col items-center justify-center w-14 h-14 rounded-full bg-primary text-white shadow-lg shadow-primary/20">
-                            <span className="material-symbols-outlined">bar_chart</span>
-                        </Link>
-                        <Link to="/journal" className="flex flex-col items-center justify-center w-14 h-14 rounded-full text-slate-400 hover:text-slate-600 transition-colors">
-                            <span className="material-symbols-outlined">photo_camera</span>
-                        </Link>
-                    </div>
-                </nav>
-            </main>
+  return (
+    <>
+<div className="flex h-screen overflow-hidden">
+  <aside className="w-64 border-r border-apple-border flex flex-col bg-[#F5F5F7] hidden lg:flex">
+    <div className="p-6 flex items-center gap-3">
+      <div className="size-8 bg-primary rounded-lg flex items-center justify-center text-white">
+        <span className="material-symbols-outlined text-[20px]">insights</span>
+      </div>
+      <span className="text-lg font-semibold tracking-tight">Performance</span>
+    </div>
+    <nav className="flex-1 px-4 py-4 space-y-1">
+      <a className="flex items-center gap-3 px-3 py-2.5 rounded-xl text-apple-gray hover:bg-white/50 transition-all" href="#">
+        <span className="material-symbols-outlined">dashboard</span>
+        <span className="text-sm font-medium">Dashboard</span>
+      </a>
+      <a className="flex items-center gap-3 px-3 py-2.5 rounded-xl sidebar-item-active" href="#">
+        <span className="material-symbols-outlined fill-1">analytics</span>
+        <span className="text-sm font-semibold">Insights</span>
+      </a>
+      <a className="flex items-center gap-3 px-3 py-2.5 rounded-xl text-apple-gray hover:bg-white/50 transition-all" href="#">
+        <span className="material-symbols-outlined">calendar_today</span>
+        <span className="text-sm font-medium">Schedule</span>
+      </a>
+      <a className="flex items-center gap-3 px-3 py-2.5 rounded-xl text-apple-gray hover:bg-white/50 transition-all" href="#">
+        <span className="material-symbols-outlined">auto_stories</span>
+        <span className="text-sm font-medium">Library</span>
+      </a>
+    </nav>
+    <div className="p-6 border-t border-apple-border">
+      <div className="flex items-center gap-3">
+        <img alt="User" className="size-9 rounded-full object-cover bg-gray-200" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBS0Cc2ib-vFH91wzXHhPO8FAposzFFtk3HjaVke62LmWwLDPNwRLeTYXuTJDjVWqiOaXN0cdCm5UNixszgTFtBCEZDXM1cd6BTFmTJg9XniKEDCu9gVX6LLTLxp2R-_sUirrY_uCR2cDNj4VGXrkQ1KwTW32nM6VJ981Fi_iE9QFJPzS6Xx8ykoYV_JxEcoWnjPQEbhtqVZOopTjuh1dPaXe1YV2M1HCcLmDmZkojozWkxXjoKhOtU5xa4YpoqscWXKbdsf5EK1CwN" />
+        <div className="flex flex-col">
+          <span className="text-xs font-semibold">Alex Rivera</span>
+          <span className="text-[10px] text-apple-gray uppercase tracking-wider">Premium Member</span>
         </div>
-    );
+      </div>
+    </div>
+  </aside>
+  <main className="flex-1 overflow-y-auto relative">
+    <header className="sticky top-0 z-30 bg-apple-bg/80 backdrop-blur-md px-8 py-6 flex items-center justify-between">
+      <h1 className="text-2xl font-bold tracking-tight">Unified Insights</h1>
+      <div className="flex items-center gap-4">
+        <div className="relative hidden sm:block">
+          <span className="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-apple-gray text-xl">search</span>
+          <input className="bg-[#EDEDF0] border-none rounded-full pl-10 pr-4 py-2 text-sm w-64 focus:ring-1 focus:ring-primary/30" placeholder="Search insights..." type="text" />
+        </div>
+        <button className="size-10 flex items-center justify-center rounded-full hover:bg-gray-200 transition-colors">
+          <span className="material-symbols-outlined text-apple-gray">notifications</span>
+        </button>
+      </div>
+    </header>
+    <div className="max-w-6xl mx-auto px-8 pb-32">
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+        <div className="bg-apple-card rounded-ios-lg p-8 border border-apple-border card-shadow flex flex-col items-center text-center">
+          <div className="relative size-32 mb-4">
+            <svg className="size-full activity-ring" viewBox="0 0 36 36">
+              <circle className="stroke-gray-100" cx={18} cy={18} fill="none" r={16} strokeWidth={3} />
+              <circle className="stroke-emerald-500" cx={18} cy={18} fill="none" r={16} strokeDasharray="82, 100" strokeLinecap="round" strokeWidth={3} />
+            </svg>
+            <div className="absolute inset-0 flex flex-col items-center justify-center">
+              <span className="text-2xl font-bold">82%</span>
+              <span className="text-[10px] text-apple-gray font-bold uppercase">Vitality</span>
+            </div>
+          </div>
+          <h3 className="font-semibold text-lg">Health Ring</h3>
+          <p className="text-sm text-emerald-600 font-medium">+2% vs last week</p>
+        </div>
+        <div className="bg-apple-card rounded-ios-lg p-8 border border-apple-border card-shadow flex flex-col items-center text-center">
+          <div className="relative size-32 mb-4">
+            <svg className="size-full activity-ring" viewBox="0 0 36 36">
+              <circle className="stroke-gray-100" cx={18} cy={18} fill="none" r={16} strokeWidth={3} />
+              <circle className="stroke-primary" cx={18} cy={18} fill="none" r={16} strokeDasharray="95, 100" strokeLinecap="round" strokeWidth={3} />
+            </svg>
+            <div className="absolute inset-0 flex flex-col items-center justify-center">
+              <span className="text-2xl font-bold">95%</span>
+              <span className="text-[10px] text-apple-gray font-bold uppercase">Clarity</span>
+            </div>
+          </div>
+          <h3 className="font-semibold text-lg">Mind Ring</h3>
+          <p className="text-sm text-primary font-medium">+5% vs last week</p>
+        </div>
+        <div className="bg-apple-card rounded-ios-lg p-8 border border-apple-border card-shadow flex flex-col items-center text-center">
+          <div className="relative size-32 mb-4">
+            <svg className="size-full activity-ring" viewBox="0 0 36 36">
+              <circle className="stroke-gray-100" cx={18} cy={18} fill="none" r={16} strokeWidth={3} />
+              <circle className="stroke-[#FF9500]" cx={18} cy={18} fill="none" r={16} strokeDasharray="78, 100" strokeLinecap="round" strokeWidth={3} />
+            </svg>
+            <div className="absolute inset-0 flex flex-col items-center justify-center">
+              <span className="text-2xl font-bold">78%</span>
+              <span className="text-[10px] text-apple-gray font-bold uppercase">Presence</span>
+            </div>
+          </div>
+          <h3 className="font-semibold text-lg">Home Ring</h3>
+          <p className="text-sm text-rose-500 font-medium">-1% vs last week</p>
+        </div>
+      </div>
+      <div className="grid grid-cols-1 lg:grid-cols-5 gap-8 mb-8">
+        <div className="lg:col-span-3 ios-glass rounded-ios-lg p-8 border border-white/40 card-shadow flex flex-col justify-between relative overflow-hidden">
+          <div className="absolute -right-12 -top-12 size-48 bg-primary/5 rounded-full blur-3xl" />
+          <div className="relative z-10">
+            <div className="flex items-center gap-2 mb-6">
+              <div className="size-8 rounded-lg bg-primary/10 flex items-center justify-center">
+                <span className="material-symbols-outlined text-primary text-xl">auto_awesome</span>
+              </div>
+              <span className="text-xs font-bold text-primary uppercase tracking-widest">Smart Insight</span>
+            </div>
+            <p className="text-2xl font-medium leading-tight mb-8">
+              "You usually miss <span className="text-primary font-bold">reading sessions</span> on Thursday afternoons. Move it to the morning?"
+            </p>
+          </div>
+          <div className="flex gap-4 relative z-10">
+            <button className="bg-primary text-white px-8 py-3.5 rounded-2xl font-semibold text-sm hover:opacity-90 transition-opacity">
+              Accept Suggestion
+            </button>
+            <button className="bg-black/5 text-apple-gray px-8 py-3.5 rounded-2xl font-semibold text-sm hover:bg-black/10 transition-colors">
+              Dismiss
+            </button>
+          </div>
+        </div>
+        <div className="lg:col-span-2 bg-apple-card rounded-ios-lg p-8 border border-apple-border card-shadow">
+          <h3 className="font-bold text-lg mb-8 flex items-center gap-2">
+            <span className="material-symbols-outlined text-apple-gray">donut_large</span>
+            Life Balance
+          </h3>
+          <div className="flex items-center justify-between gap-6">
+            <div className="relative size-36">
+              <svg className="size-full -rotate-90" viewBox="0 0 100 100">
+                <circle cx={50} cy={50} fill="transparent" r={40} stroke="#F2F2F7" strokeWidth={10} />
+                <circle cx={50} cy={50} fill="transparent" r={40} stroke="#007AFF" strokeDasharray="160 251" strokeLinecap="round" strokeWidth={10} />
+                <circle cx={50} cy={50} fill="transparent" r={40} stroke="#FF9500" strokeDasharray="60 251" strokeDashoffset={-160} strokeLinecap="round" strokeWidth={10} />
+              </svg>
+              <div className="absolute inset-0 flex items-center justify-center">
+                <span className="text-[10px] text-apple-gray font-bold uppercase">Real Time</span>
+              </div>
+            </div>
+            <div className="flex flex-col gap-4">
+              <div className="flex items-start gap-2">
+                <div className="size-2 rounded-full bg-primary mt-1.5" />
+                <div>
+                  <p className="text-[10px] text-apple-gray font-bold uppercase">Planned Work</p>
+                  <p className="text-sm font-bold">40h / Week</p>
+                </div>
+              </div>
+              <div className="flex items-start gap-2">
+                <div className="size-2 rounded-full bg-[#FF9500] mt-1.5" />
+                <div>
+                  <p className="text-[10px] text-apple-gray font-bold uppercase">Actual Spent</p>
+                  <p className="text-sm font-bold">48h / Week</p>
+                </div>
+              </div>
+              <div className="pt-2 border-t border-apple-border mt-1">
+                <p className="text-[10px] text-rose-500 font-bold uppercase">+8.2% Stress</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div className="bg-apple-card rounded-ios-lg p-8 border border-apple-border card-shadow">
+        <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-8">
+          <div>
+            <h3 className="font-bold text-xl mb-1">Consistency Heatmap</h3>
+            <p className="text-sm text-apple-gray">Daily habit completion across all categories.</p>
+          </div>
+          <div className="flex items-center gap-3">
+            <span className="text-[10px] text-apple-gray font-bold uppercase">Less</span>
+            <div className="flex gap-1.5">
+              <div className="size-3.5 rounded-[3px] bg-gray-100" />
+              <div className="size-3.5 rounded-[3px] bg-primary/20" />
+              <div className="size-3.5 rounded-[3px] bg-primary/40" />
+              <div className="size-3.5 rounded-[3px] bg-primary/70" />
+              <div className="size-3.5 rounded-[3px] bg-primary" />
+            </div>
+            <span className="text-[10px] text-apple-gray font-bold uppercase">Peak</span>
+          </div>
+        </div>
+        <div className="overflow-x-auto">
+          <div className="grid grid-cols-7 gap-3 min-w-[700px]">
+            <div className="text-center text-[10px] font-bold text-apple-gray uppercase tracking-widest pb-4">Mon</div>
+            <div className="text-center text-[10px] font-bold text-apple-gray uppercase tracking-widest pb-4">Tue</div>
+            <div className="text-center text-[10px] font-bold text-apple-gray uppercase tracking-widest pb-4">Wed</div>
+            <div className="text-center text-[10px] font-bold text-apple-gray uppercase tracking-widest pb-4">Thu</div>
+            <div className="text-center text-[10px] font-bold text-apple-gray uppercase tracking-widest pb-4">Fri</div>
+            <div className="text-center text-[10px] font-bold text-apple-gray uppercase tracking-widest pb-4">Sat</div>
+            <div className="text-center text-[10px] font-bold text-apple-gray uppercase tracking-widest pb-4">Sun</div>
+            <div className="aspect-square rounded-[10px] bg-primary/40 hover:ring-2 ring-primary ring-offset-2 transition-all cursor-pointer" />
+            <div className="aspect-square rounded-[10px] bg-primary/70 hover:ring-2 ring-primary ring-offset-2 transition-all cursor-pointer" />
+            <div className="aspect-square rounded-[10px] bg-primary/20 hover:ring-2 ring-primary ring-offset-2 transition-all cursor-pointer" />
+            <div className="aspect-square rounded-[10px] bg-gray-100 hover:ring-2 ring-primary ring-offset-2 transition-all cursor-pointer" />
+            <div className="aspect-square rounded-[10px] bg-primary/80 hover:ring-2 ring-primary ring-offset-2 transition-all cursor-pointer" />
+            <div className="aspect-square rounded-[10px] bg-primary hover:ring-2 ring-primary ring-offset-2 transition-all cursor-pointer" />
+            <div className="aspect-square rounded-[10px] bg-primary/70 hover:ring-2 ring-primary ring-offset-2 transition-all cursor-pointer" />
+            <div className="aspect-square rounded-[10px] bg-primary hover:ring-2 ring-primary ring-offset-2 transition-all cursor-pointer" />
+            <div className="aspect-square rounded-[10px] bg-primary/80 hover:ring-2 ring-primary ring-offset-2 transition-all cursor-pointer" />
+            <div className="aspect-square rounded-[10px] bg-primary hover:ring-2 ring-primary ring-offset-2 transition-all cursor-pointer" />
+            <div className="aspect-square rounded-[10px] bg-primary/40 hover:ring-2 ring-primary ring-offset-2 transition-all cursor-pointer" />
+            <div className="aspect-square rounded-[10px] bg-primary/20 hover:ring-2 ring-primary ring-offset-2 transition-all cursor-pointer" />
+            <div className="aspect-square rounded-[10px] bg-primary hover:ring-2 ring-primary ring-offset-2 transition-all cursor-pointer" />
+            <div className="aspect-square rounded-[10px] bg-primary/80 hover:ring-2 ring-primary ring-offset-2 transition-all cursor-pointer" />
+            <div className="aspect-square rounded-[10px] bg-primary/70 hover:ring-2 ring-primary ring-offset-2 transition-all cursor-pointer" />
+            <div className="aspect-square rounded-[10px] bg-primary hover:ring-2 ring-primary ring-offset-2 transition-all cursor-pointer" />
+            <div className="aspect-square rounded-[10px] bg-primary/40 hover:ring-2 ring-primary ring-offset-2 transition-all cursor-pointer" />
+            <div className="aspect-square rounded-[10px] bg-gray-100 hover:ring-2 ring-primary ring-offset-2 transition-all cursor-pointer" />
+            <div className="aspect-square rounded-[10px] bg-primary/70 hover:ring-2 ring-primary ring-offset-2 transition-all cursor-pointer" />
+            <div className="aspect-square rounded-[10px] bg-primary hover:ring-2 ring-primary ring-offset-2 transition-all cursor-pointer" />
+            <div className="aspect-square rounded-[10px] bg-primary/40 hover:ring-2 ring-primary ring-offset-2 transition-all cursor-pointer" />
+            <div className="aspect-square rounded-[10px] bg-primary hover:ring-2 ring-primary ring-offset-2 transition-all cursor-pointer" />
+            <div className="aspect-square rounded-[10px] bg-primary/80 hover:ring-2 ring-primary ring-offset-2 transition-all cursor-pointer" />
+            <div className="aspect-square rounded-[10px] bg-primary hover:ring-2 ring-primary ring-offset-2 transition-all cursor-pointer" />
+            <div className="aspect-square rounded-[10px] bg-primary hover:ring-2 ring-primary ring-offset-2 transition-all cursor-pointer" />
+            <div className="aspect-square rounded-[10px] bg-primary/20 hover:ring-2 ring-primary ring-offset-2 transition-all cursor-pointer" />
+            <div className="aspect-square rounded-[10px] bg-gray-100 hover:ring-2 ring-primary ring-offset-2 transition-all cursor-pointer" />
+            <div className="aspect-square rounded-[10px] bg-gray-100 hover:ring-2 ring-primary ring-offset-2 transition-all cursor-pointer" />
+          </div>
+        </div>
+      </div>
+    </div>
+    <div className="fixed bottom-8 left-1/2 -translate-x-1/2 ios-glass px-8 py-4 rounded-full shadow-2xl z-40 border border-white/60">
+      <div className="flex items-center gap-10">
+        <button className="flex flex-col items-center gap-1 group">
+          <span className="material-symbols-outlined text-apple-gray group-hover:text-primary transition-colors">home</span>
+          <span className="text-[8px] font-bold text-apple-gray uppercase tracking-widest">Home</span>
+        </button>
+        <button className="flex flex-col items-center gap-1 group">
+          <span className="material-symbols-outlined text-primary fill-1">analytics</span>
+          <span className="text-[8px] font-bold text-primary uppercase tracking-widest">Insights</span>
+        </button>
+        <button className="flex flex-col items-center gap-1 group">
+          <span className="material-symbols-outlined text-apple-gray group-hover:text-primary transition-colors">event</span>
+          <span className="text-[8px] font-bold text-apple-gray uppercase tracking-widest">Plan</span>
+        </button>
+        <button className="flex flex-col items-center gap-1 group">
+          <span className="material-symbols-outlined text-apple-gray group-hover:text-primary transition-colors">settings</span>
+          <span className="text-[8px] font-bold text-apple-gray uppercase tracking-widest">Settings</span>
+        </button>
+      </div>
+    </div>
+  </main>
+</div>
+
+    </>
+  );
 }
