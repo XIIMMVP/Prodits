@@ -9,41 +9,41 @@ const load = () => {
 };
 
 // ─── Default State ──────────────────────────────────────────
-const CATEGORIES = ['health', 'mind', 'home', 'career'];
-const PERIODS = ['morning', 'afternoon', 'evening'];
+const CATEGORIES = ['salud', 'mente', 'hogar', 'carrera'];
+const PERIODS = ['mañana', 'tarde', 'noche'];
 
 const defaultRoutines = [
     {
-        id: uid(), name: 'Morning Ritual', icon: 'wb_sunny', color: 'orange',
-        category: 'health', period: 'morning', days: [1, 2, 3, 4, 5, 6, 0],
+        id: uid(), name: 'Ritual de Mañana', icon: 'wb_sunny', color: 'orange',
+        category: 'salud', period: 'mañana', days: [1, 2, 3, 4, 5, 6, 0],
         time: '07:30', essential: true, type: 'check',
         subtasks: [
-            { id: uid(), text: 'Make bed', done: false },
-            { id: uid(), text: 'Cold shower', done: false },
-            { id: uid(), text: 'Meditate 10 min', done: false },
+            { id: uid(), text: 'Hacer la cama', done: false },
+            { id: uid(), text: 'Ducha fría', done: false },
+            { id: uid(), text: 'Meditar 10 min', done: false },
         ]
     },
     {
-        id: uid(), name: 'Water Intake', icon: 'water_drop', color: 'blue',
-        category: 'health', period: 'morning', days: [1, 2, 3, 4, 5, 6, 0],
+        id: uid(), name: 'Consumo de Agua', icon: 'water_drop', color: 'blue',
+        category: 'salud', period: 'mañana', days: [1, 2, 3, 4, 5, 6, 0],
         time: '08:00', essential: true, type: 'counter', target: 8, count: 0,
         subtasks: []
     },
     {
-        id: uid(), name: 'Deep Work Session', icon: 'laptop_mac', color: 'indigo',
-        category: 'career', period: 'afternoon', days: [1, 2, 3, 4, 5],
+        id: uid(), name: 'Sesión de Trabajo Profundo', icon: 'laptop_mac', color: 'indigo',
+        category: 'carrera', period: 'tarde', days: [1, 2, 3, 4, 5],
         time: '14:00', essential: true, type: 'focus', focusDuration: 25,
         subtasks: []
     },
     {
-        id: uid(), name: 'Read 30 min', icon: 'menu_book', color: 'teal',
-        category: 'mind', period: 'evening', days: [1, 2, 3, 4, 5, 6, 0],
+        id: uid(), name: 'Leer 30 min', icon: 'menu_book', color: 'teal',
+        category: 'mente', period: 'noche', days: [1, 2, 3, 4, 5, 6, 0],
         time: '21:00', essential: false, type: 'check',
         subtasks: []
     },
     {
-        id: uid(), name: 'Evening Wind Down', icon: 'self_improvement', color: 'purple',
-        category: 'mind', period: 'evening', days: [1, 2, 3, 4, 5, 6, 0],
+        id: uid(), name: 'Relajación Nocturna', icon: 'self_improvement', color: 'purple',
+        category: 'mente', period: 'noche', days: [1, 2, 3, 4, 5, 6, 0],
         time: '22:00', essential: false, type: 'check',
         subtasks: []
     },
@@ -58,14 +58,14 @@ const defaultState = {
     // Journal entries
     journal: [
         {
-            id: uid(), date: today(), category: 'health', title: 'Morning Discipline',
-            text: '5km run completed at sunrise. Pushing beyond the comfort zone.',
+            id: uid(), date: today(), category: 'salud', title: 'Disciplina Mañanera',
+            text: 'Carrera de 5km completada al amanecer. Saliendo de la zona de confort.',
             photo: 'https://images.unsplash.com/photo-1571019614242-c5c5dee9f50b?w=600&q=80',
             time: '07:30 AM'
         },
         {
-            id: uid(), date: today(), category: 'career', title: 'Deep Work Session',
-            text: '3 hours of focused coding with zero distractions. Milestone achieved.',
+            id: uid(), date: today(), category: 'carrera', title: 'Sesión de Trabajo Enfocado',
+            text: '3 horas de programación concentrada sin distracciones. Hito alcanzado.',
             photo: 'https://images.unsplash.com/photo-1498050108023-c5249f4df085?w=600&q=80',
             time: '04:00 PM'
         },

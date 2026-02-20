@@ -3,13 +3,13 @@ import { useStore, CATEGORIES, PERIODS, uid } from '../store/useStore';
 
 const ICONS = ['wb_sunny', 'fitness_center', 'water_drop', 'menu_book', 'laptop_mac', 'self_improvement', 'restaurant', 'directions_car', 'cleaning_services', 'brush', 'school', 'music_note', 'pets', 'local_florist', 'shopping_cart', 'medication', 'bed', 'hiking'];
 const COLOR_OPTIONS = ['orange', 'blue', 'indigo', 'teal', 'purple', 'red', 'green', 'pink'];
-const DAY_LABELS = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
-const PERIOD_LABELS = { morning: 'Morning', afternoon: 'Afternoon', evening: 'Evening' };
-const CATEGORY_LABELS = { health: 'Health', mind: 'Mind', home: 'Home', career: 'Career' };
+const DAY_LABELS = ['Dom', 'Lun', 'Mar', 'Mié', 'Jue', 'Vie', 'Sáb'];
+const PERIOD_LABELS = { mañana: 'Mañana', tarde: 'Tarde', noche: 'Noche' };
+const CATEGORY_LABELS = { salud: 'Salud', mente: 'Mente', hogar: 'Hogar', carrera: 'Carrera' };
 const TYPE_OPTIONS = [
   { value: 'check', label: 'Checkbox', icon: 'check_circle' },
-  { value: 'counter', label: 'Counter', icon: 'pin' },
-  { value: 'focus', label: 'Focus Timer', icon: 'timer' },
+  { value: 'counter', label: 'Contador', icon: 'pin' },
+  { value: 'focus', label: 'Temporizador', icon: 'timer' },
 ];
 
 const COLORS = {
@@ -26,16 +26,16 @@ const COLORS = {
 // ─── AI Task Breakdown (simulated) ──────────────────────────
 function generateAIBreakdown(name) {
   const breakdowns = {
-    'clean': ['Vacuum floors and carpets', 'Wipe down all surfaces', 'Take out trash and recycling', 'Organize clutter into designated areas'],
-    'wash': ['Vacuum interior floor mats', 'Clean exterior windows', 'Apply premium wax coat for UV protection', 'Clean dashboard and console'],
-    'cook': ['Plan recipe and gather ingredients', 'Prep vegetables and proteins', 'Cook main dish', 'Clean up kitchen after cooking'],
-    'exercise': ['5 min warmup stretching', 'Main workout (30 min)', 'Cool down and stretch', 'Log progress and hydrate'],
-    'study': ['Review previous notes', 'Read new material (25 min)', 'Summarize key takeaways', 'Practice with exercises'],
-    'meditat': ['Find quiet space', 'Set timer for session', 'Focus on breathing', 'Journal reflections after'],
-    'read': ['Find a quiet spot', 'Set a 30s min timer', 'Read without distractions', 'Write key takeaways'],
-    'morning': ['Make bed immediately', 'Cold water face wash', 'Light stretching (5 min)', 'Plan top 3 priorities'],
-    'work': ['Review today\'s goals', 'Close all distractions', 'Deep focus sprint (25 min)', 'Take 5 min break'],
-    'shop': ['Make a shopping list', 'Check pantry for items already available', 'Go to the store', 'Put away items and organize'],
+    'limpiar': ['Aspirar suelos y alfombras', 'Limpiar todas las superficies', 'Sacar la basura y reciclaje', 'Organizar el desorden en sus áreas'],
+    'lavar': ['Aspirar alfombrillas interiores', 'Limpiar cristales exteriores', 'Aplicar capa de cera premium', 'Limpiar salpicadero y consola'],
+    'cocinar': ['Planear receta y reunir ingredientes', 'Preparar verduras y proteínas', 'Cocinar plato principal', 'Limpiar la cocina después de cocinar'],
+    'ejercici': ['5 min calentamiento', 'Entrenamiento principal (30 min)', 'Enfriamiento y estiramiento', 'Registrar progreso e hidratarse'],
+    'estudi': ['Revisar notas anteriores', 'Leer material nuevo (25 min)', 'Resumir puntos clave', 'Practicar con ejercicios'],
+    'medit': ['Encontrar un espacio tranquilo', 'Poner temporizador para la sesión', 'Enfocarse en la respiración', 'Reflexiones finales'],
+    'leer': ['Encontrar un lugar tranquilo', 'Poner temporizador de 30 min', 'Leer sin distracciones', 'Escribir puntos clave'],
+    'mañana': ['Hacer la cama inmediatamente', 'Lavarse la cara con agua fría', 'Estiramientos ligeros (5 min)', 'Planear las 3 prioridades del día'],
+    'trabaj': ['Revisar objetivos de hoy', 'Cerrar todas las distracciones', 'Sprint de trabajo profundo (25 min)', 'Descanso de 5 min'],
+    'compr': ['Hacer lista de la compra', 'Revisar despensa', 'Ir a la tienda', 'Guardar y organizar productos'],
   };
 
   const lower = name.toLowerCase();
@@ -46,17 +46,17 @@ function generateAIBreakdown(name) {
   }
   // Generic fallback
   return [
-    { id: uid(), text: `Prepare for ${name}`, done: false },
-    { id: uid(), text: `Execute ${name}`, done: false },
-    { id: uid(), text: `Review and improve`, done: false },
+    { id: uid(), text: `Prepararse para ${name}`, done: false },
+    { id: uid(), text: `Ejecutar ${name}`, done: false },
+    { id: uid(), text: `Revisar y mejorar`, done: false },
   ];
 }
 
 // ─── Create/Edit Form ───────────────────────────────────────
 function RoutineForm({ initial, onSave, onCancel }) {
   const [form, setForm] = useState(initial || {
-    name: '', icon: 'wb_sunny', color: 'blue', category: 'health',
-    period: 'morning', days: [1, 2, 3, 4, 5], time: '08:00',
+    name: '', icon: 'wb_sunny', color: 'blue', category: 'salud',
+    period: 'mañana', days: [1, 2, 3, 4, 5], time: '08:00',
     essential: false, type: 'check', target: 8, focusDuration: 25,
     subtasks: [],
   });
@@ -92,7 +92,7 @@ function RoutineForm({ initial, onSave, onCancel }) {
     <div className="fixed inset-0 bg-black/40 backdrop-blur-sm z-[100] flex items-end sm:items-center justify-center p-0 sm:p-4" onClick={onCancel}>
       <div className="bg-white rounded-t-3xl sm:rounded-3xl p-6 w-full max-w-lg max-h-[90vh] overflow-y-auto ios-shadow" onClick={e => e.stopPropagation()}>
         <div className="flex items-center justify-between mb-6">
-          <h2 className="text-xl font-bold">{initial ? 'Edit Routine' : 'New Routine'}</h2>
+          <h2 className="text-xl font-bold">{initial ? 'Editar Rutina' : 'Nueva Rutina'}</h2>
           <button onClick={onCancel} className="w-8 h-8 rounded-full bg-gray-100 flex items-center justify-center">
             <span className="material-symbols-outlined text-lg">close</span>
           </button>
@@ -100,18 +100,18 @@ function RoutineForm({ initial, onSave, onCancel }) {
 
         {/* Name */}
         <div className="mb-5">
-          <label className="text-xs font-bold text-[var(--text-secondary)] uppercase tracking-wider mb-2 block">Name</label>
+          <label className="text-xs font-bold text-[var(--text-secondary)] uppercase tracking-wider mb-2 block">Nombre</label>
           <input
             value={form.name}
             onChange={e => update('name', e.target.value)}
-            placeholder="e.g. Morning Meditation"
+            placeholder="ej. Meditación Mañanera"
             className="w-full border border-[var(--border)] rounded-2xl px-4 py-3 text-sm outline-none focus:ring-2 focus:ring-[var(--primary)]/20 focus:border-[var(--primary)] transition-all"
           />
         </div>
 
         {/* Type */}
         <div className="mb-5">
-          <label className="text-xs font-bold text-[var(--text-secondary)] uppercase tracking-wider mb-2 block">Type</label>
+          <label className="text-xs font-bold text-[var(--text-secondary)] uppercase tracking-wider mb-2 block">Tipo</label>
           <div className="flex gap-2">
             {TYPE_OPTIONS.map(t => (
               <button
@@ -130,7 +130,7 @@ function RoutineForm({ initial, onSave, onCancel }) {
         {/* Counter target */}
         {form.type === 'counter' && (
           <div className="mb-5">
-            <label className="text-xs font-bold text-[var(--text-secondary)] uppercase tracking-wider mb-2 block">Target</label>
+            <label className="text-xs font-bold text-[var(--text-secondary)] uppercase tracking-wider mb-2 block">Objetivo</label>
             <input
               type="number"
               value={form.target}
@@ -143,7 +143,7 @@ function RoutineForm({ initial, onSave, onCancel }) {
         {/* Focus duration */}
         {form.type === 'focus' && (
           <div className="mb-5">
-            <label className="text-xs font-bold text-[var(--text-secondary)] uppercase tracking-wider mb-2 block">Focus Duration (min)</label>
+            <label className="text-xs font-bold text-[var(--text-secondary)] uppercase tracking-wider mb-2 block">Duración (min)</label>
             <input
               type="number"
               value={form.focusDuration}
@@ -156,7 +156,7 @@ function RoutineForm({ initial, onSave, onCancel }) {
         {/* Category & Period */}
         <div className="grid grid-cols-2 gap-4 mb-5">
           <div>
-            <label className="text-xs font-bold text-[var(--text-secondary)] uppercase tracking-wider mb-2 block">Category</label>
+            <label className="text-xs font-bold text-[var(--text-secondary)] uppercase tracking-wider mb-2 block">Categoría</label>
             <select
               value={form.category}
               onChange={e => update('category', e.target.value)}
@@ -166,7 +166,7 @@ function RoutineForm({ initial, onSave, onCancel }) {
             </select>
           </div>
           <div>
-            <label className="text-xs font-bold text-[var(--text-secondary)] uppercase tracking-wider mb-2 block">Time of Day</label>
+            <label className="text-xs font-bold text-[var(--text-secondary)] uppercase tracking-wider mb-2 block">Momento del Día</label>
             <select
               value={form.period}
               onChange={e => update('period', e.target.value)}
@@ -179,7 +179,7 @@ function RoutineForm({ initial, onSave, onCancel }) {
 
         {/* Time */}
         <div className="mb-5">
-          <label className="text-xs font-bold text-[var(--text-secondary)] uppercase tracking-wider mb-2 block">Time</label>
+          <label className="text-xs font-bold text-[var(--text-secondary)] uppercase tracking-wider mb-2 block">Hora</label>
           <input
             type="time"
             value={form.time}
@@ -242,8 +242,8 @@ function RoutineForm({ initial, onSave, onCancel }) {
         {/* Essential */}
         <div className="mb-5 flex items-center justify-between bg-gray-50 rounded-2xl p-4">
           <div>
-            <p className="font-semibold text-sm">Essential (Emergency Mode)</p>
-            <p className="text-xs text-[var(--text-secondary)]">This task will show in Emergency Mode</p>
+            <p className="font-semibold text-sm">Esencial (Modo Emergencia)</p>
+            <p className="text-xs text-[var(--text-secondary)]">Esta tarea se mostrará en Modo Emergencia</p>
           </div>
           <button
             onClick={() => update('essential', !form.essential)}
@@ -256,13 +256,13 @@ function RoutineForm({ initial, onSave, onCancel }) {
         {/* AI Breakdown */}
         <div className="mb-5">
           <div className="flex items-center justify-between mb-2">
-            <label className="text-xs font-bold text-[var(--text-secondary)] uppercase tracking-wider">Sub-tasks</label>
+            <label className="text-xs font-bold text-[var(--text-secondary)] uppercase tracking-wider">Sub-tareas</label>
             <button
               onClick={handleAIBreakdown}
               className="flex items-center gap-1 text-xs font-bold text-[var(--primary)] hover:underline"
             >
               <span className="material-symbols-outlined text-sm fill-1">auto_awesome</span>
-              AI Breakdown
+              Desglose IA
             </button>
           </div>
           <div className="space-y-2">
@@ -271,7 +271,7 @@ function RoutineForm({ initial, onSave, onCancel }) {
                 <input
                   value={sub.text}
                   onChange={e => updateSubtaskText(sub.id, e.target.value)}
-                  placeholder="Sub-task description"
+                  placeholder="Descripción de la sub-tarea"
                   className="flex-1 border border-[var(--border)] rounded-xl px-3 py-2 text-sm outline-none focus:ring-1 focus:ring-[var(--primary)]/20"
                 />
                 <button onClick={() => removeSubtask(sub.id)} className="text-red-400 hover:text-red-600">
@@ -284,18 +284,18 @@ function RoutineForm({ initial, onSave, onCancel }) {
             onClick={addSubtask}
             className="mt-2 text-sm text-[var(--primary)] font-semibold flex items-center gap-1 hover:underline"
           >
-            <span className="material-symbols-outlined text-sm">add</span> Add sub-task
+            <span className="material-symbols-outlined text-sm">add</span> Añadir sub-tarea
           </button>
         </div>
 
         {/* Actions */}
         <div className="flex gap-3 pt-2">
-          <button onClick={onCancel} className="flex-1 py-3.5 rounded-2xl bg-gray-100 text-[var(--text-secondary)] font-semibold">Cancel</button>
+          <button onClick={onCancel} className="flex-1 py-3.5 rounded-2xl bg-gray-100 text-[var(--text-secondary)] font-semibold">Cancelar</button>
           <button
             onClick={() => { if (form.name.trim()) onSave(form); }}
             className="flex-1 py-3.5 rounded-2xl bg-[var(--primary)] text-white font-semibold hover:opacity-90 transition-all"
           >
-            {initial ? 'Update' : 'Create'}
+            {initial ? 'Actualizar' : 'Crear'}
           </button>
         </div>
       </div>
@@ -350,11 +350,11 @@ function RoutineCard({ routine, onEdit, onDelete }) {
             <div className="flex items-center gap-2">
               <h3 className="text-lg font-semibold text-[var(--text-main)]">{routine.name}</h3>
               {routine.essential && (
-                <span className="px-1.5 py-0.5 rounded text-[8px] font-bold uppercase bg-blue-50 text-[var(--primary)]">Essential</span>
+                <span className="px-1.5 py-0.5 rounded text-[8px] font-bold uppercase bg-blue-50 text-[var(--primary)]">Esencial</span>
               )}
             </div>
             <p className="text-[var(--text-secondary)] text-sm font-medium">
-              {routine.days.length === 7 ? 'Daily' : routine.days.map(d => DAY_LABELS[d]).join(', ')} • {routine.time}
+              {routine.days.length === 7 ? 'Diario' : routine.days.map(d => DAY_LABELS[d]).join(', ')} • {routine.time}
             </p>
           </div>
         </div>
@@ -403,12 +403,12 @@ export default function Routine() {
     <main className="w-full max-w-4xl mx-auto px-6 pt-8 pb-10">
       <header className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-8">
         <div>
-          <span className="text-[var(--primary)] text-xs font-bold tracking-widest uppercase mb-1 block">Management</span>
-          <h1 className="text-4xl font-bold tracking-tight text-[var(--text-main)]">Routines</h1>
+          <span className="text-[var(--primary)] text-xs font-bold tracking-widest uppercase mb-1 block">Gestión</span>
+          <h1 className="text-4xl font-bold tracking-tight text-[var(--text-main)]">Rutinas</h1>
         </div>
         <div className="flex items-center gap-3">
           <div className="flex gap-1 bg-gray-50 p-1 rounded-xl">
-            {[{ key: 'all', label: 'All' }, ...CATEGORIES.map(c => ({ key: c, label: CATEGORY_LABELS[c] }))].map(f => (
+            {[{ key: 'all', label: 'Todas' }, ...CATEGORIES.map(c => ({ key: c, label: CATEGORY_LABELS[c] }))].map(f => (
               <button
                 key={f.key}
                 onClick={() => setFilter(f.key)}
@@ -427,8 +427,8 @@ export default function Routine() {
           <div className="w-24 h-24 rounded-full bg-blue-50 flex items-center justify-center mb-6">
             <span className="material-symbols-outlined text-5xl text-[var(--primary)]">add_task</span>
           </div>
-          <h3 className="text-xl font-bold mb-2">No routines yet</h3>
-          <p className="text-[var(--text-secondary)] max-w-sm mb-6">Tap the + button to create your first routine. Our AI can help break down complex tasks.</p>
+          <h3 className="text-xl font-bold mb-2">No hay rutinas aún</h3>
+          <p className="text-[var(--text-secondary)] max-w-sm mb-6">Toca el botón + para crear tu primera rutina. Nuestra IA puede ayudarte a desglosar tareas complejas.</p>
         </div>
       ) : (
         <div className="space-y-3">
@@ -467,11 +467,11 @@ export default function Routine() {
             <div className="w-16 h-16 rounded-full bg-red-50 flex items-center justify-center mx-auto mb-4">
               <span className="material-symbols-outlined text-3xl text-red-500">delete_forever</span>
             </div>
-            <h3 className="font-bold text-lg mb-1">Delete "{deleteConfirm.name}"?</h3>
-            <p className="text-sm text-[var(--text-secondary)] mb-6">This action cannot be undone.</p>
+            <h3 className="font-bold text-lg mb-1">¿Eliminar "{deleteConfirm.name}"?</h3>
+            <p className="text-sm text-[var(--text-secondary)] mb-6">Esta acción no se puede deshacer.</p>
             <div className="flex gap-3">
-              <button onClick={() => setDeleteConfirm(null)} className="flex-1 py-3 rounded-2xl bg-gray-100 text-[var(--text-secondary)] font-semibold">Cancel</button>
-              <button onClick={() => handleDelete(deleteConfirm.id)} className="flex-1 py-3 rounded-2xl bg-red-500 text-white font-semibold">Delete</button>
+              <button onClick={() => setDeleteConfirm(null)} className="flex-1 py-3 rounded-2xl bg-gray-100 text-[var(--text-secondary)] font-semibold">Cancelar</button>
+              <button onClick={() => handleDelete(deleteConfirm.id)} className="flex-1 py-3 rounded-2xl bg-red-500 text-white font-semibold">Eliminar</button>
             </div>
           </div>
         </div>

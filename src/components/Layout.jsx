@@ -1,10 +1,10 @@
 import { Link, useLocation } from 'react-router-dom';
 
 const navItems = [
-    { name: 'Home', icon: 'home', path: '/' },
-    { name: 'Schedule', icon: 'calendar_today', path: '/routine' },
-    { name: 'Focus', icon: 'psychology', path: '/insights' },
-    { name: 'Profile', icon: 'person', path: '/journal' }
+    { name: 'Inicio', icon: 'home', path: '/' },
+    { name: 'Rutinas', icon: 'calendar_today', path: '/routine' },
+    { name: 'Análisis', icon: 'psychology', path: '/insights' },
+    { name: 'Perfil', icon: 'person', path: '/journal' }
 ];
 
 export default function Layout({ children }) {
@@ -29,8 +29,8 @@ export default function Layout({ children }) {
                                 key={item.name}
                                 to={item.path}
                                 className={`flex flex-col items-center justify-center gap-0.5 transition-all duration-300 relative rounded-2xl px-3 py-1.5 ${isActive
-                                        ? 'text-[var(--primary)] bg-blue-50/80'
-                                        : 'text-[var(--text-secondary)] hover:text-[var(--text-main)] hover:bg-black/5'
+                                    ? 'text-[var(--primary)] bg-blue-50/80'
+                                    : 'text-[var(--text-secondary)] hover:text-[var(--text-main)] hover:bg-black/5'
                                     }`}
                             >
                                 <span className={`material-symbols-outlined text-[22px] transition-all ${isActive ? 'fill-1 scale-105' : ''}`}>

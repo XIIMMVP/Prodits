@@ -1,9 +1,9 @@
 import { useState, useRef } from 'react';
 import { useStore, uid, today } from '../store/useStore';
 
-const CATEGORY_LABELS = { health: 'Health & Vitality', mind: 'Personal Growth', career: 'Productivity', home: 'Lifestyle' };
-const FILTER_TABS = ['All', 'Health', 'Career', 'Mind', 'Home'];
-const CATEGORY_MAP = { All: null, Health: 'health', Career: 'career', Mind: 'mind', Home: 'home' };
+const CATEGORY_LABELS = { salud: 'Salud y Vitalidad', mente: 'Crecimiento Personal', carrera: 'Productividad', hogar: 'Estilo de Vida' };
+const FILTER_TABS = ['Todos', 'Salud', 'Carrera', 'Mente', 'Hogar'];
+const CATEGORY_MAP = { Todos: null, Salud: 'salud', Carrera: 'carrera', Mente: 'mente', Hogar: 'hogar' };
 
 const PLACEHOLDER_PHOTOS = [
   'https://images.unsplash.com/photo-1571019614242-c5c5dee9f50b?w=600&q=80',
@@ -14,36 +14,36 @@ const PLACEHOLDER_PHOTOS = [
 ];
 
 function NewEntryModal({ onSave, onClose }) {
-  const [form, setForm] = useState({ title: '', text: '', category: 'health', photo: '' });
+  const [form, setForm] = useState({ title: '', text: '', category: 'salud', photo: '' });
   const update = (k, v) => setForm(p => ({ ...p, [k]: v }));
 
   const now = new Date();
-  const time = now.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', hour12: true });
+  const time = now.toLocaleTimeString('es-ES', { hour: '2-digit', minute: '2-digit', hour12: true });
 
   return (
     <div className="fixed inset-0 bg-black/40 backdrop-blur-sm z-[100] flex items-end sm:items-center justify-center p-0 sm:p-4" onClick={onClose}>
       <div className="bg-white rounded-t-3xl sm:rounded-3xl p-6 w-full max-w-lg max-h-[90vh] overflow-y-auto ios-shadow" onClick={e => e.stopPropagation()}>
         <div className="flex items-center justify-between mb-6">
-          <h2 className="text-xl font-bold">New Success Entry</h2>
+          <h2 className="text-xl font-bold">Nuevo Éxito</h2>
           <button onClick={onClose} className="w-8 h-8 rounded-full bg-gray-100 flex items-center justify-center">
             <span className="material-symbols-outlined text-lg">close</span>
           </button>
         </div>
 
         <div className="mb-4">
-          <label className="text-xs font-bold text-[var(--text-secondary)] uppercase tracking-wider mb-2 block">Title</label>
-          <input value={form.title} onChange={e => update('title', e.target.value)} placeholder="e.g. Morning Run" className="w-full border border-[var(--border)] rounded-2xl px-4 py-3 text-sm outline-none focus:ring-2 focus:ring-[var(--primary)]/20 focus:border-[var(--primary)]" />
+          <label className="text-xs font-bold text-[var(--text-secondary)] uppercase tracking-wider mb-2 block">Título</label>
+          <input value={form.title} onChange={e => update('title', e.target.value)} placeholder="ej. Carrera Matutina" className="w-full border border-[var(--border)] rounded-2xl px-4 py-3 text-sm outline-none focus:ring-2 focus:ring-[var(--primary)]/20 focus:border-[var(--primary)]" />
         </div>
 
         <div className="mb-4">
-          <label className="text-xs font-bold text-[var(--text-secondary)] uppercase tracking-wider mb-2 block">Description</label>
-          <textarea value={form.text} onChange={e => update('text', e.target.value)} placeholder="What did you accomplish?" className="w-full border border-[var(--border)] rounded-2xl px-4 py-3 text-sm outline-none h-24 resize-none focus:ring-2 focus:ring-[var(--primary)]/20" />
+          <label className="text-xs font-bold text-[var(--text-secondary)] uppercase tracking-wider mb-2 block">Descripción</label>
+          <textarea value={form.text} onChange={e => update('text', e.target.value)} placeholder="¿Qué has logrado?" className="w-full border border-[var(--border)] rounded-2xl px-4 py-3 text-sm outline-none h-24 resize-none focus:ring-2 focus:ring-[var(--primary)]/20" />
         </div>
 
         <div className="mb-4">
-          <label className="text-xs font-bold text-[var(--text-secondary)] uppercase tracking-wider mb-2 block">Category</label>
+          <label className="text-xs font-bold text-[var(--text-secondary)] uppercase tracking-wider mb-2 block">Categoría</label>
           <div className="flex flex-wrap gap-2">
-            {Object.entries(CATEGORY_MAP).filter(([k]) => k !== 'All').map(([label, val]) => (
+            {Object.entries(CATEGORY_MAP).filter(([k]) => k !== 'Todos').map(([label, val]) => (
               <button key={val} onClick={() => update('category', val)} className={`px-4 py-2 rounded-xl text-xs font-semibold transition-all ${form.category === val ? 'bg-[var(--primary)] text-white' : 'bg-gray-50 text-[var(--text-secondary)]'}`}>
                 {label}
               </button>
@@ -52,13 +52,13 @@ function NewEntryModal({ onSave, onClose }) {
         </div>
 
         <div className="mb-4">
-          <label className="text-xs font-bold text-[var(--text-secondary)] uppercase tracking-wider mb-2 block">Photo URL (optional)</label>
+          <label className="text-xs font-bold text-[var(--text-secondary)] uppercase tracking-wider mb-2 block">URL de la Foto (opcional)</label>
           <input value={form.photo} onChange={e => update('photo', e.target.value)} placeholder="https://..." className="w-full border border-[var(--border)] rounded-2xl px-4 py-3 text-sm outline-none focus:ring-2 focus:ring-[var(--primary)]/20" />
-          <p className="text-[10px] text-[var(--text-secondary)] mt-1">Paste an image URL or leave blank for a default image</p>
+          <p className="text-[10px] text-[var(--text-secondary)] mt-1">Pega una URL de imagen o deja en blanco para una por defecto</p>
         </div>
 
         <div className="flex gap-3 pt-2">
-          <button onClick={onClose} className="flex-1 py-3.5 rounded-2xl bg-gray-100 text-[var(--text-secondary)] font-semibold">Cancel</button>
+          <button onClick={onClose} className="flex-1 py-3.5 rounded-2xl bg-gray-100 text-[var(--text-secondary)] font-semibold">Cancelar</button>
           <button onClick={() => {
             if (form.title.trim()) {
               onSave({
@@ -69,7 +69,7 @@ function NewEntryModal({ onSave, onClose }) {
               onClose();
             }
           }} className="flex-1 py-3.5 rounded-2xl bg-[var(--primary)] text-white font-semibold hover:opacity-90 transition-all">
-            Save Entry
+            Guardar Éxito
           </button>
         </div>
       </div>
@@ -101,7 +101,7 @@ export default function Journal() {
             value={search}
             onChange={e => setSearch(e.target.value)}
             className="w-full bg-[#F2F2F7] border-none rounded-2xl py-3 pl-12 pr-4 text-sm focus:ring-2 focus:ring-[var(--primary)]/20 transition-all outline-none placeholder:text-[var(--text-secondary)]"
-            placeholder="Search entries, tags, or milestones..."
+            placeholder="Buscar entradas, etiquetas o hitos..."
           />
         </div>
         <button
@@ -109,15 +109,15 @@ export default function Journal() {
           className="bg-[var(--primary)] text-white px-5 py-2.5 rounded-full text-sm font-semibold flex items-center gap-2 ios-shadow hover:brightness-110 transition-all"
         >
           <span className="material-symbols-outlined text-xl">add</span>
-          New Entry
+          Nueva Entrada
         </button>
       </header>
 
       {/* Title + Filters */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-8">
         <div>
-          <h2 className="text-3xl font-bold tracking-tight mb-1 text-[var(--text-main)]">Your Success Feed</h2>
-          <p className="text-[var(--text-secondary)] font-medium">Tracking your path to excellence.</p>
+          <h2 className="text-3xl font-bold tracking-tight mb-1 text-[var(--text-main)]">Tu Feed de Éxitos</h2>
+          <p className="text-[var(--text-secondary)] font-medium">Siguiendo tu camino hacia la excelencia.</p>
         </div>
         <div className="flex gap-1.5 bg-[#F2F2F7] p-1 rounded-xl border border-[var(--border)]">
           {FILTER_TABS.map(tab => (
@@ -139,10 +139,10 @@ export default function Journal() {
           <div className="w-24 h-24 rounded-full bg-blue-50 flex items-center justify-center mb-6">
             <span className="material-symbols-outlined text-5xl text-[var(--primary)]">photo_camera</span>
           </div>
-          <h3 className="text-xl font-bold mb-2">No entries yet</h3>
-          <p className="text-[var(--text-secondary)] max-w-sm mb-6">Start documenting your victories. Every small win counts towards the bigger picture.</p>
+          <h3 className="text-xl font-bold mb-2">No hay entradas aún</h3>
+          <p className="text-[var(--text-secondary)] max-w-sm mb-6">Empieza a documentar tus victorias. Cada pequeño triunfo cuenta para el éxito final.</p>
           <button onClick={() => setShowNew(true)} className="bg-[var(--primary)] text-white px-6 py-3 rounded-2xl font-semibold text-sm hover:opacity-90 transition-all">
-            Add Your First Entry
+            Añadir Tu Primera Entrada
           </button>
         </div>
       ) : (
@@ -186,8 +186,8 @@ export default function Journal() {
             <div className="w-16 h-16 rounded-full bg-white border border-[var(--border)] flex items-center justify-center mb-4 group-hover:border-[var(--primary)] transition-colors ios-shadow">
               <span className="material-symbols-outlined text-3xl text-[var(--primary)]">add_a_photo</span>
             </div>
-            <span className="font-bold text-[var(--text-main)]">Add Success</span>
-            <p className="text-[var(--text-secondary)] text-sm text-center mt-1">Capture your next victory</p>
+            <span className="font-bold text-[var(--text-main)]">Añadir Éxito</span>
+            <p className="text-[var(--text-secondary)] text-sm text-center mt-1">Captura tu próxima victoria</p>
           </div>
         </div>
       )}

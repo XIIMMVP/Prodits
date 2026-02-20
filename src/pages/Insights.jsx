@@ -1,10 +1,10 @@
 import { useStore, useCategoryCompletion, useCompletionRatio, today } from '../store/useStore';
 
 const AI_INSIGHTS = [
-  { text: 'reading sessions', day: 'Thursday afternoons', suggestion: 'Move it to the morning?' },
-  { text: 'meditation', day: 'Monday evenings', suggestion: 'Try a 5-min version earlier in the day?' },
-  { text: 'exercise', day: 'weekends', suggestion: 'Schedule a fun outdoor activity instead?' },
-  { text: 'water intake', day: 'busy workdays', suggestion: 'Set hourly reminders?' },
+  { text: 'sesiones de lectura', day: 'jueves por la tarde', suggestion: '¿Moverlas a la mañana?' },
+  { text: 'meditación', day: 'lunes por la noche', suggestion: '¿Intentar una versión de 5 min más temprano?' },
+  { text: 'ejercicio', day: 'fines de semana', suggestion: '¿Programar una actividad divertida al aire libre en su lugar?' },
+  { text: 'hidratación', day: 'días de trabajo intensos', suggestion: '¿Poner recordatorios cada hora?' },
 ];
 
 function getHeatmapData(history) {
@@ -32,9 +32,9 @@ function ratioToOpacity(ratio) {
 
 export default function Insights() {
   const { state } = useStore();
-  const healthRatio = useCategoryCompletion(state, 'health');
-  const mindRatio = useCategoryCompletion(state, 'mind');
-  const homeRatio = useCategoryCompletion(state, 'home');
+  const healthRatio = useCategoryCompletion(state, 'salud');
+  const mindRatio = useCategoryCompletion(state, 'mente');
+  const homeRatio = useCategoryCompletion(state, 'hogar');
   const todayRatio = useCompletionRatio(state);
   const heatmapData = getHeatmapData(state.history);
 
@@ -49,17 +49,17 @@ export default function Insights() {
   const randomInsight = AI_INSIGHTS[Math.floor(new Date().getDate() % AI_INSIGHTS.length)];
 
   const rings = [
-    { label: 'Health Ring', sublabel: 'Vitality', ratio: healthRatio, color: 'stroke-emerald-500', changeColor: 'text-emerald-600' },
-    { label: 'Mind Ring', sublabel: 'Clarity', ratio: mindRatio, color: 'stroke-[var(--primary)]', changeColor: 'text-primary' },
-    { label: 'Home Ring', sublabel: 'Presence', ratio: useCategoryCompletion(state, 'home'), color: 'stroke-[#FF9500]', changeColor: 'text-rose-500' },
+    { label: 'Anillo Salud', sublabel: 'Vitalidad', ratio: healthRatio, color: 'stroke-emerald-500', changeColor: 'text-emerald-600' },
+    { label: 'Anillo Mente', sublabel: 'Claridad', ratio: mindRatio, color: 'stroke-[var(--primary)]', changeColor: 'text-primary' },
+    { label: 'Anillo Hogar', sublabel: 'Presencia', ratio: useCategoryCompletion(state, 'home'), color: 'stroke-[#FF9500]', changeColor: 'text-rose-500' },
   ];
 
   return (
     <main className="w-full max-w-6xl mx-auto px-6 pt-8 pb-10">
       <header className="flex items-center justify-between mb-8">
-        <h1 className="text-2xl font-bold tracking-tight text-[var(--text-main)]">Unified Insights</h1>
+        <h1 className="text-2xl font-bold tracking-tight text-[var(--text-main)]">Análisis Unificado</h1>
         <div className="text-sm font-semibold text-[var(--text-secondary)] bg-white px-4 py-2 rounded-full ios-shadow">
-          {Math.round(todayRatio * 100)}% today
+          {Math.round(todayRatio * 100)}% hoy
         </div>
       </header>
 
@@ -82,7 +82,7 @@ export default function Insights() {
               </div>
               <h3 className="font-semibold text-lg">{ring.label}</h3>
               <p className={`text-sm font-medium ${ring.changeColor}`}>
-                {pct > 0 ? `${pct}% completed` : 'No data yet'}
+                {pct > 0 ? `${pct}% completado` : 'Sin datos aún'}
               </p>
             </div>
           );
@@ -98,25 +98,25 @@ export default function Insights() {
               <div className="w-8 h-8 rounded-lg bg-[var(--primary)]/10 flex items-center justify-center">
                 <span className="material-symbols-outlined text-[var(--primary)] text-xl">auto_awesome</span>
               </div>
-              <span className="text-xs font-bold text-[var(--primary)] uppercase tracking-widest">Smart Insight</span>
+              <span className="text-xs font-bold text-[var(--primary)] uppercase tracking-widest">Sugerencia Inteligente</span>
             </div>
             <p className="text-2xl font-medium leading-tight mb-8">
-              "You usually miss <span className="text-[var(--primary)] font-bold">{randomInsight.text}</span> on {randomInsight.day}. {randomInsight.suggestion}"
+              "Sueles fallar en <span className="text-[var(--primary)] font-bold">{randomInsight.text}</span> los {randomInsight.day}. {randomInsight.suggestion}"
             </p>
           </div>
           <div className="flex gap-4 relative z-10">
             <button className="bg-[var(--primary)] text-white px-8 py-3.5 rounded-2xl font-semibold text-sm hover:opacity-90 transition-opacity">
-              Accept Suggestion
+              Aceptar Sugerencia
             </button>
             <button className="bg-black/5 text-[var(--text-secondary)] px-8 py-3.5 rounded-2xl font-semibold text-sm hover:bg-black/10 transition-colors">
-              Dismiss
+              Ignorar
             </button>
           </div>
         </div>
         <div className="lg:col-span-2 bg-white rounded-3xl p-8 border border-[var(--border)] ios-shadow">
           <h3 className="font-bold text-lg mb-8 flex items-center gap-2">
             <span className="material-symbols-outlined text-[var(--text-secondary)]">donut_large</span>
-            Life Balance
+            Balance de Vida
           </h3>
           <div className="flex items-center justify-between gap-6">
             <div className="relative w-36 h-36">
@@ -126,22 +126,22 @@ export default function Insights() {
                 <circle cx={50} cy={50} fill="transparent" r={40} stroke="#FF9500" strokeDasharray={`${Math.round(actualHours * 20)} 251`} strokeDashoffset={`-${Math.round(plannedHours * 20)}`} strokeLinecap="round" strokeWidth={10} />
               </svg>
               <div className="absolute inset-0 flex items-center justify-center">
-                <span className="text-[10px] text-[var(--text-secondary)] font-bold uppercase">Real Time</span>
+                <span className="text-[10px] text-[var(--text-secondary)] font-bold uppercase">Tiempo Real</span>
               </div>
             </div>
             <div className="flex flex-col gap-4">
               <div className="flex items-start gap-2">
                 <div className="w-2 h-2 rounded-full bg-[var(--primary)] mt-1.5" />
                 <div>
-                  <p className="text-[10px] text-[var(--text-secondary)] font-bold uppercase">Planned</p>
-                  <p className="text-sm font-bold">{plannedHours.toFixed(1)}h Today</p>
+                  <p className="text-[10px] text-[var(--text-secondary)] font-bold uppercase">Planeado</p>
+                  <p className="text-sm font-bold">{plannedHours.toFixed(1)}h Hoy</p>
                 </div>
               </div>
               <div className="flex items-start gap-2">
                 <div className="w-2 h-2 rounded-full bg-[#FF9500] mt-1.5" />
                 <div>
-                  <p className="text-[10px] text-[var(--text-secondary)] font-bold uppercase">Actual</p>
-                  <p className="text-sm font-bold">{actualHours.toFixed(1)}h Today</p>
+                  <p className="text-[10px] text-[var(--text-secondary)] font-bold uppercase">Real</p>
+                  <p className="text-sm font-bold">{actualHours.toFixed(1)}h Hoy</p>
                 </div>
               </div>
             </div>
@@ -153,11 +153,11 @@ export default function Insights() {
       <div className="bg-white rounded-3xl p-8 border border-[var(--border)] ios-shadow">
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-8">
           <div>
-            <h3 className="font-bold text-xl mb-1">Consistency Heatmap</h3>
-            <p className="text-sm text-[var(--text-secondary)]">Daily habit completion across all categories.</p>
+            <h3 className="font-bold text-xl mb-1">Mapa de Consistencia</h3>
+            <p className="text-sm text-[var(--text-secondary)]">Cumplimiento diario de hábitos en todas las categorías.</p>
           </div>
           <div className="flex items-center gap-3">
-            <span className="text-[10px] text-[var(--text-secondary)] font-bold uppercase">Less</span>
+            <span className="text-[10px] text-[var(--text-secondary)] font-bold uppercase">Menos</span>
             <div className="flex gap-1.5">
               <div className="w-3.5 h-3.5 rounded-[3px] bg-gray-100" />
               <div className="w-3.5 h-3.5 rounded-[3px] bg-primary/20" />
@@ -165,12 +165,12 @@ export default function Insights() {
               <div className="w-3.5 h-3.5 rounded-[3px] bg-primary/70" />
               <div className="w-3.5 h-3.5 rounded-[3px] bg-primary" />
             </div>
-            <span className="text-[10px] text-[var(--text-secondary)] font-bold uppercase">Peak</span>
+            <span className="text-[10px] text-[var(--text-secondary)] font-bold uppercase">Pico</span>
           </div>
         </div>
         <div className="overflow-x-auto">
           <div className="grid grid-cols-7 gap-3 min-w-[500px]">
-            {['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'].map(d => (
+            {['Lun', 'Mar', 'Mié', 'Jue', 'Vie', 'Sáb', 'Dom'].map(d => (
               <div key={d} className="text-center text-[10px] font-bold text-[var(--text-secondary)] uppercase tracking-widest pb-3">{d}</div>
             ))}
             {heatmapData.map(cell => (

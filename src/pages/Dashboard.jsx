@@ -2,11 +2,11 @@ import { useState, useEffect, useRef, useCallback } from 'react';
 import { useStore, useTodayRoutines, today } from '../store/useStore';
 
 const ENERGY_EMOJIS = [
-  { emoji: '😫', label: 'Exhausted', level: 1 },
-  { emoji: '😐', label: 'Low', level: 2 },
-  { emoji: '😊', label: 'Good', level: 3 },
-  { emoji: '⚡', label: 'Energized', level: 4 },
-  { emoji: '🔥', label: 'On Fire', level: 5 },
+  { emoji: '😫', label: 'Agotado', level: 1 },
+  { emoji: '😐', label: 'Bajo', level: 2 },
+  { emoji: '😊', label: 'Bien', level: 3 },
+  { emoji: '⚡', label: 'Con Energía', level: 4 },
+  { emoji: '🔥', label: 'Motivado', level: 5 },
 ];
 
 const COLORS = {
@@ -22,7 +22,7 @@ const COLORS = {
 
 function formatDate() {
   const d = new Date();
-  return d.toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric' });
+  return d.toLocaleDateString('es-ES', { weekday: 'long', month: 'long', day: 'numeric' });
 }
 
 // ─── Focus Timer Component ──────────────────────────────────
@@ -89,14 +89,14 @@ function FocusTimer({ routine, check, dispatch }) {
         onClick={toggleTimer}
         disabled={check?.done}
         className={`w-full py-3 rounded-2xl font-bold flex items-center justify-center gap-2 transition-all ${check?.done ? 'bg-emerald-500 text-white' :
-            running ? 'bg-red-500 text-white hover:bg-red-600' :
-              'bg-[var(--primary)] text-white hover:opacity-90'
+          running ? 'bg-red-500 text-white hover:bg-red-600' :
+            'bg-[var(--primary)] text-white hover:opacity-90'
           }`}
       >
         <span className="material-symbols-outlined fill-1">
           {check?.done ? 'check_circle' : running ? 'pause' : 'play_arrow'}
         </span>
-        {check?.done ? 'Completed!' : running ? 'Pause' : 'Start Session'}
+        {check?.done ? '¡Completado!' : running ? 'Pausar' : 'Iniciar Sesión'}
       </button>
     </div>
   );
@@ -116,7 +116,7 @@ function CounterCard({ routine, check, dispatch }) {
         </div>
         <div>
           <h4 className="font-bold">{routine.name}</h4>
-          <p className="text-xs text-[var(--text-secondary)]">{count} of {target} {check?.done ? '✓' : ''}</p>
+          <p className="text-xs text-[var(--text-secondary)]">{count} de {target} {check?.done ? '✓' : ''}</p>
         </div>
       </div>
       <div className="flex items-center gap-3 bg-gray-50 p-1.5 rounded-xl">
@@ -157,7 +157,7 @@ function TaskCard({ routine, check, dispatch, onNote }) {
         <div className="flex justify-between items-start mb-1">
           <h4 className={`font-bold text-lg ${isDone ? 'line-through text-gray-400' : ''}`}>{routine.name}</h4>
           {routine.essential && (
-            <span className="text-[10px] font-bold text-[var(--primary)] bg-blue-50 px-2 py-1 rounded-md uppercase tracking-wide">Essential</span>
+            <span className="text-[10px] font-bold text-[var(--primary)] bg-blue-50 px-2 py-1 rounded-md uppercase tracking-wide">Esencial</span>
           )}
         </div>
         <p className="text-sm text-[var(--text-secondary)] flex items-center gap-1">
@@ -193,7 +193,7 @@ function TaskCard({ routine, check, dispatch, onNote }) {
               className="text-xs text-[var(--primary)] flex items-center gap-1 hover:underline"
             >
               <span className="material-symbols-outlined text-sm">edit_note</span>
-              {check?.note ? 'Edit note' : 'Add note'}
+              {check?.note ? 'Editar nota' : 'Añadir nota'}
             </button>
             {check?.note && <span className="text-xs text-[var(--text-secondary)] truncate max-w-[200px]">"{check.note}"</span>}
           </div>
@@ -209,17 +209,17 @@ function NoteModal({ routine, currentNote, onSave, onClose }) {
   return (
     <div className="fixed inset-0 bg-black/40 backdrop-blur-sm z-[100] flex items-end sm:items-center justify-center p-4" onClick={onClose}>
       <div className="bg-white rounded-3xl p-6 w-full max-w-md ios-shadow" onClick={e => e.stopPropagation()}>
-        <h3 className="font-bold text-lg mb-1">Quick Note</h3>
+        <h3 className="font-bold text-lg mb-1">Nota Rápida</h3>
         <p className="text-sm text-[var(--text-secondary)] mb-4">{routine.name}</p>
         <textarea
           value={note}
           onChange={e => setNote(e.target.value)}
-          placeholder="How did it go? Any thoughts..."
+          placeholder="¿Cómo te fue? Alguna reflexión..."
           className="w-full border border-[var(--border)] rounded-2xl p-4 text-sm resize-none h-32 focus:ring-2 focus:ring-[var(--primary)]/20 focus:border-[var(--primary)] outline-none transition-all"
         />
         <div className="flex gap-3 mt-4">
-          <button onClick={onClose} className="flex-1 py-3 rounded-2xl bg-gray-100 text-[var(--text-secondary)] font-semibold text-sm">Cancel</button>
-          <button onClick={() => { onSave(note); onClose(); }} className="flex-1 py-3 rounded-2xl bg-[var(--primary)] text-white font-semibold text-sm">Save</button>
+          <button onClick={onClose} className="flex-1 py-3 rounded-2xl bg-gray-100 text-[var(--text-secondary)] font-semibold text-sm">Cancelar</button>
+          <button onClick={() => { onSave(note); onClose(); }} className="flex-1 py-3 rounded-2xl bg-[var(--primary)] text-white font-semibold text-sm">Guardar</button>
         </div>
       </div>
     </div>
@@ -233,8 +233,8 @@ function EmptyState() {
       <div className="w-24 h-24 rounded-full bg-blue-50 flex items-center justify-center mb-6">
         <span className="material-symbols-outlined text-5xl text-[var(--primary)]">auto_awesome</span>
       </div>
-      <h3 className="text-xl font-bold mb-2">No tasks for today</h3>
-      <p className="text-[var(--text-secondary)] max-w-sm mb-6">Go to the Routines tab to create your first habit and start building your best life.</p>
+      <h3 className="text-xl font-bold mb-2">No hay tareas para hoy</h3>
+      <p className="text-[var(--text-secondary)] max-w-sm mb-6">Ve a la pestaña de Rutinas para crear tu primer hábito y empezar a construir tu mejor versión.</p>
     </div>
   );
 }
@@ -264,7 +264,7 @@ export default function Dashboard() {
   const totalDone = todayRoutines.filter(r => state.dailyChecks[d]?.[r.id]?.done).length;
   const totalCount = todayRoutines.length;
 
-  const periodLabels = { morning: 'Morning', afternoon: 'Afternoon', evening: 'Evening' };
+  const periodLabels = { morning: 'Mañana', afternoon: 'Tarde', evening: 'Noche' };
   const periodDots = {
     morning: 'bg-[var(--primary)]',
     afternoon: 'bg-orange-400',
@@ -277,12 +277,12 @@ export default function Dashboard() {
       <header className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-8">
         <div>
           <p className="text-sm font-medium text-[var(--text-secondary)] mb-1">{formatDate()}</p>
-          <h1 className="text-4xl font-bold tracking-tight text-[var(--text-main)]">Today</h1>
+          <h1 className="text-4xl font-bold tracking-tight text-[var(--text-main)]">Hoy</h1>
         </div>
         <div className="flex items-center gap-4">
           {totalCount > 0 && (
             <div className="text-xs font-bold text-[var(--text-secondary)] bg-white px-3 py-1.5 rounded-full ios-shadow">
-              {totalDone}/{totalCount} done
+              {totalDone}/{totalCount} completado
             </div>
           )}
           <button
@@ -290,7 +290,7 @@ export default function Dashboard() {
             className={`flex items-center gap-2 px-4 py-2 rounded-full ios-shadow border transition-all ${emergency ? 'bg-orange-500 text-white border-orange-400' : 'bg-white text-[var(--text-secondary)] border-gray-100'
               }`}
           >
-            <span className="text-xs font-bold uppercase tracking-wider">Emergency</span>
+            <span className="text-xs font-bold uppercase tracking-wider">Emergencia</span>
             <div className={`w-10 h-5 rounded-full relative transition-colors ${emergency ? 'bg-orange-300' : 'bg-gray-200'}`}>
               <div className={`absolute top-0.5 w-4 h-4 bg-white rounded-full shadow-sm transition-all ${emergency ? 'right-0.5' : 'left-0.5'}`} />
             </div>
@@ -301,15 +301,15 @@ export default function Dashboard() {
       {/* Energy Check-in */}
       <section className="mb-8">
         <div className="bg-white rounded-[2rem] p-8 ios-shadow border border-gray-50/50">
-          <h2 className="text-center text-[var(--text-secondary)] text-sm font-medium mb-6">How is your energy level?</h2>
+          <h2 className="text-center text-[var(--text-secondary)] text-sm font-medium mb-6">¿Cómo está tu nivel de energía?</h2>
           <div className="flex justify-between items-center max-w-sm mx-auto">
             {ENERGY_EMOJIS.map((e) => (
               <button
                 key={e.level}
                 onClick={() => dispatch({ type: 'SET_ENERGY', level: e.level })}
                 className={`flex items-center justify-center rounded-2xl transition-all duration-300 ${energyLevel === e.level
-                    ? 'w-14 h-14 bg-[var(--primary)] text-3xl shadow-lg shadow-blue-200 scale-110'
-                    : 'w-12 h-12 hover:bg-gray-50 text-2xl hover:scale-105'
+                  ? 'w-14 h-14 bg-[var(--primary)] text-3xl shadow-lg shadow-blue-200 scale-110'
+                  : 'w-12 h-12 hover:bg-gray-50 text-2xl hover:scale-105'
                   }`}
               >
                 {e.emoji}
@@ -324,8 +324,8 @@ export default function Dashboard() {
         <div className="mb-6 bg-orange-50 border border-orange-200 rounded-2xl p-4 flex items-center gap-3">
           <span className="material-symbols-outlined text-orange-500 fill-1">priority_high</span>
           <div>
-            <p className="font-bold text-sm text-orange-700">Emergency Mode Active</p>
-            <p className="text-xs text-orange-500">Only showing essential tasks. Stay focused on what matters.</p>
+            <p className="font-bold text-sm text-orange-700">Modo Emergencia Activo</p>
+            <p className="text-xs text-orange-500">Solo se muestran tareas esenciales. Enfócate en lo importante.</p>
           </div>
         </div>
       )}
@@ -335,8 +335,8 @@ export default function Dashboard() {
         <div className="mb-6 bg-blue-50 border border-blue-200 rounded-2xl p-4 flex items-center gap-3">
           <span className="material-symbols-outlined text-blue-500">info</span>
           <div>
-            <p className="font-bold text-sm text-blue-700">Low energy detected</p>
-            <p className="text-xs text-blue-500">Consider enabling Emergency Mode to focus only on essentials.</p>
+            <p className="font-bold text-sm text-blue-700">Energía baja detectada</p>
+            <p className="text-xs text-blue-500">Considera activar el Modo Emergencia para enfocarte solo en lo esencial.</p>
           </div>
         </div>
       )}
