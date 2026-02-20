@@ -1,0 +1,45 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --bg-main: #FFFFFF;
+    --bg-container: #F5F5F7;
+    --shadow-soft: 0 10px 40px -10px rgba(0, 0, 0, 0.08);
+    --shadow-deep: 0 20px 50px -12px rgba(0, 0, 0, 0.12);
+  }
+  
+  body {
+    -webkit-font-smoothing: antialiased;
+    background-color: var(--bg-main);
+  }
+}
+
+@layer components {
+  .apple-blur {
+    background: rgba(255, 255, 255, 0.7);
+    backdrop-filter: blur(20px) saturate(180%);
+  }
+  .task-card {
+    background: white;
+    border: 1px solid rgba(0, 0, 0, 0.04);
+    box-shadow: var(--shadow-soft);
+  }
+  .container-bg {
+    background-color: var(--bg-container);
+  }
+  .deep-shadow {
+    box-shadow: var(--shadow-deep);
+  }
+}
+
+@layer utilities {
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
+  }
+  .scrollbar-hide {
+    -ms-overflow-style: none; /* IE and Edge */
+    scrollbar-width: none; /* Firefox */
+  }
+}

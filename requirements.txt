@@ -1,0 +1,4 @@
+# Agregar dependencias permitidas aquí
+pandas
+requests
+python-dotenv

@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Predictive Performance Insights</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#007AFF",
+                        "apple-gray": "#F5F5F7",
+                        "apple-border": "#E5E5EA",
+                        "health-green": "#34C759",
+                        "mind-blue": "#007AFF",
+                        "home-orange": "#FF9500",
+                    },
+                    fontFamily: {
+                        "display": ["Inter", "sans-serif"]
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.5rem",
+                        "lg": "0.75rem",
+                        "xl": "1rem",
+                        "2xl": "1.25rem",
+                        "3xl": "1.75rem",
+                        "full": "9999px"
+                    },
+                    boxShadow: {
+                        'apple': '0 4px 24px -2px rgba(0, 0, 0, 0.04), 0 2px 8px -1px rgba(0, 0, 0, 0.02)',
+                        'glass': '0 8px 32px 0 rgba(31, 38, 135, 0.04)',
+                    }
+                },
+            },
+        }
+    </script>
+<style type="text/tailwindcss">
+        @layer base {
+            body {
+                @apply bg-[#FBFBFD] text-[#1D1D1F] font-display antialiased;
+            }
+        }
+        .glass-card {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.4);
+        }
+        .nav-blur {
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: saturate(180%) blur(20px);
+        }
+        .heatmap-cell {
+            @apply rounded-[4px] transition-all duration-200 hover:scale-110 cursor-pointer;
+        }
+    </style>
+</head>
+<body>
+<div class="relative flex h-auto min-h-screen w-full flex-col overflow-x-hidden">
+<header class="flex items-center justify-between border-b border-apple-border px-8 py-3 sticky top-0 nav-blur z-50">
+<div class="flex items-center gap-10">
+<div class="flex items-center gap-2.5">
+<div class="size-8 bg-black rounded-[9px] flex items-center justify-center">
+<span class="material-symbols-outlined text-white text-lg font-light">insights</span>
+</div>
+<h1 class="text-lg font-semibold tracking-tight">Performance</h1>
+</div>
+<nav class="hidden md:flex items-center gap-7">
+<a class="text-[#86868B] hover:text-black transition-colors text-sm font-medium" href="#">Dashboard</a>
+<a class="text-black border-b-2 border-black py-4 -mb-4 text-sm font-semibold" href="#">Insights</a>
+<a class="text-[#86868B] hover:text-black transition-colors text-sm font-medium" href="#">Schedule</a>
+<a class="text-[#86868B] hover:text-black transition-colors text-sm font-medium" href="#">Library</a>
+</nav>
+</div>
+<div class="flex items-center gap-5">
+<div class="hidden sm:flex items-center bg-[#F2F2F7] rounded-full px-4 py-1.5">
+<span class="material-symbols-outlined text-[#86868B] text-sm mr-2">search</span>
+<input class="bg-transparent border-none focus:ring-0 text-sm w-36 placeholder-[#86868B]" placeholder="Search data..." type="text"/>
+</div>
+<div class="flex items-center gap-3">
+<button class="p-2 rounded-full hover:bg-apple-gray text-[#1D1D1F] transition-colors">
+<span class="material-symbols-outlined text-[22px]">notifications</span>
+</button>
+<div class="size-8 rounded-full border border-apple-border overflow-hidden">
+<img alt="Profile" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBS0Cc2ib-vFH91wzXHhPO8FAposzFFtk3HjaVke62LmWwLDPNwRLeTYXuTJDjVWqiOaXN0cdCm5UNixszgTFtBCEZDXM1cd6BTFmTJg9XniKEDCu9gVX6LLTLxp2R-_sUirrY_uCR2cDNj4VGXrkQ1KwTW32nM6VJ981Fi_iE9QFJPzS6Xx8ykoYV_JxEcoWnjPQEbhtqVZOopTjuh1dPaXe1YV2M1HCcLmDmZkojozWkxXjoKhOtU5xa4YpoqscWXKbdsf5EK1CwN"/>
+</div>
+</div>
+</div>
+</header>
+<main class="flex-1 px-8 py-12 max-w-7xl mx-auto w-full">
+<div class="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12">
+<div>
+<span class="text-[11px] font-bold uppercase tracking-widest text-[#86868B] mb-2 block">Metrics Overview</span>
+<h2 class="text-4xl md:text-5xl font-bold tracking-tight text-[#1D1D1F]">Predictive Insights</h2>
+<p class="text-[#86868B] mt-3 text-lg font-medium">Mental clarity and performance patterns for this cycle.</p>
+</div>
+<div class="flex gap-3">
+<button class="flex items-center gap-2 px-5 py-2.5 rounded-full border border-apple-border bg-white hover:bg-apple-gray transition-all font-semibold text-sm shadow-sm">
+<span class="material-symbols-outlined text-lg">calendar_month</span>
+                    Last 30 Days
+                </button>
+<button class="flex items-center gap-2 px-6 py-2.5 rounded-full bg-[#1D1D1F] text-white hover:opacity-90 transition-all font-semibold text-sm shadow-apple">
+<span class="material-symbols-outlined text-lg">ios_share</span>
+                    Export
+                </button>
+</div>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
+<div class="bg-white p-10 rounded-3xl flex flex-col items-center text-center shadow-apple border border-apple-border/50">
+<div class="relative size-44 mb-6">
+<svg class="size-full -rotate-90" viewBox="0 0 36 36">
+<circle class="stroke-apple-gray" cx="18" cy="18" fill="none" r="15.5" stroke-width="3"></circle>
+<circle class="stroke-health-green" cx="18" cy="18" fill="none" r="15.5" stroke-dasharray="82, 100" stroke-linecap="round" stroke-width="3"></circle>
+</svg>
+<div class="absolute inset-0 flex flex-col items-center justify-center">
+<span class="text-4xl font-bold text-[#1D1D1F]">82</span>
+<span class="text-[10px] font-bold uppercase tracking-widest text-[#86868B]">Vitality</span>
+</div>
+</div>
+<h3 class="text-xl font-bold text-[#1D1D1F] mb-1">Health</h3>
+<p class="text-health-green font-semibold text-sm flex items-center gap-1">
+<span class="material-symbols-outlined text-sm font-bold">trending_up</span> +2% vs yesterday
+                </p>
+</div>
+<div class="bg-white p-10 rounded-3xl flex flex-col items-center text-center shadow-apple border border-apple-border/50">
+<div class="relative size-44 mb-6">
+<svg class="size-full -rotate-90" viewBox="0 0 36 36">
+<circle class="stroke-apple-gray" cx="18" cy="18" fill="none" r="15.5" stroke-width="3"></circle>
+<circle class="stroke-mind-blue" cx="18" cy="18" fill="none" r="15.5" stroke-dasharray="95, 100" stroke-linecap="round" stroke-width="3"></circle>
+</svg>
+<div class="absolute inset-0 flex flex-col items-center justify-center">
+<span class="text-4xl font-bold text-[#1D1D1F]">95</span>
+<span class="text-[10px] font-bold uppercase tracking-widest text-[#86868B]">Clarity</span>
+</div>
+</div>
+<h3 class="text-xl font-bold text-[#1D1D1F] mb-1">Mind</h3>
+<p class="text-health-green font-semibold text-sm flex items-center gap-1">
+<span class="material-symbols-outlined text-sm font-bold">trending_up</span> +5% vs yesterday
+                </p>
+</div>
+<div class="bg-white p-10 rounded-3xl flex flex-col items-center text-center shadow-apple border border-apple-border/50">
+<div class="relative size-44 mb-6">
+<svg class="size-full -rotate-90" viewBox="0 0 36 36">
+<circle class="stroke-apple-gray" cx="18" cy="18" fill="none" r="15.5" stroke-width="3"></circle>
+<circle class="stroke-home-orange" cx="18" cy="18" fill="none" r="15.5" stroke-dasharray="78, 100" stroke-linecap="round" stroke-width="3"></circle>
+</svg>
+<div class="absolute inset-0 flex flex-col items-center justify-center">
+<span class="text-4xl font-bold text-[#1D1D1F]">78</span>
+<span class="text-[10px] font-bold uppercase tracking-widest text-[#86868B]">Presence</span>
+</div>
+</div>
+<h3 class="text-xl font-bold text-[#1D1D1F] mb-1">Home</h3>
+<p class="text-[#FF3B30] font-semibold text-sm flex items-center gap-1">
+<span class="material-symbols-outlined text-sm font-bold">trending_down</span> -1% vs yesterday
+                </p>
+</div>
+</div>
+<div class="grid grid-cols-1 lg:grid-cols-5 gap-8 mb-12">
+<div class="lg:col-span-3 glass-card rounded-3xl p-10 relative overflow-hidden flex flex-col shadow-glass">
+<div class="absolute -top-10 -right-10 opacity-[0.03]">
+<span class="material-symbols-outlined text-[240px] text-black">auto_awesome</span>
+</div>
+<div class="flex items-center gap-3 mb-8">
+<div class="size-11 rounded-xl bg-primary/10 flex items-center justify-center">
+<span class="material-symbols-outlined text-primary font-light">psychology_alt</span>
+</div>
+<span class="font-bold text-sm tracking-tight text-primary uppercase">Proactive Insight</span>
+</div>
+<p class="text-2xl font-medium leading-snug text-[#1D1D1F] mb-10 max-w-lg">
+                    "You usually miss <span class="bg-primary/5 px-1 rounded text-primary font-semibold underline decoration-primary decoration-2 underline-offset-4">reading sessions</span> on Thursday afternoons. Move it to the morning?"
+                </p>
+<div class="flex flex-wrap gap-4 mt-auto">
+<button class="bg-primary text-white px-8 py-3.5 rounded-2xl font-semibold transition-all shadow-lg shadow-primary/20 hover:scale-[1.02]">
+                        Accept Suggestion
+                    </button>
+<button class="bg-white/60 hover:bg-white text-[#424245] px-8 py-3.5 rounded-2xl font-semibold transition-all border border-apple-border">
+                        Dismiss
+                    </button>
+</div>
+</div>
+<div class="lg:col-span-2 bg-white rounded-3xl p-10 shadow-apple border border-apple-border/50">
+<h3 class="text-xl font-bold text-[#1D1D1F] mb-8 flex items-center gap-2">
+<span class="material-symbols-outlined text-[#86868B] font-light">balance</span>
+                    Life Balance
+                </h3>
+<div class="flex flex-col sm:flex-row items-center justify-between gap-10">
+<div class="relative size-40 flex-shrink-0">
+<svg class="size-full" viewBox="0 0 100 100">
+<circle cx="50" cy="50" fill="transparent" r="42" stroke="#F2F2F7" stroke-width="12"></circle>
+<circle cx="50" cy="50" fill="transparent" r="42" stroke="#007AFF" stroke-dasharray="160 264" stroke-dashoffset="0" stroke-linecap="round" stroke-width="12"></circle>
+<circle cx="50" cy="50" fill="transparent" r="42" stroke="#FF9500" stroke-dasharray="60 264" stroke-dashoffset="-160" stroke-linecap="round" stroke-width="12"></circle>
+</svg>
+<div class="absolute inset-0 flex items-center justify-center">
+<span class="text-[#86868B] font-bold text-[10px] uppercase tracking-tighter">Real Time</span>
+</div>
+</div>
+<div class="flex flex-col gap-5 w-full">
+<div class="flex items-center gap-3">
+<div class="size-2.5 rounded-full bg-primary"></div>
+<div>
+<p class="text-[11px] font-bold text-[#86868B] uppercase">Planned Work</p>
+<p class="text-base font-bold text-[#1D1D1F]">40h / Week</p>
+</div>
+</div>
+<div class="flex items-center gap-3">
+<div class="size-2.5 rounded-full bg-home-orange"></div>
+<div>
+<p class="text-[11px] font-bold text-[#86868B] uppercase">Actual Spent</p>
+<p class="text-base font-bold text-[#1D1D1F]">48h / Week</p>
+</div>
+</div>
+<div class="pt-4 border-t border-apple-border">
+<p class="text-[10px] text-[#FF3B30] font-bold uppercase tracking-widest">Efficiency Deficit</p>
+<p class="text-xl font-bold text-[#1D1D1F]">+8.2% Stress</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="bg-white rounded-3xl p-10 shadow-apple border border-apple-border/50">
+<div class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-10">
+<div>
+<h3 class="text-2xl font-bold text-[#1D1D1F] mb-2 tracking-tight">Consistency Heatmap</h3>
+<p class="text-[#86868B] text-sm font-medium">Daily habit completion across all tracked categories.</p>
+</div>
+<div class="flex items-center gap-4">
+<div class="flex items-center gap-2 text-[10px] font-bold uppercase tracking-widest text-[#86868B]">
+<span>Low</span>
+<div class="flex gap-1.5">
+<div class="size-4 rounded-[4px] bg-[#F2F2F7]"></div>
+<div class="size-4 rounded-[4px] bg-[#D1E9FF]"></div>
+<div class="size-4 rounded-[4px] bg-[#71BCFF]"></div>
+<div class="size-4 rounded-[4px] bg-[#007AFF]"></div>
+<div class="size-4 rounded-[4px] bg-[#005AB5]"></div>
+</div>
+<span>Peak</span>
+</div>
+</div>
+</div>
+<div class="overflow-x-auto">
+<div class="grid grid-cols-7 gap-4 min-w-[700px]">
+<div class="text-center text-[10px] font-bold text-[#86868B] uppercase tracking-widest pb-2">Mon</div>
+<div class="text-center text-[10px] font-bold text-[#86868B] uppercase tracking-widest pb-2">Tue</div>
+<div class="text-center text-[10px] font-bold text-[#86868B] uppercase tracking-widest pb-2">Wed</div>
+<div class="text-center text-[10px] font-bold text-[#86868B] uppercase tracking-widest pb-2">Thu</div>
+<div class="text-center text-[10px] font-bold text-[#86868B] uppercase tracking-widest pb-2">Fri</div>
+<div class="text-center text-[10px] font-bold text-[#86868B] uppercase tracking-widest pb-2">Sat</div>
+<div class="text-center text-[10px] font-bold text-[#86868B] uppercase tracking-widest pb-2">Sun</div>
+<div class="aspect-square heatmap-cell bg-[#71BCFF]"></div>
+<div class="aspect-square heatmap-cell bg-[#007AFF]"></div>
+<div class="aspect-square heatmap-cell bg-[#D1E9FF]"></div>
+<div class="aspect-square heatmap-cell bg-[#F2F2F7]"></div>
+<div class="aspect-square heatmap-cell bg-[#005AB5]"></div>
+<div class="aspect-square heatmap-cell bg-[#007AFF]"></div>
+<div class="aspect-square heatmap-cell bg-[#71BCFF]"></div>
+<div class="aspect-square heatmap-cell bg-[#007AFF]"></div>
+<div class="aspect-square heatmap-cell bg-[#005AB5]"></div>
+<div class="aspect-square heatmap-cell bg-[#007AFF]"></div>
+<div class="aspect-square heatmap-cell bg-[#71BCFF]"></div>
+<div class="aspect-square heatmap-cell bg-[#D1E9FF]"></div>
+<div class="aspect-square heatmap-cell bg-[#007AFF]"></div>
+<div class="aspect-square heatmap-cell bg-[#005AB5]"></div>
+<div class="aspect-square heatmap-cell bg-[#71BCFF]"></div>
+<div class="aspect-square heatmap-cell bg-[#007AFF]"></div>
+<div class="aspect-square heatmap-cell bg-[#71BCFF]"></div>
+<div class="aspect-square heatmap-cell bg-[#F2F2F7]"></div>
+<div class="aspect-square heatmap-cell bg-[#71BCFF]"></div>
+<div class="aspect-square heatmap-cell bg-[#007AFF]"></div>
+<div class="aspect-square heatmap-cell bg-[#71BCFF]"></div>
+<div class="aspect-square heatmap-cell bg-[#007AFF] shadow-sm shadow-primary/10"></div>
+<div class="aspect-square heatmap-cell bg-[#005AB5]"></div>
+<div class="aspect-square heatmap-cell bg-[#007AFF]"></div>
+<div class="aspect-square heatmap-cell bg-[#007AFF]"></div>
+<div class="aspect-square heatmap-cell bg-[#D1E9FF]"></div>
+<div class="aspect-square heatmap-cell bg-[#F2F2F7]"></div>
+<div class="aspect-square heatmap-cell bg-[#F2F2F7]"></div>
+</div>
+</div>
+</div>
+</main>
+<div class="fixed bottom-8 left-1/2 -translate-x-1/2 glass-card px-8 py-3.5 rounded-full shadow-apple z-40 border border-apple-border/50">
+<div class="flex items-center gap-10">
+<button class="flex flex-col items-center gap-1 group">
+<span class="material-symbols-outlined text-[#86868B] group-hover:text-black transition-colors font-light">home</span>
+<span class="text-[9px] font-bold text-[#86868B] group-hover:text-black uppercase tracking-widest">Home</span>
+</button>
+<div class="w-px h-6 bg-apple-border"></div>
+<button class="flex flex-col items-center gap-1 group">
+<span class="material-symbols-outlined text-black font-semibold">analytics</span>
+<span class="text-[9px] font-bold text-black uppercase tracking-widest">Insights</span>
+</button>
+<div class="w-px h-6 bg-apple-border"></div>
+<button class="flex flex-col items-center gap-1 group">
+<span class="material-symbols-outlined text-[#86868B] group-hover:text-black transition-colors font-light">calendar_today</span>
+<span class="text-[9px] font-bold text-[#86868B] group-hover:text-black uppercase tracking-widest">Plan</span>
+</button>
+<div class="w-px h-6 bg-apple-border"></div>
+<button class="flex flex-col items-center gap-1 group">
+<span class="material-symbols-outlined text-[#86868B] group-hover:text-black transition-colors font-light">settings</span>
+<span class="text-[9px] font-bold text-[#86868B] group-hover:text-black uppercase tracking-widest">Set</span>
+</button>
+</div>
+</div>
+</div>
+
+</body></html>

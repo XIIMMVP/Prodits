@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Routine Management &amp; AI Assistant</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            "apple-blue": "#007AFF",
+            "ios-bg": "#FFFFFF",
+            "ios-secondary": "#F2F2F7",
+            "ios-gray": "#8E8E93",
+            "ios-dark": "#1C1C1E",
+          },
+          fontFamily: {
+            "sans": ["Inter", "-apple-system", "BlinkMacSystemFont", "Segoe UI", "Roboto", "Helvetica Neue", "Arial", "sans-serif"]
+          },
+          borderRadius: {
+            "ios-xl": "1.25rem",
+            "ios-2xl": "1.5rem",
+            "ios-3xl": "2.25rem",
+          },
+        },
+      },
+    }
+  </script>
+<style type="text/tailwindcss">
+    @layer base {
+      body {
+        font-family: 'Inter', -apple-system, sans-serif;
+        -webkit-font-smoothing: antialiased;
+        background-color: #FFFFFF;
+        color: #1C1C1E;
+      }
+    }
+    .glass-ai-card {
+      background: rgba(255, 255, 255, 0.6);
+      backdrop-filter: blur(20px) saturate(180%);
+      border: 1px solid rgba(255, 255, 255, 0.4);
+      box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.04);
+    }
+    .ios-shadow-subtle {
+      box-shadow: 0 2px 12px rgba(0, 0, 0, 0.04);
+    }
+    .ios-shadow-strong {
+      box-shadow: 0 10px 30px rgba(0, 122, 255, 0.3);
+    }
+    .material-symbols-outlined {
+      font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+    }
+    .material-symbols-outlined.fill {
+      font-variation-settings: 'FILL' 1;
+    }
+    .continuous-curve {
+        border-radius: 2.5rem;
+    }
+</style>
+</head>
+<body class="bg-ios-bg">
+<aside class="fixed left-0 top-0 h-full w-24 flex flex-col items-center py-10 border-r border-gray-100 bg-ios-bg/80 backdrop-blur-xl z-50">
+<div class="mb-12 text-apple-blue">
+<span class="material-symbols-outlined text-4xl font-light">auto_awesome</span>
+</div>
+<nav class="flex flex-col gap-10 flex-1">
+<a class="group flex flex-col items-center text-ios-gray hover:text-apple-blue transition-colors" href="#">
+<span class="material-symbols-outlined text-[28px]">space_dashboard</span>
+</a>
+<a class="group flex flex-col items-center text-apple-blue" href="#">
+<span class="material-symbols-outlined text-[28px] fill">event_repeat</span>
+</a>
+<a class="group flex flex-col items-center text-ios-gray hover:text-apple-blue transition-colors" href="#">
+<span class="material-symbols-outlined text-[28px]">bar_chart_4_bars</span>
+</a>
+<a class="group flex flex-col items-center text-ios-gray hover:text-apple-blue transition-colors" href="#">
+<span class="material-symbols-outlined text-[28px]">settings</span>
+</a>
+</nav>
+<div class="mt-auto pb-4">
+<div class="w-11 h-11 rounded-full p-[2px] bg-gradient-to-b from-gray-200 to-gray-50 border border-gray-100 overflow-hidden shadow-sm">
+<img alt="User Avatar" class="w-full h-full rounded-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD-grKXE6PDnslv22dmaq60b1UlUtA13xiFfc9W1yK-HZnwgino0J6-ua_zggGItQi-zHaANzZImP1Lys-wg5bNjzZZiUA0IiF3vAhOjlnATu9Kt4rrV810cwpK-n_PY-Op5tG3OZn9czGsU83GJ44PBeHgRBS7AWSxkfc78zSBF8XqUITgPOa5Yn5Wal_7yJHlZ47epge_52vZV1G4qcOH3td6ZGSgK7Yip464hKrwziMEghgjlxz4pvKhzwRzzM9mmGc3GcqtK3XE"/>
+</div>
+</div>
+</aside>
+<main class="ml-24 min-h-screen p-12 lg:p-16 max-w-6xl mx-auto">
+<header class="flex flex-col md:flex-row md:items-end justify-between gap-8 mb-16">
+<div class="space-y-1">
+<p class="text-ios-gray text-xs font-bold tracking-[0.1em] uppercase">Monday, Oct 21</p>
+<h1 class="text-5xl font-extrabold tracking-tight text-ios-dark">Good Morning, Alex</h1>
+<p class="text-ios-gray text-lg flex items-center gap-2 font-medium">
+<span class="material-symbols-outlined text-apple-blue text-xl">info</span>
+        You have 4 routines scheduled for today.
+      </p>
+</div>
+<div class="flex items-center">
+<button class="flex items-center gap-2.5 px-6 py-3 bg-ios-secondary hover:bg-gray-200 text-ios-dark rounded-full font-semibold text-sm transition-all border border-gray-200/50">
+<span class="material-symbols-outlined text-apple-blue text-xl">magic_button</span>
+        Smart Optimize
+      </button>
+</div>
+</header>
+<section class="space-y-4">
+<div class="group relative bg-ios-secondary/50 border border-transparent hover:bg-white hover:border-gray-200 hover:shadow-xl hover:shadow-gray-100/50 rounded-ios-3xl p-7 transition-all duration-500 cursor-pointer">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-6">
+<div class="w-14 h-14 rounded-2xl bg-orange-100 flex items-center justify-center text-orange-500">
+<span class="material-symbols-outlined text-3xl font-light">wb_sunny</span>
+</div>
+<div>
+<h3 class="text-xl font-bold text-ios-dark">Morning Ritual</h3>
+<p class="text-ios-gray font-medium">Starts at 7:30 AM • 45 mins</p>
+</div>
+</div>
+<div class="flex items-center gap-6">
+<div class="flex -space-x-3">
+<div class="w-7 h-7 rounded-full border-2 border-white bg-gray-100 shadow-sm"></div>
+<div class="w-7 h-7 rounded-full border-2 border-white bg-gray-200 shadow-sm"></div>
+</div>
+<span class="material-symbols-outlined text-ios-gray group-hover:text-ios-dark transition-colors">chevron_right</span>
+</div>
+</div>
+</div>
+<div class="relative py-2">
+<div class="absolute inset-y-2 left-0 w-32 bg-red-50 rounded-ios-3xl -translate-x-6 flex items-center pl-8 opacity-0 group-hover:opacity-100 transition-all pointer-events-none">
+<span class="material-symbols-outlined text-red-500">delete</span>
+</div>
+<div class="relative bg-white border border-gray-100 rounded-[2.5rem] shadow-2xl shadow-gray-200/40 overflow-hidden">
+<div class="p-10">
+<div class="flex items-start justify-between mb-10">
+<div class="flex items-center gap-6">
+<div class="w-16 h-16 rounded-2xl bg-apple-blue/5 flex items-center justify-center text-apple-blue">
+<span class="material-symbols-outlined text-4xl fill">directions_car</span>
+</div>
+<div>
+<h3 class="text-2xl font-extrabold text-ios-dark">Wash Car</h3>
+<p class="text-ios-gray text-lg font-medium">Monthly Maintenance • 12:00 PM</p>
+</div>
+</div>
+<button class="w-10 h-10 flex items-center justify-center rounded-full bg-ios-secondary text-ios-gray hover:text-ios-dark transition-colors">
+<span class="material-symbols-outlined">more_horiz</span>
+</button>
+</div>
+<div class="glass-ai-card rounded-ios-2xl p-8 relative overflow-hidden">
+<div class="absolute top-0 right-0 w-32 h-32 bg-apple-blue/5 rounded-full -translate-y-1/2 translate-x-1/2 blur-3xl"></div>
+<div class="flex items-center gap-3 mb-8">
+<span class="material-symbols-outlined text-apple-blue text-2xl font-light">auto_awesome</span>
+<h4 class="text-xs font-black uppercase tracking-[0.15em] text-apple-blue">AI Task Breakdown</h4>
+</div>
+<div class="space-y-5">
+<div class="flex items-center gap-5 group/item cursor-pointer">
+<div class="w-6 h-6 rounded-full border-[1.5px] border-apple-blue/30 flex items-center justify-center group-hover/item:border-apple-blue transition-all bg-white shadow-sm"></div>
+<span class="text-ios-dark font-semibold text-[17px]">Vacuum interior floor mats and seats</span>
+</div>
+<div class="flex items-center gap-5 group/item cursor-pointer">
+<div class="w-6 h-6 rounded-full border-[1.5px] border-apple-blue/30 flex items-center justify-center group-hover/item:border-apple-blue transition-all bg-white shadow-sm"></div>
+<span class="text-ios-dark font-semibold text-[17px]">Clean exterior windows with streak-free solution</span>
+</div>
+<div class="flex items-center gap-5 group/item cursor-pointer">
+<div class="w-6 h-6 rounded-full border-[1.5px] border-apple-blue/30 flex items-center justify-center group-hover/item:border-apple-blue transition-all bg-white shadow-sm"></div>
+<span class="text-ios-dark font-semibold text-[17px]">Apply premium wax coat for UV protection</span>
+</div>
+</div>
+<div class="mt-10 flex gap-4">
+<button class="flex-1 bg-apple-blue text-white py-4 rounded-2xl font-bold text-[17px] hover:brightness-110 active:scale-[0.98] transition-all ios-shadow-strong">
+                Start Routine
+              </button>
+<button class="px-8 py-4 rounded-2xl border border-gray-200 font-bold text-[17px] text-ios-dark hover:bg-gray-50 transition-all">
+                Edit
+              </button>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="group relative bg-ios-secondary/50 border border-transparent hover:bg-white hover:border-gray-200 hover:shadow-xl hover:shadow-gray-100/50 rounded-ios-3xl p-7 transition-all duration-500 cursor-pointer">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-6">
+<div class="w-14 h-14 rounded-2xl bg-indigo-50 flex items-center justify-center text-indigo-500">
+<span class="material-symbols-outlined text-3xl font-light">laptop_mac</span>
+</div>
+<div>
+<h3 class="text-xl font-bold text-ios-dark">Deep Work Block</h3>
+<p class="text-ios-gray font-medium">2:00 PM • 2 hours</p>
+</div>
+</div>
+<div class="flex items-center gap-6">
+<div class="flex -space-x-3">
+<div class="w-7 h-7 rounded-full border-2 border-white bg-apple-blue shadow-sm"></div>
+<div class="w-7 h-7 rounded-full border-2 border-white bg-gray-200 shadow-sm"></div>
+</div>
+<span class="material-symbols-outlined text-ios-gray">chevron_right</span>
+</div>
+</div>
+</div>
+<div class="group relative bg-ios-secondary/50 border border-transparent hover:bg-white hover:border-gray-200 hover:shadow-xl hover:shadow-gray-100/50 rounded-ios-3xl p-7 transition-all duration-500 cursor-pointer">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-6">
+<div class="w-14 h-14 rounded-2xl bg-teal-50 flex items-center justify-center text-teal-500">
+<span class="material-symbols-outlined text-3xl font-light">self_improvement</span>
+</div>
+<div>
+<h3 class="text-xl font-bold text-ios-dark">Evening Wind Down</h3>
+<p class="text-ios-gray font-medium">9:30 PM • 30 mins</p>
+</div>
+</div>
+<div class="flex items-center gap-6">
+<span class="material-symbols-outlined text-ios-gray">chevron_right</span>
+</div>
+</div>
+</div>
+</section>
+<button class="fixed bottom-12 right-12 w-16 h-16 rounded-full bg-apple-blue text-white flex items-center justify-center shadow-2xl ios-shadow-strong hover:scale-105 active:scale-90 transition-all z-50">
+<span class="material-symbols-outlined text-4xl font-light">add</span>
+</button>
+</main>
+<div class="fixed bottom-0 left-24 right-0 h-40 pointer-events-none bg-gradient-to-t from-white via-white/80 to-transparent z-40"></div>
+
+</body></html>
