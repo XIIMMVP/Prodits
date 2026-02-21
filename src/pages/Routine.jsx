@@ -104,7 +104,7 @@ function RoutineForm({ initial, onSave, onCancel }) {
       onClick={onCancel}
     >
       <div
-        className={`bg-[var(--bg-main)] rounded-t-[2.5rem] sm:rounded-3xl w-full sm:max-w-lg h-[90vh] h-[90dvh] sm:h-auto sm:max-h-[90vh] overflow-hidden ios-shadow ${dragY > 0 ? '' : 'animate-slide-up'}`}
+        className={`bg-[var(--bg-main)] rounded-t-[2.5rem] sm:rounded-3xl w-full sm:max-w-lg max-h-[90vh] max-h-[90dvh] sm:h-auto sm:max-h-[90vh] overflow-hidden ios-shadow ${dragY > 0 ? '' : 'animate-slide-up'}`}
         style={{
           transform: `translateY(${dragY}px)`,
           transition: dragY > 0 ? 'none' : 'transform 0.3s cubic-bezier(0.4, 0, 0.2, 1)'
@@ -129,7 +129,7 @@ function RoutineForm({ initial, onSave, onCancel }) {
         </div>
 
         {/* Scrollable Content */}
-        <div className="overflow-y-auto h-[calc(90vh-100px)] h-[calc(90dvh-100px)] sm:h-auto px-4 sm:px-6 py-2">
+        <div className="overflow-y-auto overflow-x-hidden max-h-[calc(90vh-100px)] max-h-[calc(90dvh-100px)] sm:max-h-none sm:h-auto px-4 sm:px-6 py-2">
 
           {/* Name */}
           <div className="mb-5">
@@ -145,7 +145,7 @@ function RoutineForm({ initial, onSave, onCancel }) {
           {/* Type */}
           <div className="mb-4">
             <label className="text-xs font-bold text-[var(--text-secondary)] uppercase tracking-wider mb-2 block">Tipo</label>
-            <div className="flex gap-2">
+            <div className="flex flex-wrap gap-2">
               {TYPE_OPTIONS.map(t => (
                 <button
                   key={t.value}
@@ -224,7 +224,7 @@ function RoutineForm({ initial, onSave, onCancel }) {
           {/* Days */}
           <div className="mb-4">
             <label className="text-xs font-bold text-[var(--text-secondary)] uppercase tracking-wider mb-2 block">Días</label>
-            <div className="flex gap-1.5 sm:gap-2">
+            <div className="flex flex-wrap gap-1.5 sm:gap-2">
               {DAY_LABELS.map((label, idx) => (
                 <button
                   key={idx}

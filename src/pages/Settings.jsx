@@ -470,7 +470,7 @@ function EditProfileModal({ user, userPhoto, userName, userInitial, updateProfil
             onClick={onClose}
         >
             <div
-                className={`bg-white rounded-t-[2.5rem] sm:rounded-3xl p-6 pt-3 w-full sm:max-w-sm ios-shadow overflow-hidden ${dragY > 0 ? '' : 'animate-slide-up'}`}
+                className={`bg-white rounded-t-[2.5rem] sm:rounded-3xl p-6 pt-3 w-full sm:max-w-sm max-h-[90vh] max-h-[90dvh] ios-shadow overflow-hidden ${dragY > 0 ? '' : 'animate-slide-up'}`}
                 style={{
                     transform: `translateY(${dragY}px)`,
                     transition: dragY > 0 ? 'none' : 'transform 0.3s cubic-bezier(0.4, 0, 0.2, 1)'
