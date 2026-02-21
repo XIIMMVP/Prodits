@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef, useCallback } from 'react';
 import { useStore, useTodayRoutines, today } from '../store/useStore';
+import { ProfileAvatar } from '../components/Layout';
 
 const ENERGY_EMOJIS = [
   { emoji: '😫', label: 'Agotado', level: 1 },
@@ -326,16 +327,19 @@ export default function Dashboard() {
     <main className="w-full max-w-4xl mx-auto px-4 sm:px-6 pt-6 sm:pt-8 pb-10">
       {/* Header */}
       <header className="flex flex-col gap-4 mb-6 sm:mb-8">
-        <div className="flex items-end justify-between">
+        <div className="flex items-center justify-between">
           <div>
             <p className="text-xs sm:text-sm font-medium text-[var(--text-secondary)] mb-1">{formatDate()}</p>
             <h1 className="text-3xl sm:text-4xl font-bold tracking-tight text-[var(--text-main)]">Hoy</h1>
           </div>
-          {totalCount > 0 && (
-            <div className="text-xs font-bold text-[var(--text-secondary)] bg-white px-3 py-1.5 rounded-full ios-shadow">
-              {totalDone}/{totalCount}
-            </div>
-          )}
+          <div className="flex items-center gap-3">
+            {totalCount > 0 && (
+              <div className="text-xs font-bold text-[var(--text-secondary)] bg-white px-3 py-1.5 rounded-full ios-shadow">
+                {totalDone}/{totalCount}
+              </div>
+            )}
+            <ProfileAvatar />
+          </div>
         </div>
         <div className="flex items-center gap-2 sm:gap-4">
           <button

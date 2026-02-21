@@ -1,5 +1,6 @@
 import { useState, useRef } from 'react';
 import { useStore, CATEGORIES, PERIODS, uid } from '../store/useStore';
+import { ProfileAvatar } from '../components/Layout';
 
 const ICONS = ['wb_sunny', 'fitness_center', 'water_drop', 'menu_book', 'laptop_mac', 'self_improvement', 'restaurant', 'directions_car', 'cleaning_services', 'brush', 'school', 'music_note', 'pets', 'local_florist', 'shopping_cart', 'medication', 'bed', 'hiking'];
 const COLOR_OPTIONS = ['orange', 'blue', 'indigo', 'teal', 'purple', 'red', 'green', 'pink'];
@@ -482,16 +483,19 @@ export default function Routine() {
             <span className="text-[var(--primary)] text-xs font-bold tracking-widest uppercase mb-1 block">Gestión</span>
             <h1 className="text-3xl sm:text-4xl font-bold tracking-tight text-[var(--text-main)]">Rutinas</h1>
           </div>
-          <button
-            onClick={toggleReorderMode}
-            className={`flex items-center gap-1.5 px-3 py-2 rounded-xl text-xs font-semibold transition-all ${reorderMode
+          <div className="flex items-center gap-2">
+            <button
+              onClick={toggleReorderMode}
+              className={`flex items-center gap-1.5 px-3 py-2 rounded-xl text-xs font-semibold transition-all ${reorderMode
                 ? 'bg-[var(--primary)] text-white'
                 : 'bg-gray-50 text-[var(--text-secondary)] hover:bg-gray-100'
-              }`}
-          >
-            <span className="material-symbols-outlined text-base">{reorderMode ? 'check' : 'swap_vert'}</span>
-            {reorderMode ? 'Listo' : 'Ordenar'}
-          </button>
+                }`}
+            >
+              <span className="material-symbols-outlined text-base">{reorderMode ? 'check' : 'swap_vert'}</span>
+              {reorderMode ? 'Listo' : 'Ordenar'}
+            </button>
+            <ProfileAvatar />
+          </div>
         </div>
         {!reorderMode && (
           <div className="flex items-center gap-3">

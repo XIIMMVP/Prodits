@@ -1,4 +1,5 @@
 import { useStore, useCategoryCompletion, useCompletionRatio, today } from '../store/useStore';
+import { ProfileAvatar } from '../components/Layout';
 
 const DAY_NAMES = ['domingos', 'lunes', 'martes', 'miércoles', 'jueves', 'viernes', 'sábados'];
 
@@ -52,8 +53,11 @@ export default function Insights() {
     <main className="w-full max-w-4xl mx-auto px-4 sm:px-6 pt-6 sm:pt-8 pb-10">
       <header className="flex items-center justify-between mb-6 sm:mb-8">
         <h1 className="text-xl sm:text-2xl font-bold tracking-tight text-[var(--text-main)]">Análisis Unificado</h1>
-        <div className="text-xs sm:text-sm font-semibold text-[var(--text-secondary)] bg-white px-3 sm:px-4 py-1.5 sm:py-2 rounded-full ios-shadow">
-          {Math.round(todayRatio * 100)}% hoy
+        <div className="flex items-center gap-3">
+          <div className="text-xs sm:text-sm font-semibold text-[var(--text-secondary)] bg-white px-3 sm:px-4 py-1.5 sm:py-2 rounded-full ios-shadow">
+            {Math.round(todayRatio * 100)}% hoy
+          </div>
+          <ProfileAvatar />
         </div>
       </header>
 

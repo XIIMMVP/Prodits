@@ -1,5 +1,6 @@
 import { useState, useRef } from 'react';
 import { useStore, uid, today } from '../store/useStore';
+import { ProfileAvatar } from '../components/Layout';
 
 const CATEGORY_LABELS = { salud: 'Salud y Vitalidad', mente: 'Crecimiento Personal', trabajo: 'Productividad', hogar: 'Estilo de Vida' };
 const FILTER_TABS = ['Todos', 'Salud', 'Trabajo', 'Mente', 'Hogar'];
@@ -95,14 +96,17 @@ export default function Journal() {
     <main className="w-full max-w-6xl mx-auto px-4 sm:px-6 pt-6 sm:pt-8 pb-10">
       {/* Search Header */}
       <header className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 sm:gap-4 mb-6 sm:mb-8">
-        <div className="relative flex-1 max-w-xl">
-          <span className="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-[var(--text-secondary)] text-xl">search</span>
-          <input
-            value={search}
-            onChange={e => setSearch(e.target.value)}
-            className="w-full bg-[#F2F2F7] border-none rounded-2xl py-2.5 sm:py-3 pl-12 pr-4 text-sm focus:ring-2 focus:ring-[var(--primary)]/20 transition-all outline-none placeholder:text-[var(--text-secondary)]"
-            placeholder="Buscar entradas..."
-          />
+        <div className="flex items-center gap-3 flex-1">
+          <div className="relative flex-1 max-w-xl">
+            <span className="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-[var(--text-secondary)] text-xl">search</span>
+            <input
+              value={search}
+              onChange={e => setSearch(e.target.value)}
+              className="w-full bg-[#F2F2F7] border-none rounded-2xl py-2.5 sm:py-3 pl-12 pr-4 text-sm focus:ring-2 focus:ring-[var(--primary)]/20 transition-all outline-none placeholder:text-[var(--text-secondary)]"
+              placeholder="Buscar entradas..."
+            />
+          </div>
+          <ProfileAvatar />
         </div>
         <button
           onClick={() => setShowNew(true)}
