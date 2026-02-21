@@ -1,4 +1,5 @@
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
+import { useEffect } from 'react';
 import { AuthProvider, useAuth } from './store/AuthContext';
 import { StoreProvider } from './store/useStore';
 import Layout from './components/Layout';
@@ -8,6 +9,14 @@ import Insights from './pages/Insights';
 import Journal from './pages/Journal';
 import Settings from './pages/Settings';
 import AuthPage from './pages/AuthPage';
+
+function ScrollToTop() {
+  const { pathname } = useLocation();
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [pathname]);
+  return null;
+}
 
 function AppContent() {
   const { user, loading } = useAuth();
@@ -35,6 +44,7 @@ function AppContent() {
   return (
     <StoreProvider>
       <Router>
+        <ScrollToTop />
         <Layout>
           <Routes>
             <Route path="/" element={<Dashboard />} />
