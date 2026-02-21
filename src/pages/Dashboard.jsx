@@ -253,22 +253,23 @@ export default function Dashboard() {
     ? todayRoutines.filter(r => r.essential)
     : todayRoutines;
 
-  // Group by period
-  const grouped = { morning: [], afternoon: [], evening: [] };
+  // Group by period (with backward compat for old English keys in localStorage)
+  const periodNormalize = { morning: 'mañana', afternoon: 'tarde', evening: 'noche', 'mañana': 'mañana', 'tarde': 'tarde', 'noche': 'noche' };
+  const grouped = { 'mañana': [], 'tarde': [], 'noche': [] };
   visibleRoutines.forEach(r => {
-    const period = r.period || 'morning';
-    if (grouped[period]) grouped[period].push(r);
+    const period = periodNormalize[r.period] || 'mañana';
+    grouped[period].push(r);
   });
 
   // Completion
   const totalDone = todayRoutines.filter(r => state.dailyChecks[d]?.[r.id]?.done).length;
   const totalCount = todayRoutines.length;
 
-  const periodLabels = { morning: 'Mañana', afternoon: 'Tarde', evening: 'Noche' };
+  const periodLabels = { 'mañana': 'Mañana', 'tarde': 'Tarde', 'noche': 'Noche' };
   const periodDots = {
-    morning: 'bg-[var(--primary)]',
-    afternoon: 'bg-orange-400',
-    evening: 'bg-purple-400'
+    'mañana': 'bg-[var(--primary)]',
+    'tarde': 'bg-orange-400',
+    'noche': 'bg-purple-400'
   };
 
   return (
