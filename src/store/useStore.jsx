@@ -1,4 +1,6 @@
-import { createContext, useContext, useReducer, useEffect, useCallback } from 'react';
+import { createContext, useContext, useReducer, useEffect, useCallback, useRef } from 'react';
+import { useAuth } from './AuthContext';
+import * as sync from '../lib/supabaseSync';
 
 // ─── Helpers ────────────────────────────────────────────────
 const uid = () => Math.random().toString(36).slice(2, 10) + Date.now().toString(36);
@@ -51,12 +53,10 @@ const defaultRoutines = [
 
 const defaultState = {
     routines: defaultRoutines,
-    // Daily checks: { '2026-02-20': { routineId: { done: bool, count: N, note: '', photo: '', subtasks: {} } } }
     dailyChecks: {},
-    energy: {}, // { '2026-02-20': 3 }  (1-5)
+    energy: {},
     emergencyMode: false,
     energeticMode: false,
-    // Journal entries
     journal: [
         {
             id: uid(), date: today(), category: 'salud', title: 'Disciplina Mañanera',
@@ -71,12 +71,12 @@ const defaultState = {
             time: '04:00 PM'
         },
     ],
-    // Heatmap history: { '2026-02-20': 0.8 } (0-1 completion ratio)
     history: {},
-    // Focus timer state (not persisted fully, mostly runtime)
     focusTimer: { running: false, routineId: null, remaining: 0, total: 0 },
-    // Last reset date
     lastReset: today(),
+    // Sync metadata
+    _syncing: false,
+    _loaded: false,
 };
 
 // ─── Reducer ────────────────────────────────────────────────
@@ -161,6 +161,23 @@ function reducer(state, action) {
         case 'LOAD_STATE': {
             return { ...action.state, focusTimer: defaultState.focusTimer };
         }
+        case 'LOAD_FROM_SUPABASE': {
+            return {
+                ...state,
+                routines: action.data.routines,
+                dailyChecks: action.data.dailyChecks,
+                energy: action.data.energy,
+                journal: action.data.journal,
+                history: action.data.history,
+                emergencyMode: action.data.emergencyMode,
+                energeticMode: action.data.energeticMode,
+                _loaded: true,
+                _syncing: false,
+            };
+        }
+        case 'SET_SYNCING': {
+            return { ...state, _syncing: action.value };
+        }
         default:
             return state;
     }
@@ -170,16 +187,64 @@ function reducer(state, action) {
 const StoreContext = createContext(null);
 
 export function StoreProvider({ children }) {
+    const { user } = useAuth();
     const saved = load();
     const [state, dispatch] = useReducer(reducer, saved || defaultState);
+    const syncTimeoutRef = useRef(null);
+    const prevStateRef = useRef(state);
 
-    // Persist on every change
+    // ─── Load from Supabase when user signs in ─────────
+    useEffect(() => {
+        if (!user) return;
+
+        let cancelled = false;
+        dispatch({ type: 'SET_SYNCING', value: true });
+
+        sync.loadFullState(user.id).then(data => {
+            if (cancelled) return;
+            // Only load if the user has data in Supabase
+            if (data.routines.length > 0 || Object.keys(data.dailyChecks).length > 0) {
+                dispatch({ type: 'LOAD_FROM_SUPABASE', data });
+            } else {
+                // First time: push local data to Supabase
+                pushFullStateToSupabase(user.id, state);
+                dispatch({ type: 'SET_SYNCING', value: false });
+            }
+        }).catch(err => {
+            console.error('Failed to load from Supabase:', err);
+            dispatch({ type: 'SET_SYNCING', value: false });
+        });
+
+        return () => { cancelled = true; };
+    }, [user?.id]);
+
+    // ─── Persist locally on every change ────────────────
     useEffect(() => { persist(state); }, [state]);
+
+    // ─── Debounced sync to Supabase ─────────────────────
+    useEffect(() => {
+        if (!user || state._syncing || !state._loaded) return;
+
+        // Don't sync on initial load
+        if (prevStateRef.current === state) return;
+        prevStateRef.current = state;
+
+        // Debounce: wait 1s after last change before syncing
+        if (syncTimeoutRef.current) clearTimeout(syncTimeoutRef.current);
+        syncTimeoutRef.current = setTimeout(() => {
+            syncStateToSupabase(user.id, state).catch(err => {
+                console.error('Sync error:', err);
+            });
+        }, 1000);
+
+        return () => {
+            if (syncTimeoutRef.current) clearTimeout(syncTimeoutRef.current);
+        };
+    }, [state, user]);
 
     // Daily reset check
     useEffect(() => {
         if (state.lastReset !== today()) {
-            // Record yesterday's completion before reset
             const yesterday = state.lastReset;
             const todayRoutines = state.routines.filter(r => {
                 const dow = new Date(yesterday).getDay();
@@ -198,6 +263,65 @@ export function StoreProvider({ children }) {
             {children}
         </StoreContext.Provider>
     );
+}
+
+// ─── Sync Helpers ───────────────────────────────────────────
+async function syncStateToSupabase(userId, state) {
+    const d = today();
+    const promises = [];
+
+    // Sync today's daily checks
+    if (state.dailyChecks[d]) {
+        for (const [routineId, checkData] of Object.entries(state.dailyChecks[d])) {
+            promises.push(sync.upsertDailyCheck(userId, routineId, d, checkData));
+        }
+    }
+
+    // Sync today's energy
+    if (state.energy[d]) {
+        promises.push(sync.upsertEnergy(userId, d, state.energy[d]));
+    }
+
+    // Sync modes
+    promises.push(sync.upsertUserSettings(userId, {
+        emergencyMode: state.emergencyMode,
+        energeticMode: state.energeticMode,
+    }));
+
+    await Promise.allSettled(promises);
+}
+
+async function pushFullStateToSupabase(userId, state) {
+    try {
+        // Push all routines
+        for (const routine of state.routines) {
+            await sync.upsertRoutine(userId, routine);
+        }
+
+        // Push all daily checks
+        for (const [date, checks] of Object.entries(state.dailyChecks)) {
+            for (const [routineId, checkData] of Object.entries(checks)) {
+                await sync.upsertDailyCheck(userId, routineId, date, checkData);
+            }
+        }
+
+        // Push energy
+        for (const [date, level] of Object.entries(state.energy)) {
+            await sync.upsertEnergy(userId, date, level);
+        }
+
+        // Push journal
+        for (const entry of state.journal) {
+            await sync.insertJournal(userId, entry);
+        }
+
+        // Push history
+        for (const [date, ratio] of Object.entries(state.history)) {
+            await sync.upsertHistory(userId, date, ratio);
+        }
+    } catch (err) {
+        console.error('Push full state error:', err);
+    }
 }
 
 export function useStore() {

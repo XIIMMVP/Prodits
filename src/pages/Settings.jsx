@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { useStore } from '../store/useStore';
+import { useAuth } from '../store/AuthContext';
 
 // ─── Toggle Switch ──────────────────────────────────────────
 function Toggle({ value, onChange, color = 'bg-[var(--primary)]' }) {
@@ -100,6 +101,8 @@ function exportData(state) {
 // ─── Main Settings Page ─────────────────────────────────────
 export default function Settings() {
     const { state, dispatch } = useStore();
+    const { user, signOut } = useAuth();
+    const [showLogoutConfirm, setShowLogoutConfirm] = useState(false);
 
     // Local settings (persisted in localStorage separately)
     const [settings, setSettings] = useState(() => {
@@ -184,15 +187,19 @@ export default function Settings() {
                 <p className="text-sm text-[var(--text-secondary)] mt-1">Personaliza tu experiencia</p>
             </header>
 
-            {/* ─── Resumen ──────────────────────────────────── */}
+            {/* ─── Perfil ──────────────────────────────────── */}
             <div className="bg-white rounded-2xl ios-shadow p-5 mb-5">
                 <div className="flex items-center gap-4 mb-4">
                     <div className="w-14 h-14 rounded-full bg-gradient-to-br from-[var(--primary)] to-blue-400 flex items-center justify-center text-white text-2xl font-bold shadow-lg shadow-blue-200">
-                        P
+                        {(user?.user_metadata?.full_name || user?.email || 'P')[0].toUpperCase()}
                     </div>
-                    <div>
-                        <h2 className="font-bold text-lg">Prodits</h2>
-                        <p className="text-xs text-[var(--text-secondary)]">Tu gestor de hábitos</p>
+                    <div className="flex-1 min-w-0">
+                        <h2 className="font-bold text-lg truncate">{user?.user_metadata?.full_name || 'Usuario'}</h2>
+                        <p className="text-xs text-[var(--text-secondary)] truncate">{user?.email}</p>
+                    </div>
+                    <div className="flex items-center gap-1 text-emerald-500">
+                        <span className="material-symbols-outlined text-xs">cloud_done</span>
+                        <span className="text-[10px] font-semibold">Sync</span>
                     </div>
                 </div>
                 <div className="flex gap-3">
@@ -290,6 +297,17 @@ export default function Settings() {
                 />
             </SectionCard>
 
+            {/* ─── Cuenta ─────────────────────────────────── */}
+            <SectionCard title="Cuenta">
+                <SettingRow
+                    icon="logout"
+                    label="Cerrar Sesión"
+                    description={user?.email}
+                    onClick={() => setShowLogoutConfirm(true)}
+                    danger
+                />
+            </SectionCard>
+
             {/* ─── Acerca de ────────────────────────────────── */}
             <SectionCard title="Acerca de">
                 <SettingRow icon="info" label="Versión" description="Prodits v1.0.0">
@@ -303,8 +321,8 @@ export default function Settings() {
 
             {/* Footer note */}
             <p className="text-center text-[10px] text-[var(--text-secondary)] mt-6 mb-2">
-                Todos tus datos se almacenan localmente en tu dispositivo.
-                <br />No se comparten con terceros.
+                Tus datos se sincronizan de forma segura en la nube.
+                <br />Protegidos con Supabase.
             </p>
 
             {/* ─── Modals ───────────────────────────────────── */}
@@ -326,6 +344,17 @@ export default function Settings() {
                     confirmLabel="Borrar Todo"
                     onConfirm={handleDeleteAll}
                     onClose={() => setShowDeleteConfirm(false)}
+                    danger
+                />
+            )}
+
+            {showLogoutConfirm && (
+                <ConfirmModal
+                    title="¿Cerrar sesión?"
+                    message="Tus datos están sincronizados en la nube. Podrás acceder a ellos cuando vuelvas a iniciar sesión."
+                    confirmLabel="Cerrar Sesión"
+                    onConfirm={async () => { await signOut(); setShowLogoutConfirm(false); }}
+                    onClose={() => setShowLogoutConfirm(false)}
                     danger
                 />
             )}
