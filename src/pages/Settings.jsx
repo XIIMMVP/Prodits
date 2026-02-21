@@ -463,13 +463,16 @@ function EditProfileModal({ user, userPhoto, userName, userInitial, updateProfil
             onClick={onClose}
         >
             <div
-                className="bg-white rounded-t-3xl sm:rounded-3xl p-6 w-full sm:max-w-sm ios-shadow overflow-hidden"
+                className="bg-white rounded-t-[2.5rem] sm:rounded-3xl p-6 pt-3 w-full sm:max-w-sm ios-shadow overflow-hidden"
                 onClick={e => e.stopPropagation()}
             >
+                {/* Drag Handle */}
+                <div className="w-12 h-1.5 rounded-full bg-gray-200/80 mx-auto mb-4 sm:hidden" />
+
                 {/* Header */}
                 <div className="flex items-center justify-between mb-6">
                     <h3 className="text-lg font-bold">Editar Perfil</h3>
-                    <button onClick={onClose} className="w-8 h-8 rounded-full bg-gray-100 flex items-center justify-center">
+                    <button onClick={onClose} className="w-8 h-8 rounded-full bg-gray-100 flex items-center justify-center active:scale-90 transition-transform">
                         <span className="material-symbols-outlined text-lg">close</span>
                     </button>
                 </div>

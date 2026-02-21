@@ -33,11 +33,12 @@ function NewEntryModal({ onSave, onClose }) {
       onClick={onClose}
     >
       <div
-        className="bg-[var(--bg-main)] rounded-t-[2rem] sm:rounded-3xl w-full sm:max-w-lg h-[93vh] h-[93dvh] sm:h-auto sm:max-h-[90vh] overflow-hidden ios-shadow"
+        className="bg-[var(--bg-main)] rounded-t-[2.5rem] sm:rounded-3xl w-full sm:max-w-lg h-[90vh] h-[90dvh] sm:h-auto sm:max-h-[90vh] overflow-hidden ios-shadow"
         onClick={e => e.stopPropagation()}
       >
-        {/* Sticky Header */}
-        <div className="sticky top-0 z-10 bg-[var(--bg-main)] pt-5 pb-3 px-5 sm:px-6">
+        {/* Sticky Header with Drag Handle */}
+        <div className="sticky top-0 z-10 bg-[var(--bg-main)] pt-3 pb-3 px-5 sm:px-6">
+          <div className="w-12 h-1.5 rounded-full bg-gray-200/80 mx-auto mb-4" />
           <div className="flex items-center justify-between">
             <h2 className="text-xl font-bold">Nuevo Éxito</h2>
             <button onClick={onClose} className="w-8 h-8 rounded-full bg-gray-100 flex items-center justify-center active:scale-90 transition-transform">
@@ -47,7 +48,7 @@ function NewEntryModal({ onSave, onClose }) {
         </div>
 
         {/* Scrollable Content */}
-        <div className="overflow-y-auto h-[calc(93vh-80px)] h-[calc(93dvh-80px)] sm:h-auto px-4 sm:px-6 py-5">
+        <div className="overflow-y-auto h-[calc(90vh-100px)] h-[calc(90dvh-100px)] sm:h-auto px-4 sm:px-6 py-2">
           <div className="mb-4">
             <label className="text-xs font-bold text-[var(--text-secondary)] uppercase tracking-wider mb-2 block">Título</label>
             <input value={form.title} onChange={e => update('title', e.target.value)} placeholder="ej. Sesión Productiva" className="w-full border border-[var(--border)] rounded-2xl px-4 py-3 text-sm outline-none focus:ring-2 focus:ring-[var(--primary)]/20 focus:border-[var(--primary)]" />
