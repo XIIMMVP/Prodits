@@ -1,11 +1,76 @@
+import { useState } from 'react';
 import { useStore, useCategoryCompletion, useCompletionRatio, today } from '../store/useStore';
 
-const AI_INSIGHTS = [
+const FALLBACK_INSIGHTS = [
   { text: 'sesiones de lectura', day: 'jueves por la tarde', suggestion: '¿Moverlas a la mañana?' },
   { text: 'meditación', day: 'lunes por la noche', suggestion: '¿Intentar una versión de 5 min más temprano?' },
   { text: 'ejercicio', day: 'fines de semana', suggestion: '¿Programar una actividad divertida al aire libre en su lugar?' },
   { text: 'hidratación', day: 'días de trabajo intensos', suggestion: '¿Poner recordatorios cada hora?' },
 ];
+
+const DAY_NAMES = ['domingos', 'lunes', 'martes', 'miércoles', 'jueves', 'viernes', 'sábados'];
+const PERIOD_NAMES = { 'mañana': 'por la mañana', 'tarde': 'por la tarde', 'noche': 'por la noche', morning: 'por la mañana', afternoon: 'por la tarde', evening: 'por la noche' };
+
+const SUGGESTIONS = [
+  '¿Intentar hacerlo a una hora diferente?',
+  '¿Empezar con una versión de 5 min para crear el hábito?',
+  '¿Poner un recordatorio en el teléfono?',
+  '¿Vincular esta rutina a otra que ya haces bien?',
+  '¿Simplificar la tarea para que sea más fácil empezar?',
+];
+
+function generateSmartInsights(state) {
+  const d = today();
+  const checks = state.dailyChecks || {};
+  const routines = state.routines || [];
+
+  // Analyze which routines are least completed over recent history
+  const routineStats = routines.map(r => {
+    let scheduled = 0;
+    let completed = 0;
+    // Look at last 14 days
+    for (let i = 1; i <= 14; i++) {
+      const date = new Date();
+      date.setDate(date.getDate() - i);
+      const dow = date.getDay();
+      const key = date.toISOString().split('T')[0];
+      if (r.days.includes(dow)) {
+        scheduled++;
+        if (checks[key]?.[r.id]?.done) completed++;
+      }
+    }
+    const rate = scheduled > 0 ? completed / scheduled : 1;
+    // Find which day they fail most
+    const failDays = {};
+    for (let i = 1; i <= 14; i++) {
+      const date = new Date();
+      date.setDate(date.getDate() - i);
+      const dow = date.getDay();
+      const key = date.toISOString().split('T')[0];
+      if (r.days.includes(dow) && !checks[key]?.[r.id]?.done) {
+        failDays[dow] = (failDays[dow] || 0) + 1;
+      }
+    }
+    const worstDay = Object.entries(failDays).sort((a, b) => b[1] - a[1])[0];
+    return { routine: r, rate, scheduled, completed, worstDay: worstDay ? Number(worstDay[0]) : null };
+  });
+
+  // Sort by worst completion rate (lowest first), only if they have been scheduled
+  const worst = routineStats
+    .filter(s => s.scheduled > 0 && s.rate < 1)
+    .sort((a, b) => a.rate - b.rate);
+
+  if (worst.length === 0) return FALLBACK_INSIGHTS;
+
+  return worst.slice(0, 4).map((s, i) => ({
+    text: s.routine.name.toLowerCase(),
+    day: s.worstDay !== null
+      ? `${DAY_NAMES[s.worstDay]} ${PERIOD_NAMES[s.routine.period] || ''}`
+      : 'algunos días',
+    suggestion: SUGGESTIONS[i % SUGGESTIONS.length],
+    rate: Math.round(s.rate * 100),
+  }));
+}
 
 function getHeatmapData(history) {
   const cells = [];
@@ -34,7 +99,7 @@ export default function Insights() {
   const { state } = useStore();
   const healthRatio = useCategoryCompletion(state, 'salud');
   const mindRatio = useCategoryCompletion(state, 'mente');
-  const homeRatio = useCategoryCompletion(state, 'hogar');
+  const hogarRatio = useCategoryCompletion(state, 'hogar');
   const todayRatio = useCompletionRatio(state);
   const heatmapData = getHeatmapData(state.history);
 
@@ -42,16 +107,30 @@ export default function Insights() {
   const todayRoutines = state.routines.filter(r => r.days.includes(new Date().getDay()));
   const doneCount = todayRoutines.filter(r => state.dailyChecks[d]?.[r.id]?.done).length;
 
-  // Planned vs actual (simulated with real check data)
   const plannedHours = todayRoutines.length * 0.75;
   const actualHours = doneCount * 0.9;
 
-  const randomInsight = AI_INSIGHTS[Math.floor(new Date().getDate() % AI_INSIGHTS.length)];
+  const smartInsights = generateSmartInsights(state);
+  const [insightIndex, setInsightIndex] = useState(0);
+  const [dismissed, setDismissed] = useState(false);
+  const currentInsight = smartInsights[insightIndex % smartInsights.length];
+
+  const handleAccept = () => {
+    setDismissed(true);
+  };
+
+  const handleIgnore = () => {
+    if (insightIndex + 1 < smartInsights.length) {
+      setInsightIndex(insightIndex + 1);
+    } else {
+      setDismissed(true);
+    }
+  };
 
   const rings = [
     { label: 'Anillo Salud', sublabel: 'Vitalidad', ratio: healthRatio, color: 'stroke-emerald-500', changeColor: 'text-emerald-600' },
     { label: 'Anillo Mente', sublabel: 'Claridad', ratio: mindRatio, color: 'stroke-[var(--primary)]', changeColor: 'text-primary' },
-    { label: 'Anillo Hogar', sublabel: 'Presencia', ratio: useCategoryCompletion(state, 'home'), color: 'stroke-[#FF9500]', changeColor: 'text-rose-500' },
+    { label: 'Anillo Hogar', sublabel: 'Presencia', ratio: hogarRatio, color: 'stroke-[#FF9500]', changeColor: 'text-rose-500' },
   ];
 
   return (
@@ -99,19 +178,47 @@ export default function Insights() {
                 <span className="material-symbols-outlined text-[var(--primary)] text-xl">auto_awesome</span>
               </div>
               <span className="text-xs font-bold text-[var(--primary)] uppercase tracking-widest">Sugerencia Inteligente</span>
+              {currentInsight.rate !== undefined && !dismissed && (
+                <span className="ml-auto text-[10px] font-bold text-[var(--text-secondary)] bg-gray-100 px-2 py-1 rounded-full">
+                  {currentInsight.rate}% completado
+                </span>
+              )}
             </div>
-            <p className="text-2xl font-medium leading-tight mb-8">
-              "Sueles fallar en <span className="text-[var(--primary)] font-bold">{randomInsight.text}</span> los {randomInsight.day}. {randomInsight.suggestion}"
-            </p>
+            {dismissed ? (
+              <div className="mb-8">
+                <p className="text-2xl font-medium leading-tight text-emerald-600 flex items-center gap-2">
+                  <span className="material-symbols-outlined text-3xl">check_circle</span>
+                  ¡Sugerencia anotada! Sigue así.
+                </p>
+                <button
+                  onClick={() => { setDismissed(false); setInsightIndex(0); }}
+                  className="text-sm text-[var(--primary)] font-semibold mt-4 hover:underline"
+                >
+                  Ver más sugerencias
+                </button>
+              </div>
+            ) : (
+              <p className="text-2xl font-medium leading-tight mb-8">
+                "Sueles fallar en <span className="text-[var(--primary)] font-bold">{currentInsight.text}</span> los {currentInsight.day}. {currentInsight.suggestion}"
+              </p>
+            )}
           </div>
-          <div className="flex gap-4 relative z-10">
-            <button className="bg-[var(--primary)] text-white px-8 py-3.5 rounded-2xl font-semibold text-sm hover:opacity-90 transition-opacity">
-              Aceptar Sugerencia
-            </button>
-            <button className="bg-black/5 text-[var(--text-secondary)] px-8 py-3.5 rounded-2xl font-semibold text-sm hover:bg-black/10 transition-colors">
-              Ignorar
-            </button>
-          </div>
+          {!dismissed && (
+            <div className="flex gap-4 relative z-10">
+              <button
+                onClick={handleAccept}
+                className="bg-[var(--primary)] text-white px-8 py-3.5 rounded-2xl font-semibold text-sm hover:opacity-90 transition-opacity"
+              >
+                Aceptar Sugerencia
+              </button>
+              <button
+                onClick={handleIgnore}
+                className="bg-black/5 text-[var(--text-secondary)] px-8 py-3.5 rounded-2xl font-semibold text-sm hover:bg-black/10 transition-colors"
+              >
+                {insightIndex + 1 < smartInsights.length ? 'Siguiente' : 'Ignorar'}
+              </button>
+            </div>
+          )}
         </div>
         <div className="lg:col-span-2 bg-white rounded-3xl p-8 border border-[var(--border)] ios-shadow">
           <h3 className="font-bold text-lg mb-8 flex items-center gap-2">
