@@ -12,32 +12,60 @@ export default function Layout({ children }) {
     const location = useLocation();
 
     return (
-        <div className="bg-[var(--bg-main)] min-h-screen relative font-sans text-[var(--text-main)] overflow-x-hidden">
+        <div className="bg-[var(--bg-main)] min-h-screen min-h-[100dvh] relative font-sans text-[var(--text-main)] overflow-x-hidden">
             {/* Page Content */}
-            <div className="w-full flex justify-center pb-28">
+            <div className="w-full flex justify-center pb-[88px]">
                 <div className="w-full">
                     {children}
                 </div>
             </div>
 
-            {/* Floating Bottom Nav */}
-            <div className="fixed bottom-4 w-full flex justify-center z-50 px-3">
-                <nav className="ios-glass border border-white/60 shadow-[0_8px_30px_rgb(0,0,0,0.08)] rounded-full px-2 sm:px-5 py-2 sm:py-2.5 flex items-center justify-center gap-1 sm:gap-6 w-full max-w-md">
+            {/* iOS-style Tab Bar */}
+            <div className="fixed bottom-0 left-0 right-0 z-50">
+                {/* Top hairline border */}
+                <div className="h-px bg-black/[0.12]" />
+
+                {/* Bar body with blur */}
+                <nav
+                    className="flex items-start justify-around"
+                    style={{
+                        backgroundColor: 'rgba(249, 249, 249, 0.88)',
+                        backdropFilter: 'saturate(180%) blur(20px)',
+                        WebkitBackdropFilter: 'saturate(180%) blur(20px)',
+                        paddingBottom: 'env(safe-area-inset-bottom, 8px)',
+                        paddingTop: '6px',
+                    }}
+                >
                     {navItems.map((item) => {
                         const isActive = location.pathname === item.path;
                         return (
                             <Link
                                 key={item.name}
                                 to={item.path}
-                                className={`flex flex-col items-center justify-center gap-0.5 transition-all duration-300 relative rounded-xl px-2.5 sm:px-3 py-1.5 min-w-0 ${isActive
-                                    ? 'text-[var(--primary)] bg-blue-50/80'
-                                    : 'text-[var(--text-secondary)] hover:text-[var(--text-main)] hover:bg-black/5'
-                                    }`}
+                                className="flex flex-col items-center justify-center pt-[2px] pb-[2px] min-w-[64px] group"
+                                style={{ WebkitTapHighlightColor: 'transparent' }}
                             >
-                                <span className={`material-symbols-outlined text-[20px] sm:text-[22px] transition-all ${isActive ? 'fill-1 scale-105' : ''}`}>
+                                <span
+                                    className={`material-symbols-outlined transition-colors duration-200 ${isActive ? 'fill-1' : ''
+                                        }`}
+                                    style={{
+                                        fontSize: '28px',
+                                        lineHeight: '30px',
+                                        color: isActive ? '#007AFF' : '#8E8E93',
+                                    }}
+                                >
                                     {item.icon}
                                 </span>
-                                <span className={`text-[8px] sm:text-[9px] tracking-wider uppercase leading-tight ${isActive ? 'font-bold' : 'font-semibold'}`}>
+                                <span
+                                    className="transition-colors duration-200"
+                                    style={{
+                                        fontSize: '10px',
+                                        fontWeight: isActive ? 600 : 500,
+                                        letterSpacing: '0.01em',
+                                        marginTop: '1px',
+                                        color: isActive ? '#007AFF' : '#8E8E93',
+                                    }}
+                                >
                                     {item.name}
                                 </span>
                             </Link>
