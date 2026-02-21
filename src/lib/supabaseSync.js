@@ -1,4 +1,4 @@
-import { supabase } from '../lib/supabase';
+import { supabase } from './supabase';
 
 // ─── Helper: today date string ──────────────────────────
 const todayStr = () => new Date().toISOString().split('T')[0];
@@ -13,8 +13,8 @@ export async function fetchRoutines(userId) {
         .select('*')
         .eq('user_id', userId)
         .order('sort_order', { ascending: true });
-    if (error) throw error;
-    return data.map(mapRoutineFromDB);
+    if (error) { console.error('fetchRoutines error:', error); throw error; }
+    return (data || []).map(mapRoutineFromDB);
 }
 
 export async function upsertRoutine(userId, routine) {
@@ -24,8 +24,17 @@ export async function upsertRoutine(userId, routine) {
         .upsert(dbRoutine, { onConflict: 'id' })
         .select()
         .single();
-    if (error) throw error;
+    if (error) { console.error('upsertRoutine error:', error); throw error; }
     return mapRoutineFromDB(data);
+}
+
+export async function upsertAllRoutines(userId, routines) {
+    if (!routines.length) return;
+    const dbRoutines = routines.map((r, i) => mapRoutineToDB(userId, { ...r, sortOrder: i }));
+    const { error } = await supabase
+        .from('routines')
+        .upsert(dbRoutines, { onConflict: 'id' });
+    if (error) { console.error('upsertAllRoutines error:', error); throw error; }
 }
 
 export async function deleteRoutine(routineId) {
@@ -33,7 +42,7 @@ export async function deleteRoutine(routineId) {
         .from('routines')
         .delete()
         .eq('id', routineId);
-    if (error) throw error;
+    if (error) { console.error('deleteRoutine error:', error); throw error; }
 }
 
 // Map DB → App format
@@ -60,7 +69,7 @@ function mapRoutineFromDB(r) {
 // Map App → DB format
 function mapRoutineToDB(userId, r) {
     return {
-        id: r.id || undefined,
+        id: r.id,
         user_id: userId,
         name: r.name,
         icon: r.icon || 'wb_sunny',
@@ -83,37 +92,15 @@ function mapRoutineToDB(userId, r) {
 // ║                  DAILY CHECKS                            ║
 // ╚══════════════════════════════════════════════════════════╝
 
-export async function fetchDailyChecks(userId, date) {
-    const { data, error } = await supabase
-        .from('daily_checks')
-        .select('*')
-        .eq('user_id', userId)
-        .eq('check_date', date || todayStr());
-    if (error) throw error;
-
-    // Convert array to object keyed by routine_id
-    const checks = {};
-    data.forEach(c => {
-        checks[c.routine_id] = {
-            done: c.done,
-            count: c.count,
-            note: c.note,
-            subtasks: c.subtasks || {},
-        };
-    });
-    return checks;
-}
-
 export async function fetchAllDailyChecks(userId) {
     const { data, error } = await supabase
         .from('daily_checks')
         .select('*')
         .eq('user_id', userId);
-    if (error) throw error;
+    if (error) { console.error('fetchAllDailyChecks error:', error); throw error; }
 
-    // Convert to nested object { date: { routineId: { done, count, ... } } }
     const checks = {};
-    data.forEach(c => {
+    (data || []).forEach(c => {
         if (!checks[c.check_date]) checks[c.check_date] = {};
         checks[c.check_date][c.routine_id] = {
             done: c.done,
@@ -137,7 +124,7 @@ export async function upsertDailyCheck(userId, routineId, date, checkData) {
             note: checkData.note || '',
             subtasks: checkData.subtasks || {},
         }, { onConflict: 'user_id,routine_id,check_date' });
-    if (error) throw error;
+    if (error) { console.error('upsertDailyCheck error:', error); throw error; }
 }
 
 // ╔══════════════════════════════════════════════════════════╗
@@ -149,10 +136,10 @@ export async function fetchEnergy(userId) {
         .from('energy_logs')
         .select('*')
         .eq('user_id', userId);
-    if (error) throw error;
+    if (error) { console.error('fetchEnergy error:', error); throw error; }
 
     const energy = {};
-    data.forEach(e => { energy[e.log_date] = e.level; });
+    (data || []).forEach(e => { energy[e.log_date] = e.level; });
     return energy;
 }
 
@@ -164,7 +151,7 @@ export async function upsertEnergy(userId, date, level) {
             log_date: date || todayStr(),
             level,
         }, { onConflict: 'user_id,log_date' });
-    if (error) throw error;
+    if (error) { console.error('upsertEnergy error:', error); throw error; }
 }
 
 // ╔══════════════════════════════════════════════════════════╗
@@ -177,8 +164,8 @@ export async function fetchJournal(userId) {
         .select('*')
         .eq('user_id', userId)
         .order('created_at', { ascending: false });
-    if (error) throw error;
-    return data.map(j => ({
+    if (error) { console.error('fetchJournal error:', error); throw error; }
+    return (data || []).map(j => ({
         id: j.id,
         date: j.entry_date,
         category: j.category,
@@ -189,10 +176,11 @@ export async function fetchJournal(userId) {
     }));
 }
 
-export async function insertJournal(userId, entry) {
+export async function upsertJournal(userId, entry) {
     const { data, error } = await supabase
         .from('journal_entries')
-        .insert({
+        .upsert({
+            id: entry.id,
             user_id: userId,
             entry_date: entry.date || todayStr(),
             category: entry.category || 'salud',
@@ -200,10 +188,10 @@ export async function insertJournal(userId, entry) {
             body: entry.text || '',
             photo_url: entry.photo || '',
             entry_time: entry.time || '',
-        })
+        }, { onConflict: 'id' })
         .select()
         .single();
-    if (error) throw error;
+    if (error) { console.error('upsertJournal error:', error); throw error; }
     return {
         id: data.id,
         date: data.entry_date,
@@ -220,7 +208,7 @@ export async function deleteJournal(journalId) {
         .from('journal_entries')
         .delete()
         .eq('id', journalId);
-    if (error) throw error;
+    if (error) { console.error('deleteJournal error:', error); throw error; }
 }
 
 // ╔══════════════════════════════════════════════════════════╗
@@ -232,10 +220,10 @@ export async function fetchHistory(userId) {
         .from('completion_history')
         .select('*')
         .eq('user_id', userId);
-    if (error) throw error;
+    if (error) { console.error('fetchHistory error:', error); throw error; }
 
     const history = {};
-    data.forEach(h => { history[h.history_date] = h.ratio; });
+    (data || []).forEach(h => { history[h.history_date] = h.ratio; });
     return history;
 }
 
@@ -247,7 +235,7 @@ export async function upsertHistory(userId, date, ratio) {
             history_date: date,
             ratio,
         }, { onConflict: 'user_id,history_date' });
-    if (error) throw error;
+    if (error) { console.error('upsertHistory error:', error); throw error; }
 }
 
 // ╔══════════════════════════════════════════════════════════╗
@@ -260,7 +248,7 @@ export async function fetchUserSettings(userId) {
         .select('*')
         .eq('user_id', userId)
         .single();
-    if (error && error.code !== 'PGRST116') throw error; // PGRST116 = no rows
+    if (error && error.code !== 'PGRST116') { console.error('fetchUserSettings error:', error); throw error; }
     return data;
 }
 
@@ -278,7 +266,7 @@ export async function upsertUserSettings(userId, settings) {
             emergency_mode: settings.emergencyMode,
             energetic_mode: settings.energeticMode,
         }, { onConflict: 'user_id' });
-    if (error) throw error;
+    if (error) { console.error('upsertUserSettings error:', error); throw error; }
 }
 
 // ╔══════════════════════════════════════════════════════════╗
@@ -303,13 +291,48 @@ export async function loadFullState(userId) {
         history,
         emergencyMode: settings?.emergency_mode || false,
         energeticMode: settings?.energetic_mode || false,
-        userSettings: settings ? {
-            notifications: settings.notifications,
-            dailyReminder: settings.daily_reminder,
-            reminderTime: settings.reminder_time,
-            sound: settings.sound,
-            vibration: settings.vibration,
-            weekStart: settings.week_start,
-        } : null,
     };
+}
+
+export async function pushFullState(userId, state) {
+    const promises = [];
+
+    // Push all routines
+    if (state.routines?.length > 0) {
+        promises.push(upsertAllRoutines(userId, state.routines));
+    }
+
+    // Push all daily checks
+    for (const [date, checks] of Object.entries(state.dailyChecks || {})) {
+        for (const [routineId, checkData] of Object.entries(checks)) {
+            promises.push(upsertDailyCheck(userId, routineId, date, checkData));
+        }
+    }
+
+    // Push energy
+    for (const [date, level] of Object.entries(state.energy || {})) {
+        promises.push(upsertEnergy(userId, date, level));
+    }
+
+    // Push journal
+    for (const entry of (state.journal || [])) {
+        promises.push(upsertJournal(userId, entry));
+    }
+
+    // Push history
+    for (const [date, ratio] of Object.entries(state.history || {})) {
+        promises.push(upsertHistory(userId, date, ratio));
+    }
+
+    // Push modes
+    promises.push(upsertUserSettings(userId, {
+        emergencyMode: state.emergencyMode,
+        energeticMode: state.energeticMode,
+    }));
+
+    const results = await Promise.allSettled(promises);
+    const failed = results.filter(r => r.status === 'rejected');
+    if (failed.length > 0) {
+        console.error('pushFullState: some operations failed:', failed);
+    }
 }
