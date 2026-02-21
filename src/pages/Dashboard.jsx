@@ -269,6 +269,7 @@ export default function Dashboard() {
   const d = today();
   const energyLevel = state.energy[d] || 0;
   const emergency = state.emergencyMode;
+  const energetic = state.energeticMode;
   const [noteModal, setNoteModal] = useState(null);
   const [deleteConfirm, setDeleteConfirm] = useState(null);
 
@@ -320,10 +321,19 @@ export default function Dashboard() {
               <div className={`absolute top-0.5 w-4 h-4 bg-white rounded-full shadow-sm transition-all ${emergency ? 'right-0.5' : 'left-0.5'}`} />
             </div>
           </button>
+          <button
+            onClick={() => dispatch({ type: 'TOGGLE_ENERGETIC' })}
+            className={`flex items-center gap-2 px-4 py-2 rounded-full ios-shadow border transition-all ${energetic ? 'bg-gradient-to-r from-amber-500 to-orange-500 text-white border-amber-400' : 'bg-white text-[var(--text-secondary)] border-gray-100'
+              }`}
+          >
+            <span className="text-xs font-bold uppercase tracking-wider">Enérgico</span>
+            <div className={`w-10 h-5 rounded-full relative transition-colors ${energetic ? 'bg-amber-300' : 'bg-gray-200'}`}>
+              <div className={`absolute top-0.5 w-4 h-4 bg-white rounded-full shadow-sm transition-all ${energetic ? 'right-0.5' : 'left-0.5'}`} />
+            </div>
+          </button>
         </div>
       </header>
 
-      {/* Energy Check-in */}
       <section className="mb-8">
         <div className="bg-white rounded-[2rem] p-8 ios-shadow border border-gray-50/50">
           <h2 className="text-center text-[var(--text-secondary)] text-sm font-medium mb-6">¿Cómo está tu nivel de energía?</h2>
@@ -331,10 +341,25 @@ export default function Dashboard() {
             {ENERGY_EMOJIS.map((e) => (
               <button
                 key={e.level}
-                onClick={() => dispatch({ type: 'SET_ENERGY', level: e.level })}
+                onClick={() => {
+                  dispatch({ type: 'SET_ENERGY', level: e.level });
+                  if (e.level === 1) {
+                    dispatch({ type: 'SET_EMERGENCY_MODE', value: true });
+                  } else if (e.level === 5) {
+                    dispatch({ type: 'SET_ENERGETIC_MODE', value: true });
+                  } else {
+                    // Mid levels: deactivate both modes
+                    if (emergency) dispatch({ type: 'SET_EMERGENCY_MODE', value: false });
+                    if (energetic) dispatch({ type: 'SET_ENERGETIC_MODE', value: false });
+                  }
+                }}
                 className={`flex items-center justify-center rounded-2xl transition-all duration-300 ${energyLevel === e.level
-                  ? 'w-14 h-14 bg-[var(--primary)] text-3xl shadow-lg shadow-blue-200 scale-110'
-                  : 'w-12 h-12 hover:bg-gray-50 text-2xl hover:scale-105'
+                    ? e.level <= 1
+                      ? 'w-14 h-14 bg-orange-500 text-3xl shadow-lg shadow-orange-200 scale-110'
+                      : e.level >= 5
+                        ? 'w-14 h-14 bg-gradient-to-br from-amber-400 to-orange-500 text-3xl shadow-lg shadow-amber-200 scale-110'
+                        : 'w-14 h-14 bg-[var(--primary)] text-3xl shadow-lg shadow-blue-200 scale-110'
+                    : 'w-12 h-12 hover:bg-gray-50 text-2xl hover:scale-105'
                   }`}
               >
                 {e.emoji}
@@ -355,14 +380,48 @@ export default function Dashboard() {
         </div>
       )}
 
+      {/* Energetic Mode Banner */}
+      {energetic && (
+        <div className="mb-6 bg-gradient-to-r from-amber-50 to-orange-50 border border-amber-200 rounded-2xl p-4 flex items-center gap-3">
+          <span className="material-symbols-outlined text-amber-500 fill-1">bolt</span>
+          <div>
+            <p className="font-bold text-sm text-amber-700">🔥 Modo Enérgico Activo</p>
+            <p className="text-xs text-amber-600">¡Máxima productividad! Todas las tareas visibles. Aprovecha tu energía al máximo.</p>
+          </div>
+        </div>
+      )}
+
       {/* Low energy banner */}
-      {energyLevel > 0 && energyLevel <= 2 && !emergency && (
+      {energyLevel === 2 && !emergency && (
         <div className="mb-6 bg-blue-50 border border-blue-200 rounded-2xl p-4 flex items-center gap-3">
           <span className="material-symbols-outlined text-blue-500">info</span>
-          <div>
+          <div className="flex-1">
             <p className="font-bold text-sm text-blue-700">Energía baja detectada</p>
             <p className="text-xs text-blue-500">Considera activar el Modo Emergencia para enfocarte solo en lo esencial.</p>
           </div>
+          <button
+            onClick={() => dispatch({ type: 'SET_EMERGENCY_MODE', value: true })}
+            className="px-4 py-2 bg-orange-500 text-white rounded-xl text-xs font-bold hover:bg-orange-600 transition-colors whitespace-nowrap"
+          >
+            Activar
+          </button>
+        </div>
+      )}
+
+      {/* High energy suggestion banner */}
+      {energyLevel === 4 && !energetic && (
+        <div className="mb-6 bg-amber-50 border border-amber-200 rounded-2xl p-4 flex items-center gap-3">
+          <span className="material-symbols-outlined text-amber-500">bolt</span>
+          <div className="flex-1">
+            <p className="font-bold text-sm text-amber-700">¡Buena energía detectada!</p>
+            <p className="text-xs text-amber-600">Activa el Modo Enérgico para aprovechar al máximo tu productividad.</p>
+          </div>
+          <button
+            onClick={() => dispatch({ type: 'SET_ENERGETIC_MODE', value: true })}
+            className="px-4 py-2 bg-gradient-to-r from-amber-500 to-orange-500 text-white rounded-xl text-xs font-bold hover:opacity-90 transition-opacity whitespace-nowrap"
+          >
+            Activar
+          </button>
         </div>
       )}
 

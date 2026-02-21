@@ -55,6 +55,7 @@ const defaultState = {
     dailyChecks: {},
     energy: {}, // { '2026-02-20': 3 }  (1-5)
     emergencyMode: false,
+    energeticMode: false,
     // Journal entries
     journal: [
         {
@@ -85,7 +86,16 @@ function reducer(state, action) {
             return { ...state, energy: { ...state.energy, [today()]: action.level } };
         }
         case 'TOGGLE_EMERGENCY': {
-            return { ...state, emergencyMode: !state.emergencyMode };
+            return { ...state, emergencyMode: !state.emergencyMode, energeticMode: false };
+        }
+        case 'SET_EMERGENCY_MODE': {
+            return { ...state, emergencyMode: action.value, energeticMode: action.value ? false : state.energeticMode };
+        }
+        case 'TOGGLE_ENERGETIC': {
+            return { ...state, energeticMode: !state.energeticMode, emergencyMode: false };
+        }
+        case 'SET_ENERGETIC_MODE': {
+            return { ...state, energeticMode: action.value, emergencyMode: action.value ? false : state.emergencyMode };
         }
         case 'TOGGLE_TASK': {
             const d = today();
