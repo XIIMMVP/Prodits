@@ -75,9 +75,9 @@ function NewEntryModal({ onSave, onClose }) {
 
           <div className="mb-4">
             <label className="text-xs font-bold text-[var(--text-secondary)] uppercase tracking-wider mb-2 block">Categoría</label>
-            <div className="flex flex-wrap gap-2">
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
               {Object.entries(CATEGORY_MAP).filter(([k]) => k !== 'Todos').map(([label, val]) => (
-                <button key={val} onClick={() => update('category', val)} className={`px-4 py-2 rounded-xl text-xs font-semibold transition-all ${form.category === val ? 'bg-[var(--primary)] text-white' : 'bg-gray-50 text-[var(--text-secondary)]'}`}>
+                <button key={val} onClick={() => update('category', val)} className={`py-2.5 rounded-xl text-xs font-bold transition-all border ${form.category === val ? 'bg-[var(--primary)] text-white border-[var(--primary)]' : 'bg-gray-50 text-[var(--text-secondary)] border-transparent hover:bg-gray-100'}`}>
                   {label}
                 </button>
               ))}
@@ -90,8 +90,8 @@ function NewEntryModal({ onSave, onClose }) {
             <p className="text-[10px] text-[var(--text-secondary)] mt-1">Pega una URL de imagen o deja en blanco para una por defecto</p>
           </div>
 
-          <div className="flex gap-3 pt-2">
-            <button onClick={onClose} className="flex-1 py-3.5 rounded-2xl bg-gray-100 text-[var(--text-secondary)] font-semibold">Cancelar</button>
+          <div className="flex gap-3 pt-4 pb-8">
+            <button onClick={onClose} className="flex-1 py-4 rounded-2xl bg-gray-100 text-[var(--text-secondary)] font-bold">Cancelar</button>
             <button onClick={() => {
               if (form.title.trim()) {
                 onSave({
@@ -101,7 +101,7 @@ function NewEntryModal({ onSave, onClose }) {
                 });
                 onClose();
               }
-            }} className="flex-1 py-3.5 rounded-2xl bg-[var(--primary)] text-white font-semibold hover:opacity-90 transition-all">
+            }} className="flex-1 py-4 rounded-2xl bg-[var(--primary)] text-white font-bold hover:opacity-90 transition-all shadow-lg shadow-blue-500/20">
               Guardar Éxito
             </button>
           </div>

@@ -145,15 +145,15 @@ function RoutineForm({ initial, onSave, onCancel }) {
           {/* Type */}
           <div className="mb-4">
             <label className="text-xs font-bold text-[var(--text-secondary)] uppercase tracking-wider mb-2 block">Tipo</label>
-            <div className="flex flex-wrap gap-2">
+            <div className="grid grid-cols-3 gap-2">
               {TYPE_OPTIONS.map(t => (
                 <button
                   key={t.value}
                   onClick={() => update('type', t.value)}
-                  className={`flex-1 flex items-center justify-center gap-1.5 py-2.5 rounded-xl text-xs sm:text-sm font-semibold transition-all ${form.type === t.value ? 'bg-[var(--primary)] text-white' : 'bg-gray-50 text-[var(--text-secondary)] hover:bg-gray-100'
+                  className={`flex items-center justify-center gap-1 py-3 rounded-xl text-[11px] sm:text-xs font-bold transition-all border ${form.type === t.value ? 'bg-[var(--primary)] text-white border-[var(--primary)]' : 'bg-gray-50 text-[var(--text-secondary)] border-transparent hover:bg-gray-100'
                     }`}
                 >
-                  <span className="material-symbols-outlined text-base sm:text-lg">{t.icon}</span>
+                  <span className="material-symbols-outlined text-base">{t.icon}</span>
                   {t.label}
                 </button>
               ))}
@@ -205,7 +205,7 @@ function RoutineForm({ initial, onSave, onCancel }) {
               <select
                 value={form.period}
                 onChange={e => update('period', e.target.value)}
-                className="w-full border border-[var(--border)] rounded-2xl px-3 py-3 text-sm outline-none bg-white appearance-none"
+                className="w-full h-[48px] border border-[var(--border)] rounded-2xl px-3 py-2 text-sm outline-none bg-white appearance-none"
               >
                 {PERIODS.map(p => <option key={p} value={p}>{PERIOD_LABELS[p]}</option>)}
               </select>
@@ -216,7 +216,7 @@ function RoutineForm({ initial, onSave, onCancel }) {
                 type="time"
                 value={form.time}
                 onChange={e => update('time', e.target.value)}
-                className="w-full border border-[var(--border)] rounded-2xl px-3 py-[10.5px] text-sm outline-none bg-white"
+                className="w-full h-[48px] border border-[var(--border)] rounded-2xl px-3 py-2 text-sm outline-none bg-white"
               />
             </div>
           </div>
@@ -224,12 +224,12 @@ function RoutineForm({ initial, onSave, onCancel }) {
           {/* Days */}
           <div className="mb-4">
             <label className="text-xs font-bold text-[var(--text-secondary)] uppercase tracking-wider mb-2 block">Días</label>
-            <div className="flex flex-wrap gap-1.5 sm:gap-2">
+            <div className="grid grid-cols-7 gap-1.5 sm:gap-2">
               {DAY_LABELS.map((label, idx) => (
                 <button
                   key={idx}
                   onClick={() => toggleDay(idx)}
-                  className={`flex-1 min-w-0 h-9 sm:h-10 rounded-xl text-[11px] sm:text-xs font-bold transition-all ${form.days.includes(idx) ? 'bg-[var(--primary)] text-white' : 'bg-gray-50 text-[var(--text-secondary)]'
+                  className={`h-10 rounded-xl text-[10px] sm:text-xs font-bold transition-all ${form.days.includes(idx) ? 'bg-[var(--primary)] text-white' : 'bg-gray-50 text-[var(--text-secondary)]'
                     }`}
                 >
                   {label}
@@ -336,11 +336,11 @@ function RoutineForm({ initial, onSave, onCancel }) {
           </div>
 
           {/* Actions */}
-          <div className="flex gap-3 pt-2">
-            <button onClick={onCancel} className="flex-1 py-3.5 rounded-2xl bg-gray-100 text-[var(--text-secondary)] font-semibold">Cancelar</button>
+          <div className="flex gap-3 pt-4 pb-8">
+            <button onClick={onCancel} className="flex-1 py-4 rounded-2xl bg-gray-100 text-[var(--text-secondary)] font-bold">Cancelar</button>
             <button
               onClick={() => { if (form.name.trim()) onSave(form); }}
-              className="flex-1 py-3.5 rounded-2xl bg-[var(--primary)] text-white font-semibold hover:opacity-90 transition-all"
+              className="flex-1 py-4 rounded-2xl bg-[var(--primary)] text-white font-bold hover:opacity-90 transition-all shadow-lg shadow-blue-500/20"
             >
               {initial ? 'Actualizar' : 'Crear'}
             </button>
