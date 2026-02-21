@@ -14,26 +14,26 @@ export default function Layout({ children }) {
     return (
         <div className="bg-[var(--bg-main)] min-h-screen min-h-[100dvh] relative font-sans text-[var(--text-main)] overflow-x-hidden">
             {/* Page Content */}
-            <div className="w-full flex justify-center pb-[88px]">
+            <div className="w-full flex justify-center pb-28">
                 <div className="w-full">
                     {children}
                 </div>
             </div>
 
-            {/* iOS-style Tab Bar */}
-            <div className="fixed bottom-0 left-0 right-0 z-50">
-                {/* Top hairline border */}
-                <div className="h-px bg-black/[0.12]" />
-
-                {/* Bar body with blur */}
+            {/* iOS App Store-style floating tab bar */}
+            <div
+                className="fixed bottom-5 left-4 right-4 z-50 flex justify-center"
+                style={{ paddingBottom: 'env(safe-area-inset-bottom, 0px)' }}
+            >
                 <nav
-                    className="flex items-start justify-around"
+                    className="flex items-center justify-center gap-0 w-full max-w-md"
                     style={{
-                        backgroundColor: 'rgba(249, 249, 249, 0.88)',
+                        backgroundColor: 'rgba(245, 245, 247, 0.82)',
                         backdropFilter: 'saturate(180%) blur(20px)',
                         WebkitBackdropFilter: 'saturate(180%) blur(20px)',
-                        paddingBottom: 'env(safe-area-inset-bottom, 8px)',
-                        paddingTop: '6px',
+                        borderRadius: '40px',
+                        padding: '6px 6px',
+                        boxShadow: '0 2px 20px rgba(0,0,0,0.06), 0 0 0 0.5px rgba(0,0,0,0.04)',
                     }}
                 >
                     {navItems.map((item) => {
@@ -42,32 +42,51 @@ export default function Layout({ children }) {
                             <Link
                                 key={item.name}
                                 to={item.path}
-                                className="flex flex-col items-center justify-center pt-[2px] pb-[2px] min-w-[64px] group"
-                                style={{ WebkitTapHighlightColor: 'transparent' }}
+                                className="flex flex-col items-center justify-center relative"
+                                style={{
+                                    WebkitTapHighlightColor: 'transparent',
+                                    flex: '1 1 0%',
+                                    minWidth: 0,
+                                }}
                             >
-                                <span
-                                    className={`material-symbols-outlined transition-colors duration-200 ${isActive ? 'fill-1' : ''
-                                        }`}
-                                    style={{
-                                        fontSize: '28px',
-                                        lineHeight: '30px',
-                                        color: isActive ? '#007AFF' : '#8E8E93',
-                                    }}
-                                >
-                                    {item.icon}
-                                </span>
-                                <span
-                                    className="transition-colors duration-200"
-                                    style={{
-                                        fontSize: '10px',
-                                        fontWeight: isActive ? 600 : 500,
-                                        letterSpacing: '0.01em',
-                                        marginTop: '1px',
-                                        color: isActive ? '#007AFF' : '#8E8E93',
-                                    }}
-                                >
-                                    {item.name}
-                                </span>
+                                {/* Active pill background */}
+                                {isActive && (
+                                    <div
+                                        className="absolute inset-[2px]"
+                                        style={{
+                                            borderRadius: '34px',
+                                            background: 'rgba(255,255,255,0.75)',
+                                            boxShadow: '0 1px 4px rgba(0,0,0,0.04), 0 0 0 0.5px rgba(0,0,0,0.02)',
+                                        }}
+                                    />
+                                )}
+
+                                {/* Content */}
+                                <div className="relative z-10 flex flex-col items-center py-[7px]">
+                                    <span
+                                        className={`material-symbols-outlined ${isActive ? 'fill-1' : ''}`}
+                                        style={{
+                                            fontSize: '26px',
+                                            lineHeight: 1,
+                                            color: isActive ? '#007AFF' : '#1C1C1E',
+                                            transition: 'color 0.2s ease',
+                                        }}
+                                    >
+                                        {item.icon}
+                                    </span>
+                                    <span
+                                        style={{
+                                            fontSize: '10px',
+                                            fontWeight: isActive ? 600 : 500,
+                                            letterSpacing: '0.01em',
+                                            marginTop: '2px',
+                                            color: isActive ? '#007AFF' : '#1C1C1E',
+                                            transition: 'color 0.2s ease',
+                                        }}
+                                    >
+                                        {item.name}
+                                    </span>
+                                </div>
                             </Link>
                         );
                     })}
