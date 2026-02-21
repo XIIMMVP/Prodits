@@ -318,11 +318,11 @@ export default function Dashboard() {
           )}
           <button
             onClick={() => dispatch({ type: 'TOGGLE_EMERGENCY' })}
-            className={`flex items-center gap-2 px-4 py-2 rounded-full ios-shadow border transition-all ${emergency ? 'bg-orange-500 text-white border-orange-400' : 'bg-white text-[var(--text-secondary)] border-gray-100'
+            className={`flex items-center gap-2 px-4 py-2 rounded-full ios-shadow border transition-all ${emergency ? 'bg-blue-500 text-white border-blue-400' : 'bg-white text-[var(--text-secondary)] border-gray-100'
               }`}
           >
             <span className="text-xs font-bold uppercase tracking-wider">Emergencia</span>
-            <div className={`w-10 h-5 rounded-full relative transition-colors ${emergency ? 'bg-orange-300' : 'bg-gray-200'}`}>
+            <div className={`w-10 h-5 rounded-full relative transition-colors ${emergency ? 'bg-blue-300' : 'bg-gray-200'}`}>
               <div className={`absolute top-0.5 w-4 h-4 bg-white rounded-full shadow-sm transition-all ${emergency ? 'right-0.5' : 'left-0.5'}`} />
             </div>
           </button>
