@@ -131,8 +131,8 @@ export default function Insights() {
   const rings = [
     { label: 'Anillo Salud', sublabel: 'Vitalidad', ratio: healthRatio, color: 'stroke-emerald-500', changeColor: 'text-emerald-600' },
     { label: 'Anillo Mente', sublabel: 'Claridad', ratio: mindRatio, color: 'stroke-[var(--primary)]', changeColor: 'text-primary' },
-    { label: 'Anillo Trabajo', sublabel: 'Productividad', ratio: trabajoRatio, color: 'stroke-indigo-500', changeColor: 'text-indigo-600' },
     { label: 'Anillo Hogar', sublabel: 'Presencia', ratio: hogarRatio, color: 'stroke-[#FF9500]', changeColor: 'text-rose-500' },
+    { label: 'Anillo Trabajo', sublabel: 'Productividad', ratio: trabajoRatio, color: 'stroke-indigo-500', changeColor: 'text-indigo-600' },
   ];
 
   return (
