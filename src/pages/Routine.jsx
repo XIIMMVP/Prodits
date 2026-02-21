@@ -5,7 +5,7 @@ const ICONS = ['wb_sunny', 'fitness_center', 'water_drop', 'menu_book', 'laptop_
 const COLOR_OPTIONS = ['orange', 'blue', 'indigo', 'teal', 'purple', 'red', 'green', 'pink'];
 const DAY_LABELS = ['Dom', 'Lun', 'Mar', 'Mié', 'Jue', 'Vie', 'Sáb'];
 const PERIOD_LABELS = { mañana: 'Mañana', tarde: 'Tarde', noche: 'Noche' };
-const CATEGORY_LABELS = { salud: 'Salud', mente: 'Mente', hogar: 'Hogar', carrera: 'Carrera' };
+const CATEGORY_LABELS = { salud: 'Salud', mente: 'Mente', hogar: 'Hogar', trabajo: 'Trabajo' };
 const TYPE_OPTIONS = [
   { value: 'check', label: 'Checkbox', icon: 'check_circle' },
   { value: 'counter', label: 'Contador', icon: 'pin' },

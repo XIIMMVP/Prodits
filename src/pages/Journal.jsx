@@ -1,9 +1,9 @@
 import { useState, useRef } from 'react';
 import { useStore, uid, today } from '../store/useStore';
 
-const CATEGORY_LABELS = { salud: 'Salud y Vitalidad', mente: 'Crecimiento Personal', carrera: 'Productividad', hogar: 'Estilo de Vida' };
-const FILTER_TABS = ['Todos', 'Salud', 'Carrera', 'Mente', 'Hogar'];
-const CATEGORY_MAP = { Todos: null, Salud: 'salud', Carrera: 'carrera', Mente: 'mente', Hogar: 'hogar' };
+const CATEGORY_LABELS = { salud: 'Salud y Vitalidad', mente: 'Crecimiento Personal', trabajo: 'Productividad', hogar: 'Estilo de Vida' };
+const FILTER_TABS = ['Todos', 'Salud', 'Trabajo', 'Mente', 'Hogar'];
+const CATEGORY_MAP = { Todos: null, Salud: 'salud', Trabajo: 'trabajo', Mente: 'mente', Hogar: 'hogar' };
 
 const PLACEHOLDER_PHOTOS = [
   'https://images.unsplash.com/photo-1571019614242-c5c5dee9f50b?w=600&q=80',
@@ -32,7 +32,7 @@ function NewEntryModal({ onSave, onClose }) {
 
         <div className="mb-4">
           <label className="text-xs font-bold text-[var(--text-secondary)] uppercase tracking-wider mb-2 block">Título</label>
-          <input value={form.title} onChange={e => update('title', e.target.value)} placeholder="ej. Carrera Matutina" className="w-full border border-[var(--border)] rounded-2xl px-4 py-3 text-sm outline-none focus:ring-2 focus:ring-[var(--primary)]/20 focus:border-[var(--primary)]" />
+          <input value={form.title} onChange={e => update('title', e.target.value)} placeholder="ej. Sesión Productiva" className="w-full border border-[var(--border)] rounded-2xl px-4 py-3 text-sm outline-none focus:ring-2 focus:ring-[var(--primary)]/20 focus:border-[var(--primary)]" />
         </div>
 
         <div className="mb-4">

@@ -9,7 +9,7 @@ const load = () => {
 };
 
 // ─── Default State ──────────────────────────────────────────
-const CATEGORIES = ['salud', 'mente', 'hogar', 'carrera'];
+const CATEGORIES = ['salud', 'mente', 'hogar', 'trabajo'];
 const PERIODS = ['mañana', 'tarde', 'noche'];
 
 const defaultRoutines = [
@@ -31,7 +31,7 @@ const defaultRoutines = [
     },
     {
         id: uid(), name: 'Sesión de Trabajo Profundo', icon: 'laptop_mac', color: 'indigo',
-        category: 'carrera', period: 'tarde', days: [1, 2, 3, 4, 5],
+        category: 'trabajo', period: 'tarde', days: [1, 2, 3, 4, 5],
         time: '14:00', essential: true, type: 'focus', focusDuration: 25,
         subtasks: []
     },
@@ -59,12 +59,12 @@ const defaultState = {
     journal: [
         {
             id: uid(), date: today(), category: 'salud', title: 'Disciplina Mañanera',
-            text: 'Carrera de 5km completada al amanecer. Saliendo de la zona de confort.',
+            text: 'Meta de 5km completada al amanecer. Saliendo de la zona de confort.',
             photo: 'https://images.unsplash.com/photo-1571019614242-c5c5dee9f50b?w=600&q=80',
             time: '07:30 AM'
         },
         {
-            id: uid(), date: today(), category: 'carrera', title: 'Sesión de Trabajo Enfocado',
+            id: uid(), date: today(), category: 'trabajo', title: 'Sesión de Trabajo Enfocado',
             text: '3 horas de programación concentrada sin distracciones. Hito alcanzado.',
             photo: 'https://images.unsplash.com/photo-1498050108023-c5249f4df085?w=600&q=80',
             time: '04:00 PM'
