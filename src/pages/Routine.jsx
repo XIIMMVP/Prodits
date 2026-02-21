@@ -107,8 +107,7 @@ function RoutineForm({ initial, onSave, onCancel }) {
         onClick={e => e.stopPropagation()}
       >
         {/* Sticky Header with Drag Handle - Matching Settings style */}
-        <div className="sticky top-0 z-10 bg-[var(--bg-main)] pt-3 pb-2 px-5 sm:px-6 border-b border-gray-100">
-          <div className="w-10 h-1 rounded-full bg-gray-200 mx-auto mb-3 sm:hidden" />
+        <div className="sticky top-0 z-10 bg-[var(--bg-main)] pt-5 pb-3 px-5 sm:px-6">
           <div className="flex items-center justify-between">
             <h2 className="text-lg font-bold">{initial ? 'Editar Rutina' : 'Nueva Rutina'}</h2>
             <button

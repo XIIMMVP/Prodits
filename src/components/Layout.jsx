@@ -136,8 +136,7 @@ export default function Layout({ children }) {
                             style={{ height: '93vh', height: '93dvh' }}
                             onClick={e => e.stopPropagation()}
                         >
-                            <div className="sticky top-0 z-10 bg-[var(--bg-main)] pt-3 pb-2 px-5">
-                                <div className="w-10 h-1 rounded-full bg-gray-300 mx-auto mb-3" />
+                            <div className="sticky top-0 z-10 bg-[var(--bg-main)] pt-5 pb-3 px-5">
                                 <div className="flex items-center justify-between">
                                     <h2 className="text-lg font-bold">Cuenta</h2>
                                     <button
