@@ -67,9 +67,17 @@ function FocusTimer({ routine, check, dispatch, onDelete }) {
   };
 
   return (
-    <div className="bg-white rounded-[2rem] p-6 ios-shadow flex flex-col items-center justify-center text-center">
+    <div className={`bg-white rounded-[2rem] p-6 ios-shadow flex flex-col items-center justify-center text-center ${routine.essential ? 'border-l-4 border-l-[var(--primary)]' : ''} ${routine.energetic ? 'border-l-4 border-l-amber-400' : ''}`}>
       <div className="w-full flex justify-between items-center mb-4">
-        <span className="text-xs font-bold text-[var(--text-secondary)] uppercase tracking-wider">{routine.name}</span>
+        <div className="flex items-center gap-2">
+          <span className="text-xs font-bold text-[var(--text-secondary)] uppercase tracking-wider">{routine.name}</span>
+          {routine.essential && (
+            <span className="text-[10px] font-bold text-[var(--primary)] bg-blue-50 px-2 py-0.5 rounded-md uppercase tracking-wide">Esencial</span>
+          )}
+          {routine.energetic && (
+            <span className="text-[10px] font-bold text-amber-600 bg-amber-50 px-2 py-0.5 rounded-md uppercase tracking-wide">Extra 🔥</span>
+          )}
+        </div>
         <div className="flex items-center gap-2">
           <button onClick={resetTimer} className="text-[var(--text-secondary)] hover:text-[var(--text-main)] transition-colors">
             <span className="material-symbols-outlined text-lg">restart_alt</span>
@@ -118,7 +126,7 @@ function CounterCard({ routine, check, dispatch, onDelete }) {
   const col = COLORS[routine.color] || COLORS.blue;
 
   return (
-    <div className={`bg-white rounded-[1.5rem] p-5 ios-shadow flex items-center justify-between relative group ${check?.done ? 'ring-2 ring-emerald-200' : ''}`}>
+    <div className={`bg-white rounded-[1.5rem] p-5 ios-shadow flex items-center justify-between relative group ${check?.done ? 'ring-2 ring-emerald-200' : ''} ${routine.essential ? 'border-l-4 border-l-[var(--primary)]' : ''} ${routine.energetic ? 'border-l-4 border-l-amber-400' : ''}`}>
       <button
         onClick={(e) => { e.stopPropagation(); onDelete(routine); }}
         className="absolute top-2 right-2 w-7 h-7 rounded-full bg-red-50 text-red-500 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity ios-shadow z-10 hidden sm:flex hover:bg-red-100"
@@ -131,7 +139,15 @@ function CounterCard({ routine, check, dispatch, onDelete }) {
           <span className="material-symbols-outlined fill-1">{routine.icon}</span>
         </div>
         <div>
-          <h4 className="font-bold">{routine.name}</h4>
+          <div className="flex items-center gap-2">
+            <h4 className="font-bold">{routine.name}</h4>
+            {routine.essential && (
+              <span className="text-[10px] font-bold text-[var(--primary)] bg-blue-50 px-2 py-0.5 rounded-md uppercase tracking-wide">Esencial</span>
+            )}
+            {routine.energetic && (
+              <span className="text-[10px] font-bold text-amber-600 bg-amber-50 px-2 py-0.5 rounded-md uppercase tracking-wide">Extra 🔥</span>
+            )}
+          </div>
           <p className="text-xs text-[var(--text-secondary)]">{count} de {target} {check?.done ? '✓' : ''}</p>
         </div>
       </div>
