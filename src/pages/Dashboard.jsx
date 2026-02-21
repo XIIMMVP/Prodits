@@ -423,7 +423,7 @@ export default function Dashboard() {
           </div>
           <button
             onClick={() => dispatch({ type: 'SET_ENERGETIC_MODE', value: true })}
-            className="px-6 py-2 bg-amber-600 text-white rounded-xl text-xs font-bold hover:bg-amber-700 transition-colors whitespace-nowrap ios-shadow"
+            className="px-6 py-2 bg-gradient-to-br from-amber-400 to-orange-500 text-white rounded-xl text-xs font-bold hover:opacity-90 transition-opacity whitespace-nowrap shadow-lg shadow-amber-200"
           >
             Activar
           </button>
