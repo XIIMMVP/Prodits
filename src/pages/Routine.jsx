@@ -400,6 +400,11 @@ export default function Routine() {
   const [editing, setEditing] = useState(null);
   const [filter, setFilter] = useState('all');
   const [deleteConfirm, setDeleteConfirm] = useState(null);
+  const [reorderMode, setReorderMode] = useState(false);
+  const [draggingIdx, setDraggingIdx] = useState(null);
+  const dragStartY = useRef(0);
+  const dragCurrentY = useRef(0);
+  const cardRefs = useRef([]);
 
   const filtered = filter === 'all'
     ? state.routines
@@ -425,27 +430,85 @@ export default function Routine() {
     setDeleteConfirm(null);
   };
 
+  const moveRoutine = (fromIdx, toIdx) => {
+    if (toIdx < 0 || toIdx >= state.routines.length) return;
+    dispatch({ type: 'REORDER_ROUTINES', fromIndex: fromIdx, toIndex: toIdx });
+  };
+
+  // Touch drag handlers for reorder
+  const handleDragStart = (e, idx) => {
+    e.stopPropagation();
+    setDraggingIdx(idx);
+    dragStartY.current = e.touches[0].clientY;
+    dragCurrentY.current = e.touches[0].clientY;
+  };
+
+  const handleDragMove = (e) => {
+    if (draggingIdx === null) return;
+    e.preventDefault();
+    dragCurrentY.current = e.touches[0].clientY;
+    const diff = dragCurrentY.current - dragStartY.current;
+    const cardHeight = 72; // approximate card height + gap
+
+    if (Math.abs(diff) > cardHeight) {
+      const direction = diff > 0 ? 1 : -1;
+      const newIdx = draggingIdx + direction;
+      if (newIdx >= 0 && newIdx < state.routines.length) {
+        moveRoutine(draggingIdx, newIdx);
+        setDraggingIdx(newIdx);
+        dragStartY.current = dragCurrentY.current;
+      }
+    }
+  };
+
+  const handleDragEnd = () => {
+    setDraggingIdx(null);
+  };
+
+  const toggleReorderMode = () => {
+    if (!reorderMode) setFilter('all'); // Reorder only works on all routines
+    setReorderMode(!reorderMode);
+  };
+
   return (
-    <main className="w-full max-w-4xl mx-auto px-4 sm:px-6 pt-6 sm:pt-8 pb-10">
+    <main
+      className="w-full max-w-4xl mx-auto px-4 sm:px-6 pt-6 sm:pt-8 pb-10"
+      onTouchMove={reorderMode ? handleDragMove : undefined}
+      onTouchEnd={reorderMode ? handleDragEnd : undefined}
+    >
       <header className="flex flex-col gap-3 sm:gap-4 mb-6 sm:mb-8">
-        <div>
-          <span className="text-[var(--primary)] text-xs font-bold tracking-widest uppercase mb-1 block">Gestión</span>
-          <h1 className="text-3xl sm:text-4xl font-bold tracking-tight text-[var(--text-main)]">Rutinas</h1>
-        </div>
-        <div className="flex items-center gap-3">
-          <div className="flex gap-1 bg-gray-50 p-1 rounded-xl overflow-x-auto">
-            {[{ key: 'all', label: 'Todas' }, ...CATEGORIES.map(c => ({ key: c, label: CATEGORY_LABELS[c] }))].map(f => (
-              <button
-                key={f.key}
-                onClick={() => setFilter(f.key)}
-                className={`px-2.5 sm:px-3 py-1.5 rounded-lg text-xs font-semibold transition-all whitespace-nowrap ${filter === f.key ? 'bg-white text-[var(--text-main)] ios-shadow' : 'text-[var(--text-secondary)]'
-                  }`}
-              >
-                {f.label}
-              </button>
-            ))}
+        <div className="flex items-center justify-between">
+          <div>
+            <span className="text-[var(--primary)] text-xs font-bold tracking-widest uppercase mb-1 block">Gestión</span>
+            <h1 className="text-3xl sm:text-4xl font-bold tracking-tight text-[var(--text-main)]">Rutinas</h1>
           </div>
+          <button
+            onClick={toggleReorderMode}
+            className={`flex items-center gap-1.5 px-3 py-2 rounded-xl text-xs font-semibold transition-all ${reorderMode
+                ? 'bg-[var(--primary)] text-white'
+                : 'bg-gray-50 text-[var(--text-secondary)] hover:bg-gray-100'
+              }`}
+          >
+            <span className="material-symbols-outlined text-base">{reorderMode ? 'check' : 'swap_vert'}</span>
+            {reorderMode ? 'Listo' : 'Ordenar'}
+          </button>
         </div>
+        {!reorderMode && (
+          <div className="flex items-center gap-3">
+            <div className="flex gap-1 bg-gray-50 p-1 rounded-xl overflow-x-auto">
+              {[{ key: 'all', label: 'Todas' }, ...CATEGORIES.map(c => ({ key: c, label: CATEGORY_LABELS[c] }))].map(f => (
+                <button
+                  key={f.key}
+                  onClick={() => setFilter(f.key)}
+                  className={`px-2.5 sm:px-3 py-1.5 rounded-lg text-xs font-semibold transition-all whitespace-nowrap ${filter === f.key ? 'bg-white text-[var(--text-main)] ios-shadow' : 'text-[var(--text-secondary)]'
+                    }`}
+                >
+                  {f.label}
+                </button>
+              ))}
+            </div>
+          </div>
+        )}
       </header>
 
       {filtered.length === 0 ? (
@@ -455,6 +518,63 @@ export default function Routine() {
           </div>
           <h3 className="text-xl font-bold mb-2">No hay rutinas aún</h3>
           <p className="text-[var(--text-secondary)] max-w-sm mb-6">Toca el botón + para crear tu primera rutina. Nuestra IA puede ayudarte a desglosar tareas complejas.</p>
+        </div>
+      ) : reorderMode ? (
+        /* ─── Reorder Mode ─── */
+        <div className="space-y-2">
+          {state.routines.map((routine, idx) => {
+            const col = COLORS[routine.color] || COLORS.blue;
+            const isDragging = draggingIdx === idx;
+            return (
+              <div
+                key={routine.id}
+                ref={el => cardRefs.current[idx] = el}
+                className={`bg-white rounded-2xl p-3 sm:p-4 ios-shadow flex items-center gap-3 transition-all select-none ${isDragging ? 'scale-[1.02] shadow-lg ring-2 ring-[var(--primary)]/30 opacity-90' : ''
+                  }`}
+              >
+                {/* Drag Handle */}
+                <div
+                  className="flex items-center justify-center w-8 h-10 cursor-grab active:cursor-grabbing flex-shrink-0 touch-none"
+                  onTouchStart={(e) => handleDragStart(e, idx)}
+                >
+                  <span className="material-symbols-outlined text-xl text-gray-300">drag_indicator</span>
+                </div>
+
+                {/* Icon */}
+                <div className={`w-9 h-9 rounded-xl ${col.bg} flex items-center justify-center ${col.text} flex-shrink-0`}>
+                  <span className="material-symbols-outlined text-lg fill">{routine.icon}</span>
+                </div>
+
+                {/* Name */}
+                <div className="min-w-0 flex-1">
+                  <h3 className="text-sm font-semibold text-[var(--text-main)] truncate">{routine.name}</h3>
+                  <p className="text-xs text-[var(--text-secondary)]">
+                    {routine.days.length === 7 ? 'Diario' : routine.days.map(d => DAY_LABELS[d]).join(', ')}
+                  </p>
+                </div>
+
+                {/* Up / Down */}
+                <div className="flex flex-col gap-0.5 flex-shrink-0">
+                  <button
+                    onClick={() => moveRoutine(idx, idx - 1)}
+                    disabled={idx === 0}
+                    className={`w-8 h-8 rounded-lg flex items-center justify-center transition-all ${idx === 0 ? 'text-gray-200' : 'text-[var(--text-secondary)] hover:bg-gray-50 active:bg-gray-100'
+                      }`}
+                  >
+                    <span className="material-symbols-outlined text-lg">keyboard_arrow_up</span>
+                  </button>
+                  <button
+                    onClick={() => moveRoutine(idx, idx + 1)}
+                    disabled={idx === state.routines.length - 1}
+                    className={`w-8 h-8 rounded-lg flex items-center justify-center transition-all ${idx === state.routines.length - 1 ? 'text-gray-200' : 'text-[var(--text-secondary)] hover:bg-gray-50 active:bg-gray-100'
+                      }`}
+                  >
+                    <span className="material-symbols-outlined text-lg">keyboard_arrow_down</span>
+                  </button>
+                </div>
+              </div>
+            );
+          })}
         </div>
       ) : (
         <div className="space-y-3">
@@ -470,12 +590,14 @@ export default function Routine() {
       )}
 
       {/* FAB */}
-      <button
-        onClick={() => { setEditing(null); setFormOpen(true); }}
-        className="fixed bottom-24 right-6 sm:right-8 w-14 h-14 rounded-full bg-[var(--primary)] text-white flex items-center justify-center shadow-2xl shadow-blue-500/40 hover:scale-105 active:scale-95 transition-all z-40"
-      >
-        <span className="material-symbols-outlined text-3xl">add</span>
-      </button>
+      {!reorderMode && (
+        <button
+          onClick={() => { setEditing(null); setFormOpen(true); }}
+          className="fixed bottom-24 right-6 sm:right-8 w-14 h-14 rounded-full bg-[var(--primary)] text-white flex items-center justify-center shadow-2xl shadow-blue-500/40 hover:scale-105 active:scale-95 transition-all z-40"
+        >
+          <span className="material-symbols-outlined text-3xl">add</span>
+        </button>
+      )}
 
       {/* Form Modal */}
       {formOpen && (

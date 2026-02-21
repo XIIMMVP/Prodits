@@ -147,6 +147,12 @@ function reducer(state, action) {
         case 'DELETE_ROUTINE': {
             return { ...state, routines: state.routines.filter(r => r.id !== action.id) };
         }
+        case 'REORDER_ROUTINES': {
+            const routines = [...state.routines];
+            const [moved] = routines.splice(action.fromIndex, 1);
+            routines.splice(action.toIndex, 0, moved);
+            return { ...state, routines };
+        }
         case 'ADD_JOURNAL': {
             const newEntry = { id: uid(), date: today(), ...action.entry };
             return { ...state, journal: [newEntry, ...state.journal], _lastJournal: newEntry };
@@ -296,6 +302,11 @@ async function syncAction(userId, action, state) {
         case 'DELETE_ROUTINE': {
             console.log('[Sync] Deleting routine:', action.id);
             await sync.deleteRoutine(action.id);
+            break;
+        }
+        case 'REORDER_ROUTINES': {
+            console.log('[Sync] Reordering routines');
+            await sync.upsertAllRoutines(userId, state.routines);
             break;
         }
 
