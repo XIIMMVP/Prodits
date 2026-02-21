@@ -97,7 +97,7 @@ function FocusTimer({ routine, check, dispatch, onDelete }) {
       <div className="relative w-36 h-36 flex items-center justify-center mb-4">
         <svg className="w-full h-full -rotate-90">
           <circle cx={72} cy={72} fill="none" r={68} stroke="#F2F2F7" strokeWidth={8} />
-          <circle cx={72} cy={72} fill="none" r={68} stroke={check?.done ? '#34C759' : '#D1D1D6'} strokeDasharray={circumference} strokeDashoffset={check?.done ? 0 : offset} strokeLinecap="round" strokeWidth={8} className="transition-all duration-500" />
+          <circle cx={72} cy={72} fill="none" r={68} stroke={check?.done ? '#10b981' : '#D1D1D6'} strokeDasharray={circumference} strokeDashoffset={check?.done ? 0 : offset} strokeLinecap="round" strokeWidth={8} className="transition-all duration-500" />
         </svg>
         <div className="absolute inset-0 flex flex-col items-center justify-center">
           <span className={`text-3xl font-bold tracking-tight ${check?.done ? 'text-emerald-500' : ''}`}>
