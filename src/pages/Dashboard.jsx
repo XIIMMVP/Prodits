@@ -359,11 +359,11 @@ export default function Dashboard() {
                   }
                 }}
                 className={`flex items-center justify-center rounded-2xl transition-all duration-300 ${energyLevel === e.level
-                  ? e.level <= 1
+                  ? e.level <= 2
                     ? 'w-14 h-14 bg-blue-500 text-3xl shadow-lg shadow-blue-200 scale-110'
                     : e.level >= 4
                       ? 'w-14 h-14 bg-gradient-to-br from-amber-400 to-orange-500 text-3xl shadow-lg shadow-amber-200 scale-110'
-                      : 'w-14 h-14 bg-slate-600 text-3xl shadow-lg shadow-slate-200 scale-110'
+                      : 'w-14 h-14 bg-gray-100 text-3xl shadow-lg shadow-gray-200 scale-110'
                   : 'w-12 h-12 hover:bg-gray-50 text-2xl hover:scale-105'
                   }`}
               >
