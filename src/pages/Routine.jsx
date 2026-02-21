@@ -202,13 +202,16 @@ function RoutineForm({ initial, onSave, onCancel }) {
           <div className="grid grid-cols-2 gap-3 mb-5">
             <div className="min-w-0">
               <label className="text-xs font-bold text-[var(--text-secondary)] uppercase tracking-wider mb-2 block">Momento</label>
-              <select
-                value={form.period}
-                onChange={e => update('period', e.target.value)}
-                className="w-full h-[48px] border border-[var(--border)] rounded-2xl px-3 py-2 text-sm outline-none bg-white appearance-none"
-              >
-                {PERIODS.map(p => <option key={p} value={p}>{PERIOD_LABELS[p]}</option>)}
-              </select>
+              <div className="relative h-12">
+                <select
+                  value={form.period}
+                  onChange={e => update('period', e.target.value)}
+                  className="w-full h-full border border-[var(--border)] rounded-2xl px-4 text-sm outline-none bg-white appearance-none pr-8"
+                >
+                  {PERIODS.map(p => <option key={p} value={p}>{PERIOD_LABELS[p]}</option>)}
+                </select>
+                <span className="material-symbols-outlined absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none text-lg">expand_more</span>
+              </div>
             </div>
             <div className="min-w-0">
               <label className="text-xs font-bold text-[var(--text-secondary)] uppercase tracking-wider mb-2 block">Hora</label>
@@ -216,7 +219,8 @@ function RoutineForm({ initial, onSave, onCancel }) {
                 type="time"
                 value={form.time}
                 onChange={e => update('time', e.target.value)}
-                className="w-full h-[48px] border border-[var(--border)] rounded-2xl px-3 py-2 text-sm outline-none bg-white"
+                className="w-full h-12 border border-[var(--border)] rounded-2xl px-4 text-sm outline-none bg-white flex items-center leading-none"
+                style={{ WebkitAppearance: 'none', lineHeight: 'normal' }}
               />
             </div>
           </div>
