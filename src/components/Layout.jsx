@@ -58,7 +58,7 @@ export default function Layout({ children }) {
 
                 {/* iOS-style floating tab bar — 4 items */}
                 <div
-                    className="fixed bottom-5 left-4 right-4 z-50 flex justify-center"
+                    className="fixed bottom-4 left-4 right-4 z-50 flex justify-center"
                     style={{ paddingBottom: 'env(safe-area-inset-bottom, 0px)' }}
                 >
                     <nav
