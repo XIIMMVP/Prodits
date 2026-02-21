@@ -358,20 +358,20 @@ function RoutineCard({ routine, onEdit, onDelete }) {
       </div>
       {/* Card */}
       <div
-        className="bg-white rounded-2xl p-5 ios-shadow flex items-center justify-between cursor-pointer relative z-10 transition-transform"
+        className="bg-white rounded-2xl p-4 sm:p-5 ios-shadow flex items-center justify-between cursor-pointer relative z-10 transition-transform gap-3"
         style={{ transform: `translateX(${swipeX}px)` }}
         onTouchStart={handleTouchStart}
         onTouchMove={handleTouchMove}
         onTouchEnd={handleTouchEnd}
         onClick={() => { if (swipeX === 0) onEdit(); else setSwipeX(0); }}
       >
-        <div className="flex items-center gap-4">
-          <div className={`w-12 h-12 rounded-2xl ${col.bg} flex items-center justify-center ${col.text}`}>
-            <span className="material-symbols-outlined text-2xl fill">{routine.icon}</span>
+        <div className="flex items-center gap-3 sm:gap-4 min-w-0 flex-1">
+          <div className={`w-10 h-10 sm:w-12 sm:h-12 rounded-xl sm:rounded-2xl ${col.bg} flex items-center justify-center ${col.text} flex-shrink-0`}>
+            <span className="material-symbols-outlined text-xl sm:text-2xl fill">{routine.icon}</span>
           </div>
-          <div>
-            <div className="flex items-center gap-2">
-              <h3 className="text-lg font-semibold text-[var(--text-main)]">{routine.name}</h3>
+          <div className="min-w-0">
+            <div className="flex items-center gap-1.5 flex-wrap">
+              <h3 className="text-base sm:text-lg font-semibold text-[var(--text-main)] truncate">{routine.name}</h3>
               {routine.essential && (
                 <span className="px-1.5 py-0.5 rounded text-[8px] font-bold uppercase bg-blue-50 text-[var(--primary)]">Esencial</span>
               )}
@@ -384,8 +384,8 @@ function RoutineCard({ routine, onEdit, onDelete }) {
             </p>
           </div>
         </div>
-        <div className="flex items-center gap-2">
-          <span className="text-[10px] font-bold uppercase text-[var(--text-secondary)] bg-gray-50 px-2 py-1 rounded-lg">{routine.type}</span>
+        <div className="flex items-center gap-1.5 sm:gap-2 flex-shrink-0">
+          <span className="text-[9px] sm:text-[10px] font-bold uppercase text-[var(--text-secondary)] bg-gray-50 px-1.5 sm:px-2 py-1 rounded-lg">{routine.type}</span>
           <span className="material-symbols-outlined text-gray-300">chevron_right</span>
         </div>
       </div>
@@ -426,19 +426,19 @@ export default function Routine() {
   };
 
   return (
-    <main className="w-full max-w-4xl mx-auto px-6 pt-8 pb-10">
-      <header className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-8">
+    <main className="w-full max-w-4xl mx-auto px-4 sm:px-6 pt-6 sm:pt-8 pb-10">
+      <header className="flex flex-col gap-3 sm:gap-4 mb-6 sm:mb-8">
         <div>
           <span className="text-[var(--primary)] text-xs font-bold tracking-widest uppercase mb-1 block">Gestión</span>
-          <h1 className="text-4xl font-bold tracking-tight text-[var(--text-main)]">Rutinas</h1>
+          <h1 className="text-3xl sm:text-4xl font-bold tracking-tight text-[var(--text-main)]">Rutinas</h1>
         </div>
         <div className="flex items-center gap-3">
-          <div className="flex gap-1 bg-gray-50 p-1 rounded-xl">
+          <div className="flex gap-1 bg-gray-50 p-1 rounded-xl overflow-x-auto">
             {[{ key: 'all', label: 'Todas' }, ...CATEGORIES.map(c => ({ key: c, label: CATEGORY_LABELS[c] }))].map(f => (
               <button
                 key={f.key}
                 onClick={() => setFilter(f.key)}
-                className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition-all ${filter === f.key ? 'bg-white text-[var(--text-main)] ios-shadow' : 'text-[var(--text-secondary)]'
+                className={`px-2.5 sm:px-3 py-1.5 rounded-lg text-xs font-semibold transition-all whitespace-nowrap ${filter === f.key ? 'bg-white text-[var(--text-main)] ios-shadow' : 'text-[var(--text-secondary)]'
                   }`}
               >
                 {f.label}

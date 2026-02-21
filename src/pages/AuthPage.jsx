@@ -47,19 +47,19 @@ export default function AuthPage() {
     };
 
     return (
-        <div className="min-h-screen bg-[var(--bg-main)] flex items-center justify-center p-5">
+        <div className="min-h-screen min-h-[100dvh] bg-[var(--bg-main)] flex items-center justify-center p-4">
             <div className="w-full max-w-sm">
                 {/* Logo */}
-                <div className="text-center mb-10">
-                    <div className="w-20 h-20 rounded-3xl bg-gradient-to-br from-[var(--primary)] to-blue-400 flex items-center justify-center mx-auto mb-4 shadow-lg shadow-blue-200">
-                        <span className="text-4xl">🎯</span>
+                <div className="text-center mb-6 sm:mb-10">
+                    <div className="w-16 h-16 sm:w-20 sm:h-20 rounded-2xl sm:rounded-3xl bg-gradient-to-br from-[var(--primary)] to-blue-400 flex items-center justify-center mx-auto mb-3 shadow-lg shadow-blue-200">
+                        <span className="text-3xl sm:text-4xl">🎯</span>
                     </div>
-                    <h1 className="text-3xl font-black tracking-tight">Prodits</h1>
+                    <h1 className="text-2xl sm:text-3xl font-black tracking-tight">Prodits</h1>
                     <p className="text-sm text-[var(--text-secondary)] mt-1">Tu gestor de hábitos</p>
                 </div>
 
                 {/* Card */}
-                <div className="bg-white rounded-3xl ios-shadow p-6">
+                <div className="bg-white rounded-3xl ios-shadow p-5 sm:p-6">
                     <h2 className="text-xl font-bold mb-6 text-center">
                         {mode === 'login' ? 'Iniciar Sesión' : mode === 'register' ? 'Crear Cuenta' : 'Restablecer Contraseña'}
                     </h2>
@@ -78,7 +78,7 @@ export default function AuthPage() {
                         </div>
                     )}
 
-                    <form onSubmit={handleSubmit} className="space-y-4">
+                    <form onSubmit={handleSubmit} className="space-y-3 sm:space-y-4">
                         {mode === 'register' && (
                             <div>
                                 <label className="text-xs font-bold text-[var(--text-secondary)] uppercase tracking-wider mb-1.5 block">Nombre</label>
@@ -134,7 +134,7 @@ export default function AuthPage() {
 
                     {mode !== 'reset' && (
                         <>
-                            <div className="flex items-center gap-3 my-5">
+                            <div className="flex items-center gap-3 my-4 sm:my-5">
                                 <div className="flex-1 h-px bg-gray-200" />
                                 <span className="text-xs text-[var(--text-secondary)]">o</span>
                                 <div className="flex-1 h-px bg-gray-200" />

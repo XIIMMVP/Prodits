@@ -180,10 +180,10 @@ export default function Settings() {
     };
 
     return (
-        <div className="max-w-lg mx-auto px-5 pt-14 pb-8">
+        <div className="max-w-lg mx-auto px-4 sm:px-5 pt-10 sm:pt-14 pb-8">
             {/* Header */}
-            <header className="mb-8">
-                <h1 className="text-3xl font-black tracking-tight">Ajustes</h1>
+            <header className="mb-6 sm:mb-8">
+                <h1 className="text-2xl sm:text-3xl font-black tracking-tight">Ajustes</h1>
                 <p className="text-sm text-[var(--text-secondary)] mt-1">Personaliza tu experiencia</p>
             </header>
 

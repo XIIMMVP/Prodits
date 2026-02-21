@@ -70,15 +70,15 @@ function FocusTimer({ routine, check, dispatch, onDelete }) {
   };
 
   return (
-    <div className={`bg-white rounded-[2rem] p-6 ios-shadow flex flex-col items-center justify-center text-center ${routine.essential ? 'border-l-4 border-l-[var(--primary)]' : ''} ${routine.energetic ? 'border-l-4 border-l-amber-400' : ''}`}>
-      <div className="w-full flex justify-between items-center mb-4">
-        <div className="flex items-center gap-2">
-          <span className="text-xs font-bold text-[var(--text-secondary)] uppercase tracking-wider">{routine.name}</span>
+    <div className={`bg-white rounded-[2rem] p-4 sm:p-6 ios-shadow flex flex-col items-center justify-center text-center ${routine.essential ? 'border-l-4 border-l-[var(--primary)]' : ''} ${routine.energetic ? 'border-l-4 border-l-amber-400' : ''}`}>
+      <div className="w-full flex justify-between items-start mb-4">
+        <div className="flex items-center gap-1.5 flex-wrap min-w-0 flex-1">
+          <span className="text-xs font-bold text-[var(--text-secondary)] uppercase tracking-wider truncate">{routine.name}</span>
           {routine.essential && (
-            <span className="text-[10px] font-bold text-[var(--primary)] bg-blue-50 px-2 py-0.5 rounded-md uppercase tracking-wide">Esencial</span>
+            <span className="text-[9px] sm:text-[10px] font-bold text-[var(--primary)] bg-blue-50 px-1.5 py-0.5 rounded-md uppercase tracking-wide whitespace-nowrap">Esencial</span>
           )}
           {routine.energetic && (
-            <span className="text-[10px] font-bold text-amber-600 bg-amber-50 px-2 py-0.5 rounded-md uppercase tracking-wide">Extra 🔥</span>
+            <span className="text-[9px] sm:text-[10px] font-bold text-amber-600 bg-amber-50 px-1.5 py-0.5 rounded-md uppercase tracking-wide whitespace-nowrap">Extra 🔥</span>
           )}
         </div>
         <div className="flex items-center gap-2">
@@ -130,7 +130,7 @@ function CounterCard({ routine, check, dispatch, onDelete }) {
   const col = COLORS[routine.color] || COLORS.blue;
 
   return (
-    <div className={`bg-white rounded-[1.5rem] p-5 ios-shadow flex items-center justify-between relative group ${check?.done ? 'ring-2 ring-emerald-200' : ''} ${routine.essential ? 'border-l-4 border-l-[var(--primary)]' : ''} ${routine.energetic ? 'border-l-4 border-l-amber-400' : ''}`}>
+    <div className={`bg-white rounded-[1.5rem] p-4 sm:p-5 ios-shadow flex items-center justify-between gap-3 relative group ${check?.done ? 'ring-2 ring-emerald-200' : ''} ${routine.essential ? 'border-l-4 border-l-[var(--primary)]' : ''} ${routine.energetic ? 'border-l-4 border-l-amber-400' : ''}`}>
       <button
         onClick={(e) => { e.stopPropagation(); onDelete(routine); }}
         className="absolute top-2 right-2 w-7 h-7 rounded-full bg-red-50 text-red-500 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity ios-shadow z-10 hidden sm:flex hover:bg-red-100"
@@ -138,18 +138,18 @@ function CounterCard({ routine, check, dispatch, onDelete }) {
       >
         <span className="material-symbols-outlined text-sm">delete</span>
       </button>
-      <div className="flex items-center gap-4">
-        <div className={`w-12 h-12 rounded-2xl ${col.bg} flex items-center justify-center ${col.text}`}>
-          <span className="material-symbols-outlined fill-1">{routine.icon}</span>
+      <div className="flex items-center gap-3 sm:gap-4 min-w-0 flex-1">
+        <div className={`w-10 h-10 sm:w-12 sm:h-12 rounded-xl sm:rounded-2xl ${col.bg} flex items-center justify-center ${col.text} flex-shrink-0`}>
+          <span className="material-symbols-outlined fill-1 text-xl sm:text-2xl">{routine.icon}</span>
         </div>
-        <div>
-          <div className="flex items-center gap-2">
-            <h4 className="font-bold">{routine.name}</h4>
+        <div className="min-w-0">
+          <div className="flex items-center gap-1.5 flex-wrap">
+            <h4 className="font-bold text-sm sm:text-base truncate">{routine.name}</h4>
             {routine.essential && (
-              <span className="text-[10px] font-bold text-[var(--primary)] bg-blue-50 px-2 py-0.5 rounded-md uppercase tracking-wide">Esencial</span>
+              <span className="text-[9px] sm:text-[10px] font-bold text-[var(--primary)] bg-blue-50 px-1.5 py-0.5 rounded-md uppercase tracking-wide whitespace-nowrap">Esencial</span>
             )}
             {routine.energetic && (
-              <span className="text-[10px] font-bold text-amber-600 bg-amber-50 px-2 py-0.5 rounded-md uppercase tracking-wide">Extra 🔥</span>
+              <span className="text-[9px] sm:text-[10px] font-bold text-amber-600 bg-amber-50 px-1.5 py-0.5 rounded-md uppercase tracking-wide whitespace-nowrap">Extra 🔥</span>
             )}
           </div>
           <p className="text-xs text-[var(--text-secondary)]">{count} de {target} {check?.done ? '✓' : ''}</p>
@@ -180,7 +180,7 @@ function TaskCard({ routine, check, dispatch, onNote, onDelete }) {
   const col = COLORS[routine.color] || COLORS.blue;
 
   return (
-    <div className={`bg-white rounded-[1.5rem] p-5 ios-shadow flex items-start gap-4 transition-all relative group ${isDone ? 'opacity-60' : ''
+    <div className={`bg-white rounded-[1.5rem] p-4 sm:p-5 ios-shadow flex items-start gap-3 sm:gap-4 transition-all relative group ${isDone ? 'opacity-60' : ''
       } ${routine.essential ? 'border-l-4 border-l-[var(--primary)]' : ''} ${routine.energetic ? 'border-l-4 border-l-amber-400' : ''}`}>
       <button
         onClick={(e) => { e.stopPropagation(); onDelete(routine); }}
@@ -196,14 +196,14 @@ function TaskCard({ routine, check, dispatch, onNote, onDelete }) {
       >
         {isDone && <span className="material-symbols-outlined text-white text-sm">check</span>}
       </button>
-      <div className="flex-1">
-        <div className="flex justify-between items-start mb-1">
-          <h4 className={`font-bold text-lg ${isDone ? 'line-through text-gray-400' : ''}`}>{routine.name}</h4>
+      <div className="flex-1 min-w-0">
+        <div className="flex items-start gap-2 mb-1 flex-wrap">
+          <h4 className={`font-bold text-base sm:text-lg ${isDone ? 'line-through text-gray-400' : ''}`}>{routine.name}</h4>
           {routine.essential && (
-            <span className="text-[10px] font-bold text-[var(--primary)] bg-blue-50 px-2 py-1 rounded-md uppercase tracking-wide">Esencial</span>
+            <span className="text-[9px] sm:text-[10px] font-bold text-[var(--primary)] bg-blue-50 px-1.5 py-0.5 rounded-md uppercase tracking-wide whitespace-nowrap">Esencial</span>
           )}
           {routine.energetic && (
-            <span className="text-[10px] font-bold text-amber-600 bg-amber-50 px-2 py-1 rounded-md uppercase tracking-wide">Extra 🔥</span>
+            <span className="text-[9px] sm:text-[10px] font-bold text-amber-600 bg-amber-50 px-1.5 py-0.5 rounded-md uppercase tracking-wide whitespace-nowrap">Extra 🔥</span>
           )}
         </div>
         <p className="text-sm text-[var(--text-secondary)] flex items-center gap-1">
@@ -323,46 +323,48 @@ export default function Dashboard() {
   };
 
   return (
-    <main className="w-full max-w-4xl mx-auto px-6 pt-8 pb-10">
+    <main className="w-full max-w-4xl mx-auto px-4 sm:px-6 pt-6 sm:pt-8 pb-10">
       {/* Header */}
-      <header className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-8">
-        <div>
-          <p className="text-sm font-medium text-[var(--text-secondary)] mb-1">{formatDate()}</p>
-          <h1 className="text-4xl font-bold tracking-tight text-[var(--text-main)]">Hoy</h1>
-        </div>
-        <div className="flex items-center gap-4">
+      <header className="flex flex-col gap-4 mb-6 sm:mb-8">
+        <div className="flex items-end justify-between">
+          <div>
+            <p className="text-xs sm:text-sm font-medium text-[var(--text-secondary)] mb-1">{formatDate()}</p>
+            <h1 className="text-3xl sm:text-4xl font-bold tracking-tight text-[var(--text-main)]">Hoy</h1>
+          </div>
           {totalCount > 0 && (
             <div className="text-xs font-bold text-[var(--text-secondary)] bg-white px-3 py-1.5 rounded-full ios-shadow">
-              {totalDone}/{totalCount} completado
+              {totalDone}/{totalCount}
             </div>
           )}
+        </div>
+        <div className="flex items-center gap-2 sm:gap-4">
           <button
             onClick={() => dispatch({ type: 'TOGGLE_EMERGENCY' })}
-            className={`flex items-center gap-2 px-4 py-2 rounded-full ios-shadow border transition-all ${emergency ? 'bg-blue-500 text-white border-blue-400' : 'bg-white text-[var(--text-secondary)] border-gray-100'
+            className={`flex items-center gap-1.5 sm:gap-2 px-3 sm:px-4 py-2 rounded-full ios-shadow border transition-all flex-1 sm:flex-none justify-center ${emergency ? 'bg-blue-500 text-white border-blue-400' : 'bg-white text-[var(--text-secondary)] border-gray-100'
               }`}
           >
-            <span className="text-xs font-bold uppercase tracking-wider">Emergencia</span>
-            <div className={`w-10 h-5 rounded-full relative transition-colors ${emergency ? 'bg-blue-300' : 'bg-gray-200'}`}>
+            <span className="text-[10px] sm:text-xs font-bold uppercase tracking-wider">Emergencia</span>
+            <div className={`w-8 sm:w-10 h-5 rounded-full relative transition-colors flex-shrink-0 ${emergency ? 'bg-blue-300' : 'bg-gray-200'}`}>
               <div className={`absolute top-0.5 w-4 h-4 bg-white rounded-full shadow-sm transition-all ${emergency ? 'right-0.5' : 'left-0.5'}`} />
             </div>
           </button>
           <button
             onClick={() => dispatch({ type: 'TOGGLE_ENERGETIC' })}
-            className={`flex items-center gap-2 px-4 py-2 rounded-full ios-shadow border transition-all ${energetic ? 'bg-gradient-to-r from-amber-500 to-orange-500 text-white border-amber-400' : 'bg-white text-[var(--text-secondary)] border-gray-100'
+            className={`flex items-center gap-1.5 sm:gap-2 px-3 sm:px-4 py-2 rounded-full ios-shadow border transition-all flex-1 sm:flex-none justify-center ${energetic ? 'bg-gradient-to-r from-amber-500 to-orange-500 text-white border-amber-400' : 'bg-white text-[var(--text-secondary)] border-gray-100'
               }`}
           >
-            <span className="text-xs font-bold uppercase tracking-wider">Enérgico</span>
-            <div className={`w-10 h-5 rounded-full relative transition-colors ${energetic ? 'bg-amber-300' : 'bg-gray-200'}`}>
+            <span className="text-[10px] sm:text-xs font-bold uppercase tracking-wider">Enérgico</span>
+            <div className={`w-8 sm:w-10 h-5 rounded-full relative transition-colors flex-shrink-0 ${energetic ? 'bg-amber-300' : 'bg-gray-200'}`}>
               <div className={`absolute top-0.5 w-4 h-4 bg-white rounded-full shadow-sm transition-all ${energetic ? 'right-0.5' : 'left-0.5'}`} />
             </div>
           </button>
         </div>
       </header>
 
-      <section className="mb-8">
-        <div className="bg-white rounded-[2rem] p-8 ios-shadow border border-gray-50/50">
-          <h2 className="text-center text-[var(--text-secondary)] text-sm font-medium mb-6">¿Cómo está tu nivel de energía?</h2>
-          <div className="flex justify-between items-center max-w-sm mx-auto">
+      <section className="mb-6 sm:mb-8">
+        <div className="bg-white rounded-[2rem] p-5 sm:p-8 ios-shadow border border-gray-50/50">
+          <h2 className="text-center text-[var(--text-secondary)] text-xs sm:text-sm font-medium mb-4 sm:mb-6">¿Cómo está tu nivel de energía?</h2>
+          <div className="flex justify-between items-center max-w-xs sm:max-w-sm mx-auto">
             {ENERGY_EMOJIS.map((e) => (
               <button
                 key={e.level}
@@ -373,18 +375,17 @@ export default function Dashboard() {
                   } else if (e.level === 5) {
                     dispatch({ type: 'SET_ENERGETIC_MODE', value: true });
                   } else {
-                    // Mid levels: deactivate both modes
                     if (emergency) dispatch({ type: 'SET_EMERGENCY_MODE', value: false });
                     if (energetic) dispatch({ type: 'SET_ENERGETIC_MODE', value: false });
                   }
                 }}
                 className={`flex items-center justify-center rounded-2xl transition-all duration-300 ${energyLevel === e.level
                   ? e.level <= 2
-                    ? 'w-14 h-14 bg-blue-500 text-3xl shadow-lg shadow-blue-200 scale-110'
+                    ? 'w-12 h-12 sm:w-14 sm:h-14 bg-blue-500 text-2xl sm:text-3xl shadow-lg shadow-blue-200 scale-110'
                     : e.level >= 4
-                      ? 'w-14 h-14 bg-gradient-to-br from-amber-400 to-orange-500 text-3xl shadow-lg shadow-amber-200 scale-110'
-                      : 'w-14 h-14 bg-gray-100 text-3xl shadow-lg shadow-gray-200 scale-110'
-                  : 'w-12 h-12 hover:bg-gray-50 text-2xl hover:scale-105'
+                      ? 'w-12 h-12 sm:w-14 sm:h-14 bg-gradient-to-br from-amber-400 to-orange-500 text-2xl sm:text-3xl shadow-lg shadow-amber-200 scale-110'
+                      : 'w-12 h-12 sm:w-14 sm:h-14 bg-gray-100 text-2xl sm:text-3xl shadow-lg shadow-gray-200 scale-110'
+                  : 'w-10 h-10 sm:w-12 sm:h-12 hover:bg-gray-50 text-xl sm:text-2xl hover:scale-105'
                   }`}
               >
                 {e.emoji}

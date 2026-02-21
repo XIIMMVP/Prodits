@@ -92,21 +92,21 @@ export default function Journal() {
   }
 
   return (
-    <main className="w-full max-w-6xl mx-auto px-6 pt-8 pb-10">
+    <main className="w-full max-w-6xl mx-auto px-4 sm:px-6 pt-6 sm:pt-8 pb-10">
       {/* Search Header */}
-      <header className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-8">
+      <header className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 sm:gap-4 mb-6 sm:mb-8">
         <div className="relative flex-1 max-w-xl">
           <span className="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-[var(--text-secondary)] text-xl">search</span>
           <input
             value={search}
             onChange={e => setSearch(e.target.value)}
-            className="w-full bg-[#F2F2F7] border-none rounded-2xl py-3 pl-12 pr-4 text-sm focus:ring-2 focus:ring-[var(--primary)]/20 transition-all outline-none placeholder:text-[var(--text-secondary)]"
-            placeholder="Buscar entradas, etiquetas o hitos..."
+            className="w-full bg-[#F2F2F7] border-none rounded-2xl py-2.5 sm:py-3 pl-12 pr-4 text-sm focus:ring-2 focus:ring-[var(--primary)]/20 transition-all outline-none placeholder:text-[var(--text-secondary)]"
+            placeholder="Buscar entradas..."
           />
         </div>
         <button
           onClick={() => setShowNew(true)}
-          className="bg-[var(--primary)] text-white px-5 py-2.5 rounded-full text-sm font-semibold flex items-center gap-2 ios-shadow hover:brightness-110 transition-all"
+          className="bg-[var(--primary)] text-white px-4 sm:px-5 py-2.5 rounded-full text-sm font-semibold flex items-center justify-center gap-2 ios-shadow hover:brightness-110 transition-all"
         >
           <span className="material-symbols-outlined text-xl">add</span>
           Nueva Entrada
@@ -114,17 +114,17 @@ export default function Journal() {
       </header>
 
       {/* Title + Filters */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-8">
+      <div className="flex flex-col gap-3 sm:gap-4 mb-6 sm:mb-8">
         <div>
-          <h2 className="text-3xl font-bold tracking-tight mb-1 text-[var(--text-main)]">Tu Feed de Éxitos</h2>
-          <p className="text-[var(--text-secondary)] font-medium">Siguiendo tu camino hacia la excelencia.</p>
+          <h2 className="text-2xl sm:text-3xl font-bold tracking-tight mb-1 text-[var(--text-main)]">Tu Feed de Éxitos</h2>
+          <p className="text-sm text-[var(--text-secondary)] font-medium">Siguiendo tu camino hacia la excelencia.</p>
         </div>
-        <div className="flex gap-1.5 bg-[#F2F2F7] p-1 rounded-xl border border-[var(--border)]">
+        <div className="flex gap-1.5 bg-[#F2F2F7] p-1 rounded-xl border border-[var(--border)] overflow-x-auto">
           {FILTER_TABS.map(tab => (
             <button
               key={tab}
               onClick={() => setActiveFilter(tab)}
-              className={`px-4 py-1.5 rounded-lg text-sm font-semibold transition-all ${activeFilter === tab ? 'bg-white text-[var(--text-main)] ios-shadow' : 'text-[var(--text-secondary)] hover:text-[var(--text-main)]'
+              className={`px-3 sm:px-4 py-1.5 rounded-lg text-xs sm:text-sm font-semibold transition-all whitespace-nowrap ${activeFilter === tab ? 'bg-white text-[var(--text-main)] ios-shadow' : 'text-[var(--text-secondary)] hover:text-[var(--text-main)]'
                 }`}
             >
               {tab}
@@ -146,9 +146,9 @@ export default function Journal() {
           </button>
         </div>
       ) : (
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
           {entries.map(entry => (
-            <div key={entry.id} className="bg-white rounded-3xl overflow-hidden ios-shadow border border-[var(--border)]/50 group transition-all hover:shadow-lg">
+            <div key={entry.id} className="bg-white rounded-2xl sm:rounded-3xl overflow-hidden ios-shadow border border-[var(--border)]/50 group transition-all hover:shadow-lg">
               <div className="aspect-[4/3] overflow-hidden relative">
                 <img
                   alt={entry.title}
@@ -165,7 +165,7 @@ export default function Journal() {
                   <span className="material-symbols-outlined text-sm">close</span>
                 </button>
               </div>
-              <div className="p-5">
+              <div className="p-4 sm:p-5">
                 <div className="flex items-center gap-2 mb-2">
                   <span className="text-[var(--primary)] text-[10px] font-bold uppercase tracking-wider">
                     {CATEGORY_LABELS[entry.category] || entry.category}
@@ -181,7 +181,7 @@ export default function Journal() {
           {/* Add new card */}
           <div
             onClick={() => setShowNew(true)}
-            className="rounded-3xl border-2 border-dashed border-[var(--border)] flex flex-col items-center justify-center p-8 bg-[var(--background)] hover:bg-white hover:border-[var(--primary)]/30 transition-all cursor-pointer group min-h-[300px]"
+            className="rounded-2xl sm:rounded-3xl border-2 border-dashed border-[var(--border)] flex flex-col items-center justify-center p-6 sm:p-8 bg-[var(--background)] hover:bg-white hover:border-[var(--primary)]/30 transition-all cursor-pointer group min-h-[200px] sm:min-h-[300px]"
           >
             <div className="w-16 h-16 rounded-full bg-white border border-[var(--border)] flex items-center justify-center mb-4 group-hover:border-[var(--primary)] transition-colors ios-shadow">
               <span className="material-symbols-outlined text-3xl text-[var(--primary)]">add_a_photo</span>

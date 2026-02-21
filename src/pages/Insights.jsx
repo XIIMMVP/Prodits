@@ -136,34 +136,34 @@ export default function Insights() {
   ];
 
   return (
-    <main className="w-full max-w-6xl mx-auto px-6 pt-8 pb-10">
-      <header className="flex items-center justify-between mb-8">
-        <h1 className="text-2xl font-bold tracking-tight text-[var(--text-main)]">Análisis Unificado</h1>
-        <div className="text-sm font-semibold text-[var(--text-secondary)] bg-white px-4 py-2 rounded-full ios-shadow">
+    <main className="w-full max-w-6xl mx-auto px-4 sm:px-6 pt-6 sm:pt-8 pb-10">
+      <header className="flex items-center justify-between mb-6 sm:mb-8">
+        <h1 className="text-xl sm:text-2xl font-bold tracking-tight text-[var(--text-main)]">Análisis Unificado</h1>
+        <div className="text-xs sm:text-sm font-semibold text-[var(--text-secondary)] bg-white px-3 sm:px-4 py-1.5 sm:py-2 rounded-full ios-shadow">
           {Math.round(todayRatio * 100)}% hoy
         </div>
       </header>
 
       {/* Activity Rings */}
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-5 mb-8">
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-5 mb-6 sm:mb-8">
         {rings.map((ring) => {
           const pct = Math.round(ring.ratio * 100);
           const dasharray = `${pct}, 100`;
           return (
-            <div key={ring.label} className="bg-white rounded-3xl p-8 border border-[var(--border)] ios-shadow flex flex-col items-center text-center">
-              <div className="relative w-32 h-32 mb-4">
+            <div key={ring.label} className="bg-white rounded-2xl sm:rounded-3xl p-4 sm:p-8 border border-[var(--border)] ios-shadow flex flex-col items-center text-center">
+              <div className="relative w-20 h-20 sm:w-32 sm:h-32 mb-2 sm:mb-4">
                 <svg className="w-full h-full" viewBox="0 0 36 36">
                   <circle className="stroke-gray-100" cx={18} cy={18} fill="none" r={16} strokeWidth={3} />
                   <circle className={ring.color} cx={18} cy={18} fill="none" r={16} strokeDasharray={dasharray} strokeLinecap="round" strokeWidth={3} style={{ transition: 'stroke-dasharray 1s ease' }} />
                 </svg>
                 <div className="absolute inset-0 flex flex-col items-center justify-center">
-                  <span className="text-2xl font-bold">{pct}%</span>
-                  <span className="text-[10px] text-[var(--text-secondary)] font-bold uppercase">{ring.sublabel}</span>
+                  <span className="text-lg sm:text-2xl font-bold">{pct}%</span>
+                  <span className="text-[8px] sm:text-[10px] text-[var(--text-secondary)] font-bold uppercase">{ring.sublabel}</span>
                 </div>
               </div>
-              <h3 className="font-semibold text-lg">{ring.label}</h3>
-              <p className={`text-sm font-medium ${ring.changeColor}`}>
-                {pct > 0 ? `${pct}% completado` : 'Sin datos aún'}
+              <h3 className="font-semibold text-sm sm:text-lg">{ring.label}</h3>
+              <p className={`text-xs sm:text-sm font-medium ${ring.changeColor}`}>
+                {pct > 0 ? `${pct}%` : 'Sin datos'}
               </p>
             </div>
           );
@@ -171,8 +171,8 @@ export default function Insights() {
       </div>
 
       {/* Smart Insight + Life Balance */}
-      <div className="grid grid-cols-1 lg:grid-cols-5 gap-6 mb-8">
-        <div className="lg:col-span-3 bg-white/70 backdrop-blur-lg rounded-3xl p-8 border border-white/40 ios-shadow flex flex-col justify-between relative overflow-hidden">
+      <div className="grid grid-cols-1 lg:grid-cols-5 gap-4 sm:gap-6 mb-6 sm:mb-8">
+        <div className="lg:col-span-3 bg-white/70 backdrop-blur-lg rounded-2xl sm:rounded-3xl p-5 sm:p-8 border border-white/40 ios-shadow flex flex-col justify-between relative overflow-hidden">
           <div className="absolute -right-12 -top-12 w-48 h-48 bg-[var(--primary)]/5 rounded-full blur-3xl" />
           <div className="relative z-10">
             <div className="flex items-center gap-2 mb-6">
@@ -222,13 +222,13 @@ export default function Insights() {
             </div>
           )}
         </div>
-        <div className="lg:col-span-2 bg-white rounded-3xl p-8 border border-[var(--border)] ios-shadow">
-          <h3 className="font-bold text-lg mb-8 flex items-center gap-2">
+        <div className="lg:col-span-2 bg-white rounded-2xl sm:rounded-3xl p-5 sm:p-8 border border-[var(--border)] ios-shadow">
+          <h3 className="font-bold text-base sm:text-lg mb-5 sm:mb-8 flex items-center gap-2">
             <span className="material-symbols-outlined text-[var(--text-secondary)]">donut_large</span>
             Balance de Vida
           </h3>
-          <div className="flex items-center justify-between gap-6">
-            <div className="relative w-36 h-36">
+          <div className="flex items-center justify-between gap-4 sm:gap-6">
+            <div className="relative w-28 h-28 sm:w-36 sm:h-36">
               <svg className="w-full h-full -rotate-90" viewBox="0 0 100 100">
                 <circle cx={50} cy={50} fill="transparent" r={40} stroke="#F2F2F7" strokeWidth={10} />
                 <circle cx={50} cy={50} fill="transparent" r={40} stroke="var(--primary)" strokeDasharray={`${Math.round(plannedHours * 20)} 251`} strokeLinecap="round" strokeWidth={10} />
@@ -259,11 +259,11 @@ export default function Insights() {
       </div>
 
       {/* Heatmap */}
-      <div className="bg-white rounded-3xl p-8 border border-[var(--border)] ios-shadow">
-        <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-8">
+      <div className="bg-white rounded-2xl sm:rounded-3xl p-4 sm:p-8 border border-[var(--border)] ios-shadow">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 sm:gap-4 mb-5 sm:mb-8">
           <div>
-            <h3 className="font-bold text-xl mb-1">Mapa de Consistencia</h3>
-            <p className="text-sm text-[var(--text-secondary)]">Cumplimiento diario de hábitos en todas las categorías.</p>
+            <h3 className="font-bold text-lg sm:text-xl mb-1">Mapa de Consistencia</h3>
+            <p className="text-xs sm:text-sm text-[var(--text-secondary)]">Cumplimiento diario de hábitos.</p>
           </div>
           <div className="flex items-center gap-3">
             <span className="text-[10px] text-[var(--text-secondary)] font-bold uppercase">Menos</span>
@@ -277,8 +277,8 @@ export default function Insights() {
             <span className="text-[10px] text-[var(--text-secondary)] font-bold uppercase">Pico</span>
           </div>
         </div>
-        <div className="overflow-x-auto">
-          <div className="grid grid-cols-7 gap-3 min-w-[500px]">
+        <div className="overflow-x-auto -mx-1">
+          <div className="grid grid-cols-7 gap-1.5 sm:gap-3 min-w-0">
             {['Lun', 'Mar', 'Mié', 'Jue', 'Vie', 'Sáb', 'Dom'].map(d => (
               <div key={d} className="text-center text-[10px] font-bold text-[var(--text-secondary)] uppercase tracking-widest pb-3">{d}</div>
             ))}
