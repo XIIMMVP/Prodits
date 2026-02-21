@@ -1,6 +1,7 @@
-import { useState, useRef } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { useStore, CATEGORIES, PERIODS, uid } from '../store/useStore';
 import { ProfileAvatar } from '../components/Layout';
+import { useSwipeToClose } from '../hooks/useSwipeToClose';
 
 const ICONS = ['wb_sunny', 'fitness_center', 'water_drop', 'menu_book', 'laptop_mac', 'self_improvement', 'restaurant', 'directions_car', 'cleaning_services', 'brush', 'school', 'music_note', 'pets', 'local_florist', 'shopping_cart', 'medication', 'bed', 'hiking'];
 const COLOR_OPTIONS = ['orange', 'blue', 'indigo', 'teal', 'purple', 'red', 'green', 'pink'];
@@ -89,6 +90,8 @@ function RoutineForm({ initial, onSave, onCancel }) {
     update('subtasks', form.subtasks.map(s => s.id === id ? { ...s, text } : s));
   };
 
+  const { dragY, handlers } = useSwipeToClose(onCancel);
+
   return (
     <div
       className="fixed z-[100] flex items-end sm:items-center justify-center p-0 sm:p-4"
@@ -101,17 +104,24 @@ function RoutineForm({ initial, onSave, onCancel }) {
       onClick={onCancel}
     >
       <div
-        className="bg-[var(--bg-main)] rounded-t-[2.5rem] sm:rounded-3xl w-full sm:max-w-lg h-[90vh] h-[90dvh] sm:h-auto sm:max-h-[90vh] overflow-hidden ios-shadow"
+        className={`bg-[var(--bg-main)] rounded-t-[2.5rem] sm:rounded-3xl w-full sm:max-w-lg h-[90vh] h-[90dvh] sm:h-auto sm:max-h-[90vh] overflow-hidden ios-shadow ${dragY > 0 ? '' : 'animate-slide-up'}`}
+        style={{
+          transform: `translateY(${dragY}px)`,
+          transition: dragY > 0 ? 'none' : 'transform 0.3s cubic-bezier(0.4, 0, 0.2, 1)'
+        }}
         onClick={e => e.stopPropagation()}
       >
         {/* Sticky Header with Drag Handle */}
-        <div className="sticky top-0 z-10 bg-[var(--bg-main)] pt-3 pb-3 px-5 sm:px-6">
+        <div
+          className="sticky top-0 z-10 bg-[var(--bg-main)] pt-3 pb-3 px-5 sm:px-6 cursor-grab active:cursor-grabbing touch-none"
+          {...handlers}
+        >
           <div className="w-12 h-1.5 rounded-full bg-gray-200/80 mx-auto mb-4" />
           <div className="flex items-center justify-between">
             <h2 className="text-lg font-bold">{initial ? 'Editar Rutina' : 'Nueva Rutina'}</h2>
             <button
               onClick={onCancel}
-              className="w-8 h-8 rounded-full bg-gray-100 flex items-center justify-center flex-shrink-0 active:scale-90 transition-transform"
+              className="w-8 h-8 rounded-full bg-gray-100 flex items-center justify-center flex-shrink-0 active:scale-95 transition-transform"
             >
               <span className="material-symbols-outlined text-lg">close</span>
             </button>

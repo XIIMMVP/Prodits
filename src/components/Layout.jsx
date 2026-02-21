@@ -1,7 +1,8 @@
 import { Link, useLocation } from 'react-router-dom';
-import { useState, useEffect, createContext, useContext } from 'react';
+import { useState, useEffect, createContext, useContext, useRef } from 'react';
 import { useAuth } from '../store/AuthContext';
 import Settings from '../pages/Settings';
+import { useSwipeToClose } from '../hooks/useSwipeToClose';
 
 // ─── Settings Sheet Context ─────────────────────────────────
 const SettingsSheetContext = createContext();
@@ -20,6 +21,14 @@ export default function Layout({ children }) {
     const location = useLocation();
     const { user } = useAuth();
     const [settingsOpen, setSettingsOpen] = useState(false);
+
+    // Swipe to close logic
+    const { dragY, handlers, resetDrag } = useSwipeToClose(() => setSettingsOpen(false));
+
+    // Reset drag when sheet opens/closes
+    useEffect(() => {
+        if (!settingsOpen) resetDrag();
+    }, [settingsOpen]);
 
     // Lock body scroll when settings sheet is open
     useEffect(() => {
@@ -130,23 +139,31 @@ export default function Layout({ children }) {
                         onClick={() => setSettingsOpen(false)}
                     >
                         <div
-                            className="absolute bottom-0 left-0 right-0 bg-[var(--bg-main)] rounded-t-[2.5rem] overflow-hidden animate-slide-up"
-                            style={{ height: '90vh', height: '90dvh' }}
+                            className={`absolute bottom-0 left-0 right-0 bg-[var(--bg-main)] rounded-t-[2.5rem] overflow-hidden ${dragY > 0 ? '' : 'animate-slide-up'}`}
+                            style={{
+                                height: '90vh',
+                                height: '90dvh',
+                                transform: `translateY(${dragY}px)`,
+                                transition: dragY > 0 ? 'none' : 'transform 0.3s cubic-bezier(0.4, 0, 0.2, 1)'
+                            }}
                             onClick={e => e.stopPropagation()}
                         >
-                            <div className="sticky top-0 z-10 bg-[var(--bg-main)] pt-3 pb-3 px-5">
+                            <div
+                                className="sticky top-0 z-10 bg-[var(--bg-main)] pt-3 pb-3 px-5 cursor-grab active:cursor-grabbing touch-none"
+                                {...handlers}
+                            >
                                 <div className="w-12 h-1.5 rounded-full bg-gray-200/80 mx-auto mb-4" />
                                 <div className="flex items-center justify-between">
                                     <h2 className="text-lg font-bold">Cuenta</h2>
                                     <button
                                         onClick={() => setSettingsOpen(false)}
-                                        className="w-8 h-8 rounded-full bg-gray-200/70 flex items-center justify-center"
+                                        className="w-8 h-8 rounded-full bg-gray-200/70 flex items-center justify-center active:scale-95 transition-transform"
                                     >
                                         <span className="material-symbols-outlined text-lg text-gray-600">close</span>
                                     </button>
                                 </div>
                             </div>
-                            <div className="overflow-y-auto overflow-x-hidden" style={{ height: 'calc(93vh - 80px)', height: 'calc(93dvh - 80px)' }}>
+                            <div className="overflow-y-auto overflow-x-hidden" style={{ height: 'calc(90vh - 100px)', height: 'calc(90dvh - 100px)' }}>
                                 <Settings />
                             </div>
                         </div>

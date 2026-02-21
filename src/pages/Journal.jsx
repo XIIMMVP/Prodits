@@ -1,6 +1,7 @@
-import { useState, useRef } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { useStore, uid, today } from '../store/useStore';
 import { ProfileAvatar } from '../components/Layout';
+import { useSwipeToClose } from '../hooks/useSwipeToClose';
 
 const CATEGORY_LABELS = { salud: 'Salud y Vitalidad', mente: 'Crecimiento Personal', trabajo: 'Productividad', hogar: 'Estilo de Vida' };
 const FILTER_TABS = ['Todos', 'Salud', 'Trabajo', 'Mente', 'Hogar'];
@@ -21,6 +22,12 @@ function NewEntryModal({ onSave, onClose }) {
   const now = new Date();
   const time = now.toLocaleTimeString('es-ES', { hour: '2-digit', minute: '2-digit', hour12: true });
 
+  const { dragY, handlers, resetDrag } = useSwipeToClose(onClose);
+
+  useEffect(() => {
+    return () => resetDrag();
+  }, []);
+
   return (
     <div
       className="fixed z-[100] flex items-end sm:items-center justify-center p-0 sm:p-4"
@@ -33,15 +40,22 @@ function NewEntryModal({ onSave, onClose }) {
       onClick={onClose}
     >
       <div
-        className="bg-[var(--bg-main)] rounded-t-[2.5rem] sm:rounded-3xl w-full sm:max-w-lg h-[90vh] h-[90dvh] sm:h-auto sm:max-h-[90vh] overflow-hidden ios-shadow"
+        className={`bg-[var(--bg-main)] rounded-t-[2.5rem] sm:rounded-3xl w-full sm:max-w-lg h-[90vh] h-[90dvh] sm:h-auto sm:max-h-[90vh] overflow-hidden ios-shadow ${dragY > 0 ? '' : 'animate-slide-up'}`}
+        style={{
+          transform: `translateY(${dragY}px)`,
+          transition: dragY > 0 ? 'none' : 'transform 0.3s cubic-bezier(0.4, 0, 0.2, 1)'
+        }}
         onClick={e => e.stopPropagation()}
       >
         {/* Sticky Header with Drag Handle */}
-        <div className="sticky top-0 z-10 bg-[var(--bg-main)] pt-3 pb-3 px-5 sm:px-6">
+        <div
+          className="sticky top-0 z-10 bg-[var(--bg-main)] pt-3 pb-3 px-5 sm:px-6 cursor-grab active:cursor-grabbing touch-none"
+          {...handlers}
+        >
           <div className="w-12 h-1.5 rounded-full bg-gray-200/80 mx-auto mb-4" />
           <div className="flex items-center justify-between">
             <h2 className="text-xl font-bold">Nuevo Éxito</h2>
-            <button onClick={onClose} className="w-8 h-8 rounded-full bg-gray-100 flex items-center justify-center active:scale-90 transition-transform">
+            <button onClick={onClose} className="w-8 h-8 rounded-full bg-gray-100 flex items-center justify-center active:scale-95 transition-transform">
               <span className="material-symbols-outlined text-lg">close</span>
             </button>
           </div>
