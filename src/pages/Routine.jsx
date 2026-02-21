@@ -103,229 +103,240 @@ function RoutineForm({ initial, onSave, onCancel }) {
       onClick={onCancel}
     >
       <div
-        className="bg-white rounded-t-3xl sm:rounded-3xl px-4 sm:px-6 py-5 sm:py-6 w-full sm:max-w-lg h-[93vh] h-[93dvh] sm:h-auto sm:max-h-[90vh] overflow-y-auto overflow-x-hidden ios-shadow"
+        className="bg-[var(--bg-main)] rounded-t-[2rem] sm:rounded-3xl w-full sm:max-w-lg h-[93vh] h-[93dvh] sm:h-auto sm:max-h-[90vh] overflow-hidden ios-shadow"
         onClick={e => e.stopPropagation()}
       >
-        <div className="flex items-center justify-between mb-5">
-          <h2 className="text-lg sm:text-xl font-bold">{initial ? 'Editar Rutina' : 'Nueva Rutina'}</h2>
-          <button onClick={onCancel} className="w-8 h-8 rounded-full bg-gray-100 flex items-center justify-center flex-shrink-0">
-            <span className="material-symbols-outlined text-lg">close</span>
-          </button>
-        </div>
-
-        {/* Name */}
-        <div className="mb-5">
-          <label className="text-xs font-bold text-[var(--text-secondary)] uppercase tracking-wider mb-2 block">Nombre</label>
-          <input
-            value={form.name}
-            onChange={e => update('name', e.target.value)}
-            placeholder="ej. Meditación Mañanera"
-            className="w-full border border-[var(--border)] rounded-2xl px-4 py-3 text-sm outline-none focus:ring-2 focus:ring-[var(--primary)]/20 focus:border-[var(--primary)] transition-all"
-          />
-        </div>
-
-        {/* Type */}
-        <div className="mb-4">
-          <label className="text-xs font-bold text-[var(--text-secondary)] uppercase tracking-wider mb-2 block">Tipo</label>
-          <div className="flex gap-2">
-            {TYPE_OPTIONS.map(t => (
-              <button
-                key={t.value}
-                onClick={() => update('type', t.value)}
-                className={`flex-1 flex items-center justify-center gap-1.5 py-2.5 rounded-xl text-xs sm:text-sm font-semibold transition-all ${form.type === t.value ? 'bg-[var(--primary)] text-white' : 'bg-gray-50 text-[var(--text-secondary)] hover:bg-gray-100'
-                  }`}
-              >
-                <span className="material-symbols-outlined text-base sm:text-lg">{t.icon}</span>
-                {t.label}
-              </button>
-            ))}
-          </div>
-        </div>
-
-        {/* Counter target */}
-        {form.type === 'counter' && (
-          <div className="mb-5">
-            <label className="text-xs font-bold text-[var(--text-secondary)] uppercase tracking-wider mb-2 block">Objetivo</label>
-            <input
-              type="number"
-              value={form.target}
-              onChange={e => update('target', parseInt(e.target.value) || 1)}
-              className="w-full border border-[var(--border)] rounded-2xl px-4 py-3 text-sm outline-none focus:ring-2 focus:ring-[var(--primary)]/20"
-            />
-          </div>
-        )}
-
-        {/* Focus duration */}
-        {form.type === 'focus' && (
-          <div className="mb-5">
-            <label className="text-xs font-bold text-[var(--text-secondary)] uppercase tracking-wider mb-2 block">Duración (min)</label>
-            <input
-              type="number"
-              value={form.focusDuration}
-              onChange={e => update('focusDuration', parseInt(e.target.value) || 5)}
-              className="w-full border border-[var(--border)] rounded-2xl px-4 py-3 text-sm outline-none focus:ring-2 focus:ring-[var(--primary)]/20"
-            />
-          </div>
-        )}
-
-        {/* Category & Period */}
-        <div className="grid grid-cols-2 gap-3 mb-4">
-          <div className="min-w-0">
-            <label className="text-xs font-bold text-[var(--text-secondary)] uppercase tracking-wider mb-2 block">Categoría</label>
-            <select
-              value={form.category}
-              onChange={e => update('category', e.target.value)}
-              className="w-full border border-[var(--border)] rounded-2xl px-3 py-3 text-sm outline-none bg-white appearance-none"
-            >
-              {CATEGORIES.map(c => <option key={c} value={c}>{CATEGORY_LABELS[c]}</option>)}
-            </select>
-          </div>
-          <div className="min-w-0">
-            <label className="text-xs font-bold text-[var(--text-secondary)] uppercase tracking-wider mb-2 block">Momento</label>
-            <select
-              value={form.period}
-              onChange={e => update('period', e.target.value)}
-              className="w-full border border-[var(--border)] rounded-2xl px-3 py-3 text-sm outline-none bg-white appearance-none"
-            >
-              {PERIODS.map(p => <option key={p} value={p}>{PERIOD_LABELS[p]}</option>)}
-            </select>
-          </div>
-        </div>
-
-        {/* Time */}
-        <div className="mb-5">
-          <label className="text-xs font-bold text-[var(--text-secondary)] uppercase tracking-wider mb-2 block">Hora</label>
-          <input
-            type="time"
-            value={form.time}
-            onChange={e => update('time', e.target.value)}
-            className="w-full border border-[var(--border)] rounded-2xl px-4 py-3 text-sm outline-none bg-white"
-          />
-        </div>
-
-        {/* Days */}
-        <div className="mb-4">
-          <label className="text-xs font-bold text-[var(--text-secondary)] uppercase tracking-wider mb-2 block">Días</label>
-          <div className="flex gap-1.5 sm:gap-2">
-            {DAY_LABELS.map((label, idx) => (
-              <button
-                key={idx}
-                onClick={() => toggleDay(idx)}
-                className={`flex-1 min-w-0 h-9 sm:h-10 rounded-xl text-[11px] sm:text-xs font-bold transition-all ${form.days.includes(idx) ? 'bg-[var(--primary)] text-white' : 'bg-gray-50 text-[var(--text-secondary)]'
-                  }`}
-              >
-                {label}
-              </button>
-            ))}
-          </div>
-        </div>
-
-        {/* Icon */}
-        <div className="mb-4">
-          <label className="text-xs font-bold text-[var(--text-secondary)] uppercase tracking-wider mb-2 block">Icono</label>
-          <div className="grid grid-cols-7 gap-1.5 sm:gap-2">
-            {ICONS.map(icon => (
-              <button
-                key={icon}
-                onClick={() => update('icon', icon)}
-                className={`aspect-square rounded-xl flex items-center justify-center transition-all ${form.icon === icon ? 'bg-[var(--primary)] text-white' : 'bg-gray-50 text-[var(--text-secondary)] hover:bg-gray-100'
-                  }`}
-              >
-                <span className="material-symbols-outlined text-lg">{icon}</span>
-              </button>
-            ))}
-          </div>
-        </div>
-
-        {/* Color */}
-        <div className="mb-4">
-          <label className="text-xs font-bold text-[var(--text-secondary)] uppercase tracking-wider mb-2 block">Color</label>
-          <div className="flex gap-2 sm:gap-3">
-            {COLOR_OPTIONS.map(c => (
-              <button
-                key={c}
-                onClick={() => update('color', c)}
-                className={`w-7 h-7 sm:w-8 sm:h-8 rounded-full transition-all ${COLORS[c]?.bg} ${form.color === c ? 'ring-2 ring-[var(--primary)] ring-offset-2 scale-110' : ''
-                  }`}
-              >
-                <div className={`w-full h-full rounded-full ${COLORS[c]?.bg}`} />
-              </button>
-            ))}
-          </div>
-        </div>
-
-        {/* Essential */}
-        <div className="mb-4 flex items-center justify-between gap-3 bg-gray-50 rounded-2xl p-3 sm:p-4">
-          <div className="min-w-0">
-            <p className="font-semibold text-sm">Esencial</p>
-            <p className="text-[11px] sm:text-xs text-[var(--text-secondary)]">Se muestra en Modo Emergencia</p>
-          </div>
-          <button
-            onClick={() => update('essential', !form.essential)}
-            className={`w-12 h-6 rounded-full relative transition-colors flex-shrink-0 ${form.essential ? 'bg-[var(--primary)]' : 'bg-gray-200'}`}
-          >
-            <div className={`absolute top-0.5 w-5 h-5 bg-white rounded-full shadow-sm transition-all ${form.essential ? 'right-0.5' : 'left-0.5'}`} />
-          </button>
-        </div>
-
-        {/* Energetic */}
-        <div className="mb-4 flex items-center justify-between gap-3 bg-amber-50/50 rounded-2xl p-3 sm:p-4">
-          <div className="min-w-0">
-            <p className="font-semibold text-sm">Extra 🔥</p>
-            <p className="text-[11px] sm:text-xs text-[var(--text-secondary)]">Solo aparece en Modo Enérgico</p>
-          </div>
-          <button
-            onClick={() => update('energetic', !form.energetic)}
-            className={`w-12 h-6 rounded-full relative transition-colors flex-shrink-0 ${form.energetic ? 'bg-amber-500' : 'bg-gray-200'}`}
-          >
-            <div className={`absolute top-0.5 w-5 h-5 bg-white rounded-full shadow-sm transition-all ${form.energetic ? 'right-0.5' : 'left-0.5'}`} />
-          </button>
-        </div>
-
-        {/* AI Breakdown */}
-        <div className="mb-5">
-          <div className="flex items-center justify-between mb-2">
-            <label className="text-xs font-bold text-[var(--text-secondary)] uppercase tracking-wider">Sub-tareas</label>
+        {/* Sticky Header with Drag Handle - Matching Settings style */}
+        <div className="sticky top-0 z-10 bg-[var(--bg-main)] pt-3 pb-2 px-5 sm:px-6 border-b border-gray-100">
+          <div className="w-10 h-1 rounded-full bg-gray-200 mx-auto mb-3 sm:hidden" />
+          <div className="flex items-center justify-between">
+            <h2 className="text-lg font-bold">{initial ? 'Editar Rutina' : 'Nueva Rutina'}</h2>
             <button
-              onClick={handleAIBreakdown}
-              className="flex items-center gap-1 text-xs font-bold text-[var(--primary)] hover:underline"
+              onClick={onCancel}
+              className="w-8 h-8 rounded-full bg-gray-100 flex items-center justify-center flex-shrink-0 active:scale-90 transition-transform"
             >
-              <span className="material-symbols-outlined text-sm fill-1">auto_awesome</span>
-              Desglose IA
+              <span className="material-symbols-outlined text-lg">close</span>
             </button>
           </div>
-          <div className="space-y-2">
-            {form.subtasks.map(sub => (
-              <div key={sub.id} className="flex items-center gap-2">
-                <input
-                  value={sub.text}
-                  onChange={e => updateSubtaskText(sub.id, e.target.value)}
-                  placeholder="Descripción de la sub-tarea"
-                  className="flex-1 border border-[var(--border)] rounded-xl px-3 py-2 text-sm outline-none focus:ring-1 focus:ring-[var(--primary)]/20"
-                />
-                <button onClick={() => removeSubtask(sub.id)} className="text-red-400 hover:text-red-600">
-                  <span className="material-symbols-outlined text-lg">delete</span>
-                </button>
-              </div>
-            ))}
-          </div>
-          <button
-            onClick={addSubtask}
-            className="mt-2 text-sm text-[var(--primary)] font-semibold flex items-center gap-1 hover:underline"
-          >
-            <span className="material-symbols-outlined text-sm">add</span> Añadir sub-tarea
-          </button>
         </div>
 
-        {/* Actions */}
-        <div className="flex gap-3 pt-2">
-          <button onClick={onCancel} className="flex-1 py-3.5 rounded-2xl bg-gray-100 text-[var(--text-secondary)] font-semibold">Cancelar</button>
-          <button
-            onClick={() => { if (form.name.trim()) onSave(form); }}
-            className="flex-1 py-3.5 rounded-2xl bg-[var(--primary)] text-white font-semibold hover:opacity-90 transition-all"
-          >
-            {initial ? 'Actualizar' : 'Crear'}
-          </button>
+        {/* Scrollable Content */}
+        <div className="overflow-y-auto h-[calc(93vh-80px)] h-[calc(93dvh-80px)] sm:h-auto px-4 sm:px-6 py-5">
+
+          {/* Name */}
+          <div className="mb-5">
+            <label className="text-xs font-bold text-[var(--text-secondary)] uppercase tracking-wider mb-2 block">Nombre</label>
+            <input
+              value={form.name}
+              onChange={e => update('name', e.target.value)}
+              placeholder="ej. Meditación Mañanera"
+              className="w-full border border-[var(--border)] rounded-2xl px-4 py-3 text-sm outline-none focus:ring-2 focus:ring-[var(--primary)]/20 focus:border-[var(--primary)] transition-all"
+            />
+          </div>
+
+          {/* Type */}
+          <div className="mb-4">
+            <label className="text-xs font-bold text-[var(--text-secondary)] uppercase tracking-wider mb-2 block">Tipo</label>
+            <div className="flex gap-2">
+              {TYPE_OPTIONS.map(t => (
+                <button
+                  key={t.value}
+                  onClick={() => update('type', t.value)}
+                  className={`flex-1 flex items-center justify-center gap-1.5 py-2.5 rounded-xl text-xs sm:text-sm font-semibold transition-all ${form.type === t.value ? 'bg-[var(--primary)] text-white' : 'bg-gray-50 text-[var(--text-secondary)] hover:bg-gray-100'
+                    }`}
+                >
+                  <span className="material-symbols-outlined text-base sm:text-lg">{t.icon}</span>
+                  {t.label}
+                </button>
+              ))}
+            </div>
+          </div>
+
+          {/* Counter target */}
+          {form.type === 'counter' && (
+            <div className="mb-5">
+              <label className="text-xs font-bold text-[var(--text-secondary)] uppercase tracking-wider mb-2 block">Objetivo</label>
+              <input
+                type="number"
+                value={form.target}
+                onChange={e => update('target', parseInt(e.target.value) || 1)}
+                className="w-full border border-[var(--border)] rounded-2xl px-4 py-3 text-sm outline-none focus:ring-2 focus:ring-[var(--primary)]/20"
+              />
+            </div>
+          )}
+
+          {/* Focus duration */}
+          {form.type === 'focus' && (
+            <div className="mb-5">
+              <label className="text-xs font-bold text-[var(--text-secondary)] uppercase tracking-wider mb-2 block">Duración (min)</label>
+              <input
+                type="number"
+                value={form.focusDuration}
+                onChange={e => update('focusDuration', parseInt(e.target.value) || 5)}
+                className="w-full border border-[var(--border)] rounded-2xl px-4 py-3 text-sm outline-none focus:ring-2 focus:ring-[var(--primary)]/20"
+              />
+            </div>
+          )}
+
+          {/* Category & Period */}
+          <div className="grid grid-cols-2 gap-3 mb-4">
+            <div className="min-w-0">
+              <label className="text-xs font-bold text-[var(--text-secondary)] uppercase tracking-wider mb-2 block">Categoría</label>
+              <select
+                value={form.category}
+                onChange={e => update('category', e.target.value)}
+                className="w-full border border-[var(--border)] rounded-2xl px-3 py-3 text-sm outline-none bg-white appearance-none"
+              >
+                {CATEGORIES.map(c => <option key={c} value={c}>{CATEGORY_LABELS[c]}</option>)}
+              </select>
+            </div>
+            <div className="min-w-0">
+              <label className="text-xs font-bold text-[var(--text-secondary)] uppercase tracking-wider mb-2 block">Momento</label>
+              <select
+                value={form.period}
+                onChange={e => update('period', e.target.value)}
+                className="w-full border border-[var(--border)] rounded-2xl px-3 py-3 text-sm outline-none bg-white appearance-none"
+              >
+                {PERIODS.map(p => <option key={p} value={p}>{PERIOD_LABELS[p]}</option>)}
+              </select>
+            </div>
+          </div>
+
+          {/* Time */}
+          <div className="mb-5">
+            <label className="text-xs font-bold text-[var(--text-secondary)] uppercase tracking-wider mb-2 block">Hora</label>
+            <input
+              type="time"
+              value={form.time}
+              onChange={e => update('time', e.target.value)}
+              className="w-full border border-[var(--border)] rounded-2xl px-4 py-3 text-sm outline-none bg-white"
+            />
+          </div>
+
+          {/* Days */}
+          <div className="mb-4">
+            <label className="text-xs font-bold text-[var(--text-secondary)] uppercase tracking-wider mb-2 block">Días</label>
+            <div className="flex gap-1.5 sm:gap-2">
+              {DAY_LABELS.map((label, idx) => (
+                <button
+                  key={idx}
+                  onClick={() => toggleDay(idx)}
+                  className={`flex-1 min-w-0 h-9 sm:h-10 rounded-xl text-[11px] sm:text-xs font-bold transition-all ${form.days.includes(idx) ? 'bg-[var(--primary)] text-white' : 'bg-gray-50 text-[var(--text-secondary)]'
+                    }`}
+                >
+                  {label}
+                </button>
+              ))}
+            </div>
+          </div>
+
+          {/* Icon */}
+          <div className="mb-4">
+            <label className="text-xs font-bold text-[var(--text-secondary)] uppercase tracking-wider mb-2 block">Icono</label>
+            <div className="grid grid-cols-7 gap-1.5 sm:gap-2">
+              {ICONS.map(icon => (
+                <button
+                  key={icon}
+                  onClick={() => update('icon', icon)}
+                  className={`aspect-square rounded-xl flex items-center justify-center transition-all ${form.icon === icon ? 'bg-[var(--primary)] text-white' : 'bg-gray-50 text-[var(--text-secondary)] hover:bg-gray-100'
+                    }`}
+                >
+                  <span className="material-symbols-outlined text-lg">{icon}</span>
+                </button>
+              ))}
+            </div>
+          </div>
+
+          {/* Color */}
+          <div className="mb-4">
+            <label className="text-xs font-bold text-[var(--text-secondary)] uppercase tracking-wider mb-2 block">Color</label>
+            <div className="flex gap-2 sm:gap-3">
+              {COLOR_OPTIONS.map(c => (
+                <button
+                  key={c}
+                  onClick={() => update('color', c)}
+                  className={`w-7 h-7 sm:w-8 sm:h-8 rounded-full transition-all ${COLORS[c]?.bg} ${form.color === c ? 'ring-2 ring-[var(--primary)] ring-offset-2 scale-110' : ''
+                    }`}
+                >
+                  <div className={`w-full h-full rounded-full ${COLORS[c]?.bg}`} />
+                </button>
+              ))}
+            </div>
+          </div>
+
+          {/* Essential */}
+          <div className="mb-4 flex items-center justify-between gap-3 bg-gray-50 rounded-2xl p-3 sm:p-4">
+            <div className="min-w-0">
+              <p className="font-semibold text-sm">Esencial</p>
+              <p className="text-[11px] sm:text-xs text-[var(--text-secondary)]">Se muestra en Modo Emergencia</p>
+            </div>
+            <button
+              onClick={() => update('essential', !form.essential)}
+              className={`w-12 h-6 rounded-full relative transition-colors flex-shrink-0 ${form.essential ? 'bg-[var(--primary)]' : 'bg-gray-200'}`}
+            >
+              <div className={`absolute top-0.5 w-5 h-5 bg-white rounded-full shadow-sm transition-all ${form.essential ? 'right-0.5' : 'left-0.5'}`} />
+            </button>
+          </div>
+
+          {/* Energetic */}
+          <div className="mb-4 flex items-center justify-between gap-3 bg-amber-50/50 rounded-2xl p-3 sm:p-4">
+            <div className="min-w-0">
+              <p className="font-semibold text-sm">Extra 🔥</p>
+              <p className="text-[11px] sm:text-xs text-[var(--text-secondary)]">Solo aparece en Modo Enérgico</p>
+            </div>
+            <button
+              onClick={() => update('energetic', !form.energetic)}
+              className={`w-12 h-6 rounded-full relative transition-colors flex-shrink-0 ${form.energetic ? 'bg-amber-500' : 'bg-gray-200'}`}
+            >
+              <div className={`absolute top-0.5 w-5 h-5 bg-white rounded-full shadow-sm transition-all ${form.energetic ? 'right-0.5' : 'left-0.5'}`} />
+            </button>
+          </div>
+
+          {/* AI Breakdown */}
+          <div className="mb-5">
+            <div className="flex items-center justify-between mb-2">
+              <label className="text-xs font-bold text-[var(--text-secondary)] uppercase tracking-wider">Sub-tareas</label>
+              <button
+                onClick={handleAIBreakdown}
+                className="flex items-center gap-1 text-xs font-bold text-[var(--primary)] hover:underline"
+              >
+                <span className="material-symbols-outlined text-sm fill-1">auto_awesome</span>
+                Desglose IA
+              </button>
+            </div>
+            <div className="space-y-2">
+              {form.subtasks.map(sub => (
+                <div key={sub.id} className="flex items-center gap-2">
+                  <input
+                    value={sub.text}
+                    onChange={e => updateSubtaskText(sub.id, e.target.value)}
+                    placeholder="Descripción de la sub-tarea"
+                    className="flex-1 border border-[var(--border)] rounded-xl px-3 py-2 text-sm outline-none focus:ring-1 focus:ring-[var(--primary)]/20"
+                  />
+                  <button onClick={() => removeSubtask(sub.id)} className="text-red-400 hover:text-red-600">
+                    <span className="material-symbols-outlined text-lg">delete</span>
+                  </button>
+                </div>
+              ))}
+            </div>
+            <button
+              onClick={addSubtask}
+              className="mt-2 text-sm text-[var(--primary)] font-semibold flex items-center gap-1 hover:underline"
+            >
+              <span className="material-symbols-outlined text-sm">add</span> Añadir sub-tarea
+            </button>
+          </div>
+
+          {/* Actions */}
+          <div className="flex gap-3 pt-2">
+            <button onClick={onCancel} className="flex-1 py-3.5 rounded-2xl bg-gray-100 text-[var(--text-secondary)] font-semibold">Cancelar</button>
+            <button
+              onClick={() => { if (form.name.trim()) onSave(form); }}
+              className="flex-1 py-3.5 rounded-2xl bg-[var(--primary)] text-white font-semibold hover:opacity-90 transition-all"
+            >
+              {initial ? 'Actualizar' : 'Crear'}
+            </button>
+          </div>
         </div>
       </div>
     </div>
