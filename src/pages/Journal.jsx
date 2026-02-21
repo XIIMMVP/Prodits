@@ -22,56 +22,74 @@ function NewEntryModal({ onSave, onClose }) {
   const time = now.toLocaleTimeString('es-ES', { hour: '2-digit', minute: '2-digit', hour12: true });
 
   return (
-    <div className="fixed inset-0 bg-black/40 backdrop-blur-sm z-[100] flex items-end sm:items-center justify-center p-0 sm:p-4" onClick={onClose}>
-      <div className="bg-white rounded-t-3xl sm:rounded-3xl px-4 sm:px-6 py-5 sm:py-6 w-full sm:max-w-lg max-h-[90vh] max-h-[90dvh] overflow-y-auto overflow-x-hidden ios-shadow" onClick={e => e.stopPropagation()}>
-        <div className="flex items-center justify-between mb-6">
-          <h2 className="text-xl font-bold">Nuevo Éxito</h2>
-          <button onClick={onClose} className="w-8 h-8 rounded-full bg-gray-100 flex items-center justify-center">
-            <span className="material-symbols-outlined text-lg">close</span>
-          </button>
-        </div>
-
-        <div className="mb-4">
-          <label className="text-xs font-bold text-[var(--text-secondary)] uppercase tracking-wider mb-2 block">Título</label>
-          <input value={form.title} onChange={e => update('title', e.target.value)} placeholder="ej. Sesión Productiva" className="w-full border border-[var(--border)] rounded-2xl px-4 py-3 text-sm outline-none focus:ring-2 focus:ring-[var(--primary)]/20 focus:border-[var(--primary)]" />
-        </div>
-
-        <div className="mb-4">
-          <label className="text-xs font-bold text-[var(--text-secondary)] uppercase tracking-wider mb-2 block">Descripción</label>
-          <textarea value={form.text} onChange={e => update('text', e.target.value)} placeholder="¿Qué has logrado?" className="w-full border border-[var(--border)] rounded-2xl px-4 py-3 text-sm outline-none h-24 resize-none focus:ring-2 focus:ring-[var(--primary)]/20" />
-        </div>
-
-        <div className="mb-4">
-          <label className="text-xs font-bold text-[var(--text-secondary)] uppercase tracking-wider mb-2 block">Categoría</label>
-          <div className="flex flex-wrap gap-2">
-            {Object.entries(CATEGORY_MAP).filter(([k]) => k !== 'Todos').map(([label, val]) => (
-              <button key={val} onClick={() => update('category', val)} className={`px-4 py-2 rounded-xl text-xs font-semibold transition-all ${form.category === val ? 'bg-[var(--primary)] text-white' : 'bg-gray-50 text-[var(--text-secondary)]'}`}>
-                {label}
-              </button>
-            ))}
+    <div
+      className="fixed z-[100] flex items-end sm:items-center justify-center p-0 sm:p-4"
+      style={{
+        top: '-env(safe-area-inset-top, 0px)',
+        left: 0, right: 0, bottom: 0,
+        paddingTop: 'env(safe-area-inset-top, 0px)',
+        backgroundColor: 'transparent'
+      }}
+      onClick={onClose}
+    >
+      <div
+        className="bg-[var(--bg-main)] rounded-t-[2rem] sm:rounded-3xl w-full sm:max-w-lg h-[93vh] h-[93dvh] sm:h-auto sm:max-h-[90vh] overflow-hidden ios-shadow"
+        onClick={e => e.stopPropagation()}
+      >
+        {/* Sticky Header */}
+        <div className="sticky top-0 z-10 bg-[var(--bg-main)] pt-5 pb-3 px-5 sm:px-6">
+          <div className="flex items-center justify-between">
+            <h2 className="text-xl font-bold">Nuevo Éxito</h2>
+            <button onClick={onClose} className="w-8 h-8 rounded-full bg-gray-100 flex items-center justify-center active:scale-90 transition-transform">
+              <span className="material-symbols-outlined text-lg">close</span>
+            </button>
           </div>
         </div>
 
-        <div className="mb-4">
-          <label className="text-xs font-bold text-[var(--text-secondary)] uppercase tracking-wider mb-2 block">URL de la Foto (opcional)</label>
-          <input value={form.photo} onChange={e => update('photo', e.target.value)} placeholder="https://..." className="w-full border border-[var(--border)] rounded-2xl px-4 py-3 text-sm outline-none focus:ring-2 focus:ring-[var(--primary)]/20" />
-          <p className="text-[10px] text-[var(--text-secondary)] mt-1">Pega una URL de imagen o deja en blanco para una por defecto</p>
-        </div>
+        {/* Scrollable Content */}
+        <div className="overflow-y-auto h-[calc(93vh-80px)] h-[calc(93dvh-80px)] sm:h-auto px-4 sm:px-6 py-5">
+          <div className="mb-4">
+            <label className="text-xs font-bold text-[var(--text-secondary)] uppercase tracking-wider mb-2 block">Título</label>
+            <input value={form.title} onChange={e => update('title', e.target.value)} placeholder="ej. Sesión Productiva" className="w-full border border-[var(--border)] rounded-2xl px-4 py-3 text-sm outline-none focus:ring-2 focus:ring-[var(--primary)]/20 focus:border-[var(--primary)]" />
+          </div>
 
-        <div className="flex gap-3 pt-2">
-          <button onClick={onClose} className="flex-1 py-3.5 rounded-2xl bg-gray-100 text-[var(--text-secondary)] font-semibold">Cancelar</button>
-          <button onClick={() => {
-            if (form.title.trim()) {
-              onSave({
-                ...form,
-                photo: form.photo || PLACEHOLDER_PHOTOS[Math.floor(Math.random() * PLACEHOLDER_PHOTOS.length)],
-                time,
-              });
-              onClose();
-            }
-          }} className="flex-1 py-3.5 rounded-2xl bg-[var(--primary)] text-white font-semibold hover:opacity-90 transition-all">
-            Guardar Éxito
-          </button>
+          <div className="mb-4">
+            <label className="text-xs font-bold text-[var(--text-secondary)] uppercase tracking-wider mb-2 block">Descripción</label>
+            <textarea value={form.text} onChange={e => update('text', e.target.value)} placeholder="¿Qué has logrado?" className="w-full border border-[var(--border)] rounded-2xl px-4 py-3 text-sm outline-none h-24 resize-none focus:ring-2 focus:ring-[var(--primary)]/20" />
+          </div>
+
+          <div className="mb-4">
+            <label className="text-xs font-bold text-[var(--text-secondary)] uppercase tracking-wider mb-2 block">Categoría</label>
+            <div className="flex flex-wrap gap-2">
+              {Object.entries(CATEGORY_MAP).filter(([k]) => k !== 'Todos').map(([label, val]) => (
+                <button key={val} onClick={() => update('category', val)} className={`px-4 py-2 rounded-xl text-xs font-semibold transition-all ${form.category === val ? 'bg-[var(--primary)] text-white' : 'bg-gray-50 text-[var(--text-secondary)]'}`}>
+                  {label}
+                </button>
+              ))}
+            </div>
+          </div>
+
+          <div className="mb-4">
+            <label className="text-xs font-bold text-[var(--text-secondary)] uppercase tracking-wider mb-2 block">URL de la Foto (opcional)</label>
+            <input value={form.photo} onChange={e => update('photo', e.target.value)} placeholder="https://..." className="w-full border border-[var(--border)] rounded-2xl px-4 py-3 text-sm outline-none focus:ring-2 focus:ring-[var(--primary)]/20" />
+            <p className="text-[10px] text-[var(--text-secondary)] mt-1">Pega una URL de imagen o deja en blanco para una por defecto</p>
+          </div>
+
+          <div className="flex gap-3 pt-2">
+            <button onClick={onClose} className="flex-1 py-3.5 rounded-2xl bg-gray-100 text-[var(--text-secondary)] font-semibold">Cancelar</button>
+            <button onClick={() => {
+              if (form.title.trim()) {
+                onSave({
+                  ...form,
+                  photo: form.photo || PLACEHOLDER_PHOTOS[Math.floor(Math.random() * PLACEHOLDER_PHOTOS.length)],
+                  time,
+                });
+                onClose();
+              }
+            }} className="flex-1 py-3.5 rounded-2xl bg-[var(--primary)] text-white font-semibold hover:opacity-90 transition-all">
+              Guardar Éxito
+            </button>
+          </div>
         </div>
       </div>
     </div>
