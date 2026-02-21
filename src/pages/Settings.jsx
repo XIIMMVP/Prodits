@@ -453,12 +453,19 @@ function EditProfileModal({ user, userPhoto, userName, userInitial, updateProfil
 
     return (
         <div
-            className="fixed inset-0 z-[110] flex items-end sm:items-center justify-center p-0 sm:p-4"
-            style={{ backgroundColor: 'rgba(0,0,0,0.5)', backdropFilter: 'blur(4px)', WebkitBackdropFilter: 'blur(4px)' }}
+            className="fixed z-[110] flex items-end sm:items-center justify-center p-0 sm:p-4"
+            style={{
+                top: '-env(safe-area-inset-top, 0px)',
+                left: 0, right: 0, bottom: 0,
+                paddingTop: 'env(safe-area-inset-top, 0px)',
+                backgroundColor: 'rgba(0,0,0,0.55)',
+                backdropFilter: 'blur(6px)',
+                WebkitBackdropFilter: 'blur(6px)'
+            }}
             onClick={onClose}
         >
             <div
-                className="bg-white rounded-t-3xl sm:rounded-3xl p-6 w-full sm:max-w-sm ios-shadow"
+                className="bg-white rounded-t-3xl sm:rounded-3xl p-6 w-full sm:max-w-sm ios-shadow overflow-hidden"
                 onClick={e => e.stopPropagation()}
             >
                 {/* Header */}
@@ -519,10 +526,10 @@ function EditProfileModal({ user, userPhoto, userName, userInitial, updateProfil
                     onClick={handleSave}
                     disabled={saving || saved}
                     className={`w-full py-3.5 rounded-2xl font-bold text-sm transition-all ${saved
-                            ? 'bg-emerald-500 text-white'
-                            : saving
-                                ? 'bg-gray-200 text-gray-400'
-                                : 'bg-[var(--primary)] text-white hover:opacity-90 active:scale-[0.98]'
+                        ? 'bg-emerald-500 text-white'
+                        : saving
+                            ? 'bg-gray-200 text-gray-400'
+                            : 'bg-[var(--primary)] text-white hover:opacity-90 active:scale-[0.98]'
                         }`}
                 >
                     {saved ? (

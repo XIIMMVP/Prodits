@@ -120,13 +120,20 @@ export default function Layout({ children }) {
                 {/* Settings Bottom Sheet */}
                 {settingsOpen && (
                     <div
-                        className="fixed inset-0 z-[90]"
-                        style={{ backgroundColor: 'rgba(0,0,0,0.5)', backdropFilter: 'blur(4px)', WebkitBackdropFilter: 'blur(4px)' }}
+                        className="fixed z-[90]"
+                        style={{
+                            top: '-env(safe-area-inset-top, 0px)',
+                            left: 0, right: 0, bottom: 0,
+                            paddingTop: 'env(safe-area-inset-top, 0px)',
+                            backgroundColor: 'rgba(0,0,0,0.55)',
+                            backdropFilter: 'blur(6px)',
+                            WebkitBackdropFilter: 'blur(6px)',
+                        }}
                         onClick={() => setSettingsOpen(false)}
                     >
                         <div
                             className="absolute bottom-0 left-0 right-0 bg-[var(--bg-main)] rounded-t-[2rem] overflow-hidden animate-slide-up"
-                            style={{ maxHeight: '93vh', maxHeight: '93dvh' }}
+                            style={{ height: '93vh', height: '93dvh' }}
                             onClick={e => e.stopPropagation()}
                         >
                             <div className="sticky top-0 z-10 bg-[var(--bg-main)] pt-3 pb-2 px-5">
@@ -141,7 +148,7 @@ export default function Layout({ children }) {
                                     </button>
                                 </div>
                             </div>
-                            <div className="overflow-y-auto overflow-x-hidden" style={{ maxHeight: 'calc(93vh - 80px)', maxHeight: 'calc(93dvh - 80px)' }}>
+                            <div className="overflow-y-auto overflow-x-hidden" style={{ height: 'calc(93vh - 80px)', height: 'calc(93dvh - 80px)' }}>
                                 <Settings />
                             </div>
                         </div>
