@@ -90,10 +90,10 @@ function RoutineForm({ initial, onSave, onCancel }) {
 
   return (
     <div className="fixed inset-0 bg-black/40 backdrop-blur-sm z-[100] flex items-end sm:items-center justify-center p-0 sm:p-4" onClick={onCancel}>
-      <div className="bg-white rounded-t-3xl sm:rounded-3xl p-6 w-full max-w-lg max-h-[90vh] overflow-y-auto ios-shadow" onClick={e => e.stopPropagation()}>
-        <div className="flex items-center justify-between mb-6">
-          <h2 className="text-xl font-bold">{initial ? 'Editar Rutina' : 'Nueva Rutina'}</h2>
-          <button onClick={onCancel} className="w-8 h-8 rounded-full bg-gray-100 flex items-center justify-center">
+      <div className="bg-white rounded-t-3xl sm:rounded-3xl px-4 sm:px-6 py-5 sm:py-6 w-full sm:max-w-lg max-h-[90vh] max-h-[90dvh] overflow-y-auto overflow-x-hidden ios-shadow" onClick={e => e.stopPropagation()}>
+        <div className="flex items-center justify-between mb-5">
+          <h2 className="text-lg sm:text-xl font-bold">{initial ? 'Editar Rutina' : 'Nueva Rutina'}</h2>
+          <button onClick={onCancel} className="w-8 h-8 rounded-full bg-gray-100 flex items-center justify-center flex-shrink-0">
             <span className="material-symbols-outlined text-lg">close</span>
           </button>
         </div>
@@ -110,17 +110,17 @@ function RoutineForm({ initial, onSave, onCancel }) {
         </div>
 
         {/* Type */}
-        <div className="mb-5">
+        <div className="mb-4">
           <label className="text-xs font-bold text-[var(--text-secondary)] uppercase tracking-wider mb-2 block">Tipo</label>
           <div className="flex gap-2">
             {TYPE_OPTIONS.map(t => (
               <button
                 key={t.value}
                 onClick={() => update('type', t.value)}
-                className={`flex-1 flex items-center justify-center gap-2 py-2.5 rounded-xl text-sm font-semibold transition-all ${form.type === t.value ? 'bg-[var(--primary)] text-white' : 'bg-gray-50 text-[var(--text-secondary)] hover:bg-gray-100'
+                className={`flex-1 flex items-center justify-center gap-1.5 py-2.5 rounded-xl text-xs sm:text-sm font-semibold transition-all ${form.type === t.value ? 'bg-[var(--primary)] text-white' : 'bg-gray-50 text-[var(--text-secondary)] hover:bg-gray-100'
                   }`}
               >
-                <span className="material-symbols-outlined text-lg">{t.icon}</span>
+                <span className="material-symbols-outlined text-base sm:text-lg">{t.icon}</span>
                 {t.label}
               </button>
             ))}
@@ -154,23 +154,23 @@ function RoutineForm({ initial, onSave, onCancel }) {
         )}
 
         {/* Category & Period */}
-        <div className="grid grid-cols-2 gap-4 mb-5">
-          <div>
+        <div className="grid grid-cols-2 gap-3 mb-4">
+          <div className="min-w-0">
             <label className="text-xs font-bold text-[var(--text-secondary)] uppercase tracking-wider mb-2 block">Categoría</label>
             <select
               value={form.category}
               onChange={e => update('category', e.target.value)}
-              className="w-full border border-[var(--border)] rounded-2xl px-4 py-3 text-sm outline-none bg-white"
+              className="w-full border border-[var(--border)] rounded-2xl px-3 py-3 text-sm outline-none bg-white appearance-none"
             >
               {CATEGORIES.map(c => <option key={c} value={c}>{CATEGORY_LABELS[c]}</option>)}
             </select>
           </div>
-          <div>
-            <label className="text-xs font-bold text-[var(--text-secondary)] uppercase tracking-wider mb-2 block">Momento del Día</label>
+          <div className="min-w-0">
+            <label className="text-xs font-bold text-[var(--text-secondary)] uppercase tracking-wider mb-2 block">Momento</label>
             <select
               value={form.period}
               onChange={e => update('period', e.target.value)}
-              className="w-full border border-[var(--border)] rounded-2xl px-4 py-3 text-sm outline-none bg-white"
+              className="w-full border border-[var(--border)] rounded-2xl px-3 py-3 text-sm outline-none bg-white appearance-none"
             >
               {PERIODS.map(p => <option key={p} value={p}>{PERIOD_LABELS[p]}</option>)}
             </select>
@@ -189,14 +189,14 @@ function RoutineForm({ initial, onSave, onCancel }) {
         </div>
 
         {/* Days */}
-        <div className="mb-5">
-          <label className="text-xs font-bold text-[var(--text-secondary)] uppercase tracking-wider mb-2 block">Days</label>
-          <div className="flex gap-2">
+        <div className="mb-4">
+          <label className="text-xs font-bold text-[var(--text-secondary)] uppercase tracking-wider mb-2 block">Días</label>
+          <div className="flex gap-1.5 sm:gap-2">
             {DAY_LABELS.map((label, idx) => (
               <button
                 key={idx}
                 onClick={() => toggleDay(idx)}
-                className={`w-10 h-10 rounded-xl text-xs font-bold transition-all ${form.days.includes(idx) ? 'bg-[var(--primary)] text-white' : 'bg-gray-50 text-[var(--text-secondary)]'
+                className={`flex-1 min-w-0 h-9 sm:h-10 rounded-xl text-[11px] sm:text-xs font-bold transition-all ${form.days.includes(idx) ? 'bg-[var(--primary)] text-white' : 'bg-gray-50 text-[var(--text-secondary)]'
                   }`}
               >
                 {label}
@@ -206,14 +206,14 @@ function RoutineForm({ initial, onSave, onCancel }) {
         </div>
 
         {/* Icon */}
-        <div className="mb-5">
-          <label className="text-xs font-bold text-[var(--text-secondary)] uppercase tracking-wider mb-2 block">Icon</label>
-          <div className="flex flex-wrap gap-2">
+        <div className="mb-4">
+          <label className="text-xs font-bold text-[var(--text-secondary)] uppercase tracking-wider mb-2 block">Icono</label>
+          <div className="grid grid-cols-7 gap-1.5 sm:gap-2">
             {ICONS.map(icon => (
               <button
                 key={icon}
                 onClick={() => update('icon', icon)}
-                className={`w-10 h-10 rounded-xl flex items-center justify-center transition-all ${form.icon === icon ? 'bg-[var(--primary)] text-white' : 'bg-gray-50 text-[var(--text-secondary)] hover:bg-gray-100'
+                className={`aspect-square rounded-xl flex items-center justify-center transition-all ${form.icon === icon ? 'bg-[var(--primary)] text-white' : 'bg-gray-50 text-[var(--text-secondary)] hover:bg-gray-100'
                   }`}
               >
                 <span className="material-symbols-outlined text-lg">{icon}</span>
@@ -223,14 +223,14 @@ function RoutineForm({ initial, onSave, onCancel }) {
         </div>
 
         {/* Color */}
-        <div className="mb-5">
+        <div className="mb-4">
           <label className="text-xs font-bold text-[var(--text-secondary)] uppercase tracking-wider mb-2 block">Color</label>
-          <div className="flex gap-3">
+          <div className="flex gap-2 sm:gap-3">
             {COLOR_OPTIONS.map(c => (
               <button
                 key={c}
                 onClick={() => update('color', c)}
-                className={`w-8 h-8 rounded-full transition-all ${COLORS[c]?.bg} ${form.color === c ? 'ring-2 ring-[var(--primary)] ring-offset-2 scale-110' : ''
+                className={`w-7 h-7 sm:w-8 sm:h-8 rounded-full transition-all ${COLORS[c]?.bg} ${form.color === c ? 'ring-2 ring-[var(--primary)] ring-offset-2 scale-110' : ''
                   }`}
               >
                 <div className={`w-full h-full rounded-full ${COLORS[c]?.bg}`} />
@@ -240,28 +240,28 @@ function RoutineForm({ initial, onSave, onCancel }) {
         </div>
 
         {/* Essential */}
-        <div className="mb-5 flex items-center justify-between bg-gray-50 rounded-2xl p-4">
-          <div>
-            <p className="font-semibold text-sm">Esencial (Modo Emergencia)</p>
-            <p className="text-xs text-[var(--text-secondary)]">Esta tarea se mostrará en Modo Emergencia</p>
+        <div className="mb-4 flex items-center justify-between gap-3 bg-gray-50 rounded-2xl p-3 sm:p-4">
+          <div className="min-w-0">
+            <p className="font-semibold text-sm">Esencial</p>
+            <p className="text-[11px] sm:text-xs text-[var(--text-secondary)]">Se muestra en Modo Emergencia</p>
           </div>
           <button
             onClick={() => update('essential', !form.essential)}
-            className={`w-12 h-6 rounded-full relative transition-colors ${form.essential ? 'bg-[var(--primary)]' : 'bg-gray-200'}`}
+            className={`w-12 h-6 rounded-full relative transition-colors flex-shrink-0 ${form.essential ? 'bg-[var(--primary)]' : 'bg-gray-200'}`}
           >
             <div className={`absolute top-0.5 w-5 h-5 bg-white rounded-full shadow-sm transition-all ${form.essential ? 'right-0.5' : 'left-0.5'}`} />
           </button>
         </div>
 
         {/* Energetic */}
-        <div className="mb-5 flex items-center justify-between bg-amber-50/50 rounded-2xl p-4">
-          <div>
-            <p className="font-semibold text-sm">Extra (Modo Enérgico) 🔥</p>
-            <p className="text-xs text-[var(--text-secondary)]">Tarea extra que solo aparece en Modo Enérgico</p>
+        <div className="mb-4 flex items-center justify-between gap-3 bg-amber-50/50 rounded-2xl p-3 sm:p-4">
+          <div className="min-w-0">
+            <p className="font-semibold text-sm">Extra 🔥</p>
+            <p className="text-[11px] sm:text-xs text-[var(--text-secondary)]">Solo aparece en Modo Enérgico</p>
           </div>
           <button
             onClick={() => update('energetic', !form.energetic)}
-            className={`w-12 h-6 rounded-full relative transition-colors ${form.energetic ? 'bg-amber-500' : 'bg-gray-200'}`}
+            className={`w-12 h-6 rounded-full relative transition-colors flex-shrink-0 ${form.energetic ? 'bg-amber-500' : 'bg-gray-200'}`}
           >
             <div className={`absolute top-0.5 w-5 h-5 bg-white rounded-full shadow-sm transition-all ${form.energetic ? 'right-0.5' : 'left-0.5'}`} />
           </button>

@@ -22,7 +22,7 @@ function NewEntryModal({ onSave, onClose }) {
 
   return (
     <div className="fixed inset-0 bg-black/40 backdrop-blur-sm z-[100] flex items-end sm:items-center justify-center p-0 sm:p-4" onClick={onClose}>
-      <div className="bg-white rounded-t-3xl sm:rounded-3xl p-6 w-full max-w-lg max-h-[90vh] overflow-y-auto ios-shadow" onClick={e => e.stopPropagation()}>
+      <div className="bg-white rounded-t-3xl sm:rounded-3xl px-4 sm:px-6 py-5 sm:py-6 w-full sm:max-w-lg max-h-[90vh] max-h-[90dvh] overflow-y-auto overflow-x-hidden ios-shadow" onClick={e => e.stopPropagation()}>
         <div className="flex items-center justify-between mb-6">
           <h2 className="text-xl font-bold">Nuevo Éxito</h2>
           <button onClick={onClose} className="w-8 h-8 rounded-full bg-gray-100 flex items-center justify-center">
