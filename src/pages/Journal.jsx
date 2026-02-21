@@ -156,17 +156,19 @@ export default function Journal() {
           <h2 className="text-2xl sm:text-3xl font-bold tracking-tight mb-1 text-[var(--text-main)]">Tu Feed de Éxitos</h2>
           <p className="text-sm text-[var(--text-secondary)] font-medium">Siguiendo tu camino hacia la excelencia.</p>
         </div>
-        <div className="flex gap-1.5 bg-[#F2F2F7] p-1 rounded-xl border border-[var(--border)] overflow-x-auto">
-          {FILTER_TABS.map(tab => (
-            <button
-              key={tab}
-              onClick={() => setActiveFilter(tab)}
-              className={`px-3 sm:px-4 py-1.5 rounded-lg text-xs sm:text-sm font-semibold transition-all whitespace-nowrap ${activeFilter === tab ? 'bg-white text-[var(--text-main)] ios-shadow' : 'text-[var(--text-secondary)] hover:text-[var(--text-main)]'
-                }`}
-            >
-              {tab}
-            </button>
-          ))}
+        <div className="flex items-center gap-3">
+          <div className="flex gap-1 bg-gray-50 p-1 rounded-xl overflow-x-auto">
+            {FILTER_TABS.map(tab => (
+              <button
+                key={tab}
+                onClick={() => setActiveFilter(tab)}
+                className={`px-2.5 sm:px-3 py-1.5 rounded-lg text-xs font-semibold transition-all whitespace-nowrap ${activeFilter === tab ? 'bg-white text-[var(--text-main)] ios-shadow' : 'text-[var(--text-secondary)]'
+                  }`}
+              >
+                {tab === 'All' ? 'Todas' : tab}
+              </button>
+            ))}
+          </div>
         </div>
       </div>
 
