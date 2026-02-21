@@ -186,18 +186,20 @@ function RoutineForm({ initial, onSave, onCancel }) {
             </div>
           )}
 
-          {/* Category & Period */}
-          <div className="grid grid-cols-2 gap-3 mb-4">
-            <div className="min-w-0">
-              <label className="text-xs font-bold text-[var(--text-secondary)] uppercase tracking-wider mb-2 block">Categoría</label>
-              <select
-                value={form.category}
-                onChange={e => update('category', e.target.value)}
-                className="w-full border border-[var(--border)] rounded-2xl px-3 py-3 text-sm outline-none bg-white appearance-none"
-              >
-                {CATEGORIES.map(c => <option key={c} value={c}>{CATEGORY_LABELS[c]}</option>)}
-              </select>
-            </div>
+          {/* Category */}
+          <div className="mb-4">
+            <label className="text-xs font-bold text-[var(--text-secondary)] uppercase tracking-wider mb-2 block">Categoría</label>
+            <select
+              value={form.category}
+              onChange={e => update('category', e.target.value)}
+              className="w-full border border-[var(--border)] rounded-2xl px-3 py-3 text-sm outline-none bg-white appearance-none"
+            >
+              {CATEGORIES.map(c => <option key={c} value={c}>{CATEGORY_LABELS[c]}</option>)}
+            </select>
+          </div>
+
+          {/* Period & Time */}
+          <div className="grid grid-cols-2 gap-3 mb-5">
             <div className="min-w-0">
               <label className="text-xs font-bold text-[var(--text-secondary)] uppercase tracking-wider mb-2 block">Momento</label>
               <select
@@ -208,17 +210,15 @@ function RoutineForm({ initial, onSave, onCancel }) {
                 {PERIODS.map(p => <option key={p} value={p}>{PERIOD_LABELS[p]}</option>)}
               </select>
             </div>
-          </div>
-
-          {/* Time */}
-          <div className="mb-5">
-            <label className="text-xs font-bold text-[var(--text-secondary)] uppercase tracking-wider mb-2 block">Hora</label>
-            <input
-              type="time"
-              value={form.time}
-              onChange={e => update('time', e.target.value)}
-              className="w-full border border-[var(--border)] rounded-2xl px-4 py-3 text-sm outline-none bg-white"
-            />
+            <div className="min-w-0">
+              <label className="text-xs font-bold text-[var(--text-secondary)] uppercase tracking-wider mb-2 block">Hora</label>
+              <input
+                type="time"
+                value={form.time}
+                onChange={e => update('time', e.target.value)}
+                className="w-full border border-[var(--border)] rounded-2xl px-3 py-[10.5px] text-sm outline-none bg-white"
+              />
+            </div>
           </div>
 
           {/* Days */}
