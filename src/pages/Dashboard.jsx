@@ -107,7 +107,8 @@ function FocusTimer({ routine, check, dispatch, onDelete }) {
         disabled={check?.done}
         className={`w-full py-3 rounded-2xl font-bold flex items-center justify-center gap-2 transition-all ${check?.done ? 'bg-emerald-500 text-white' :
           running ? 'bg-red-500 text-white hover:bg-red-600' :
-            'bg-[var(--primary)] text-white hover:opacity-90'
+            routine.energetic ? 'bg-gradient-to-br from-amber-400 to-orange-500 text-white hover:opacity-90 shadow-lg shadow-amber-200' :
+              'bg-[var(--primary)] text-white hover:opacity-90'
           }`}
       >
         <span className="material-symbols-outlined fill-1">
