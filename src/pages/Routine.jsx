@@ -323,8 +323,17 @@ function RoutineCard({ routine, onEdit, onDelete }) {
   };
 
   return (
-    <div className="relative overflow-hidden rounded-2xl">
-      {/* Actions behind */}
+    <div className="relative overflow-hidden rounded-2xl group">
+      {/* Desktop Actions */}
+      <div className="absolute right-4 top-1/2 -translate-y-1/2 flex items-center gap-2 opacity-0 group-hover:opacity-100 transition-opacity z-20 hidden sm:flex">
+        <button onClick={(e) => { e.stopPropagation(); onEdit(routine); }} className="w-9 h-9 rounded-full bg-blue-50 text-[var(--primary)] flex items-center justify-center hover:bg-blue-100 transition-colors shadow-sm">
+          <span className="material-symbols-outlined text-lg">edit</span>
+        </button>
+        <button onClick={(e) => { e.stopPropagation(); onDelete(routine.id); }} className="w-9 h-9 rounded-full bg-red-50 text-red-500 flex items-center justify-center hover:bg-red-100 transition-colors shadow-sm">
+          <span className="material-symbols-outlined text-lg">delete</span>
+        </button>
+      </div>
+      {/* Actions behind (Mobile) */}
       <div className="absolute right-0 top-0 bottom-0 flex items-center gap-1 pr-2">
         <button onClick={onEdit} className="w-14 h-14 rounded-xl bg-blue-500 text-white flex items-center justify-center">
           <span className="material-symbols-outlined">edit</span>
