@@ -94,10 +94,10 @@ function FocusTimer({ routine, check, dispatch, onDelete }) {
       <div className="relative w-36 h-36 flex items-center justify-center mb-4">
         <svg className="w-full h-full -rotate-90">
           <circle cx={72} cy={72} fill="none" r={68} stroke="#F2F2F7" strokeWidth={8} />
-          <circle cx={72} cy={72} fill="none" r={68} stroke={check?.done ? '#8E8E93' : 'var(--primary)'} strokeDasharray={circumference} strokeDashoffset={offset} strokeLinecap="round" strokeWidth={8} className="transition-all duration-500" />
+          <circle cx={72} cy={72} fill="none" r={68} stroke={check?.done ? '#34C759' : '#D1D1D6'} strokeDasharray={circumference} strokeDashoffset={offset} strokeLinecap="round" strokeWidth={8} className="transition-all duration-500" />
         </svg>
         <div className="absolute inset-0 flex flex-col items-center justify-center">
-          <span className={`text-3xl font-bold tracking-tight ${check?.done ? 'text-gray-500' : ''}`}>
+          <span className={`text-3xl font-bold tracking-tight ${check?.done ? 'text-emerald-500' : ''}`}>
             {check?.done ? '✓' : `${mins}:${secs}`}
           </span>
         </div>
@@ -105,7 +105,7 @@ function FocusTimer({ routine, check, dispatch, onDelete }) {
       <button
         onClick={toggleTimer}
         disabled={check?.done}
-        className={`w-full py-3 rounded-2xl font-bold flex items-center justify-center gap-2 transition-all ${check?.done ? 'bg-gray-500 text-white' :
+        className={`w-full py-3 rounded-2xl font-bold flex items-center justify-center gap-2 transition-all ${check?.done ? 'bg-emerald-500 text-white' :
           running ? 'bg-red-500 text-white hover:bg-red-600' :
             routine.energetic ? 'bg-gradient-to-br from-amber-400 to-orange-500 text-white hover:opacity-90 shadow-lg shadow-amber-200' :
               'bg-[var(--primary)] text-white hover:opacity-90'
@@ -127,7 +127,7 @@ function CounterCard({ routine, check, dispatch, onDelete }) {
   const col = COLORS[routine.color] || COLORS.blue;
 
   return (
-    <div className={`bg-white rounded-[1.5rem] p-5 ios-shadow flex items-center justify-between relative group ${check?.done ? 'ring-2 ring-gray-200' : ''} ${routine.essential ? 'border-l-4 border-l-[var(--primary)]' : ''} ${routine.energetic ? 'border-l-4 border-l-amber-400' : ''}`}>
+    <div className={`bg-white rounded-[1.5rem] p-5 ios-shadow flex items-center justify-between relative group ${check?.done ? 'ring-2 ring-emerald-200' : ''} ${routine.essential ? 'border-l-4 border-l-[var(--primary)]' : ''} ${routine.energetic ? 'border-l-4 border-l-amber-400' : ''}`}>
       <button
         onClick={(e) => { e.stopPropagation(); onDelete(routine); }}
         className="absolute top-2 right-2 w-7 h-7 rounded-full bg-red-50 text-red-500 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity ios-shadow z-10 hidden sm:flex hover:bg-red-100"
@@ -188,7 +188,7 @@ function TaskCard({ routine, check, dispatch, onNote, onDelete }) {
       </button>
       <button
         onClick={() => dispatch({ type: 'TOGGLE_TASK', routineId: routine.id })}
-        className={`w-6 h-6 rounded-full border-2 mt-1 flex-shrink-0 flex items-center justify-center transition-all ${isDone ? 'bg-gray-500 border-gray-500' : 'border-gray-300 hover:border-gray-400'
+        className={`w-6 h-6 rounded-full border-2 mt-1 flex-shrink-0 flex items-center justify-center transition-all ${isDone ? 'bg-emerald-500 border-emerald-500' : 'border-gray-300 hover:border-gray-400'
           }`}
       >
         {isDone && <span className="material-symbols-outlined text-white text-sm">check</span>}
@@ -218,7 +218,7 @@ function TaskCard({ routine, check, dispatch, onNote, onDelete }) {
                   onClick={() => dispatch({ type: 'TOGGLE_SUBTASK', routineId: routine.id, subtaskId: sub.id })}
                   className={`flex items-center gap-2 text-sm w-full text-left ${subDone ? 'text-gray-400 line-through' : 'text-gray-600'}`}
                 >
-                  <div className={`w-4 h-4 rounded-full border flex items-center justify-center flex-shrink-0 ${subDone ? 'bg-gray-400 border-gray-400' : 'border-gray-300'
+                  <div className={`w-4 h-4 rounded-full border flex items-center justify-center flex-shrink-0 ${subDone ? 'bg-emerald-400 border-emerald-400' : 'border-gray-300'
                     }`}>
                     {subDone && <span className="material-symbols-outlined text-white text-[10px]">check</span>}
                   </div>
