@@ -101,8 +101,9 @@ function exportData(state) {
 // ─── Main Settings Page ─────────────────────────────────────
 export default function Settings() {
     const { state, dispatch } = useStore();
-    const { user, signOut } = useAuth();
+    const { user, signOut, updateProfile } = useAuth();
     const [showLogoutConfirm, setShowLogoutConfirm] = useState(false);
+    const [showProfileEdit, setShowProfileEdit] = useState(false);
 
     // Local settings (persisted in localStorage separately)
     const [settings, setSettings] = useState(() => {
@@ -179,23 +180,33 @@ export default function Settings() {
         window.location.reload();
     };
 
+    const userPhoto = user?.user_metadata?.avatar_url || user?.user_metadata?.picture || null;
+    const userName = user?.user_metadata?.full_name || 'Usuario';
+    const userInitial = (userName || user?.email || 'P')[0].toUpperCase();
+
     return (
         <div className="max-w-lg mx-auto px-4 sm:px-5 pt-4 pb-8">
 
-            {/* ─── Perfil ──────────────────────────────────── */}
-            <div className="bg-white rounded-2xl ios-shadow p-5 mb-5">
+            {/* ─── Perfil (clickeable) ──────────────────────── */}
+            <button
+                onClick={() => setShowProfileEdit(true)}
+                className="w-full bg-white rounded-2xl ios-shadow p-5 mb-5 text-left active:scale-[0.98] transition-transform"
+            >
                 <div className="flex items-center gap-4 mb-4">
-                    <div className="w-14 h-14 rounded-full bg-gradient-to-br from-[var(--primary)] to-blue-400 flex items-center justify-center text-white text-2xl font-bold shadow-lg shadow-blue-200">
-                        {(user?.user_metadata?.full_name || user?.email || 'P')[0].toUpperCase()}
+                    <div className="w-14 h-14 rounded-full overflow-hidden shadow-lg shadow-blue-200 flex-shrink-0">
+                        {userPhoto ? (
+                            <img src={userPhoto} alt="Perfil" className="w-full h-full object-cover" referrerPolicy="no-referrer" />
+                        ) : (
+                            <div className="w-full h-full bg-gradient-to-br from-[var(--primary)] to-blue-400 flex items-center justify-center text-white text-2xl font-bold">
+                                {userInitial}
+                            </div>
+                        )}
                     </div>
                     <div className="flex-1 min-w-0">
-                        <h2 className="font-bold text-lg truncate">{user?.user_metadata?.full_name || 'Usuario'}</h2>
+                        <h2 className="font-bold text-lg truncate">{userName}</h2>
                         <p className="text-xs text-[var(--text-secondary)] truncate">{user?.email}</p>
                     </div>
-                    <div className="flex items-center gap-1 text-emerald-500">
-                        <span className="material-symbols-outlined text-xs">cloud_done</span>
-                        <span className="text-[10px] font-semibold">Sync</span>
-                    </div>
+                    <span className="material-symbols-outlined text-gray-300 text-lg">chevron_right</span>
                 </div>
                 <div className="flex gap-3">
                     <div className="flex-1 bg-gray-50 rounded-xl p-3 text-center">
@@ -211,7 +222,7 @@ export default function Settings() {
                         <p className="text-[10px] text-[var(--text-secondary)] uppercase tracking-wider font-semibold">Diario</p>
                     </div>
                 </div>
-            </div>
+            </button>
 
             {/* ─── Notificaciones ───────────────────────────── */}
             <SectionCard title="Notificaciones">
@@ -377,6 +388,155 @@ export default function Settings() {
                     </div>
                 </div>
             )}
+
+            {/* ─── Edit Profile Modal ─────────────────────────── */}
+            {showProfileEdit && (
+                <EditProfileModal
+                    user={user}
+                    userPhoto={userPhoto}
+                    userName={userName}
+                    userInitial={userInitial}
+                    updateProfile={updateProfile}
+                    onClose={() => setShowProfileEdit(false)}
+                />
+            )}
+        </div>
+    );
+}
+
+// ─── Edit Profile Modal ─────────────────────────────────────
+function EditProfileModal({ user, userPhoto, userName, userInitial, updateProfile, onClose }) {
+    const [name, setName] = useState(userName);
+    const [photoPreview, setPhotoPreview] = useState(userPhoto);
+    const [saving, setSaving] = useState(false);
+    const [saved, setSaved] = useState(false);
+    const fileInputRef = useState(null);
+
+    const handlePhotoSelect = (e) => {
+        const file = e.target.files?.[0];
+        if (!file) return;
+        if (file.size > 2 * 1024 * 1024) {
+            alert('La imagen es muy grande. Máximo 2MB.');
+            return;
+        }
+        const reader = new FileReader();
+        reader.onload = (ev) => {
+            setPhotoPreview(ev.target.result);
+        };
+        reader.readAsDataURL(file);
+    };
+
+    const handleSave = async () => {
+        setSaving(true);
+        try {
+            const updates = {};
+            if (name !== userName) updates.fullName = name;
+            if (photoPreview !== userPhoto) updates.avatarUrl = photoPreview;
+
+            if (Object.keys(updates).length > 0) {
+                const { error } = await updateProfile(updates);
+                if (error) {
+                    alert('Error al guardar: ' + error.message);
+                    setSaving(false);
+                    return;
+                }
+            }
+            setSaved(true);
+            setTimeout(() => {
+                onClose();
+            }, 800);
+        } catch (err) {
+            alert('Error inesperado al guardar.');
+        }
+        setSaving(false);
+    };
+
+    return (
+        <div
+            className="fixed inset-0 z-[110] flex items-end sm:items-center justify-center p-0 sm:p-4"
+            style={{ backgroundColor: 'rgba(0,0,0,0.5)', backdropFilter: 'blur(4px)', WebkitBackdropFilter: 'blur(4px)' }}
+            onClick={onClose}
+        >
+            <div
+                className="bg-white rounded-t-3xl sm:rounded-3xl p-6 w-full sm:max-w-sm ios-shadow"
+                onClick={e => e.stopPropagation()}
+            >
+                {/* Header */}
+                <div className="flex items-center justify-between mb-6">
+                    <h3 className="text-lg font-bold">Editar Perfil</h3>
+                    <button onClick={onClose} className="w-8 h-8 rounded-full bg-gray-100 flex items-center justify-center">
+                        <span className="material-symbols-outlined text-lg">close</span>
+                    </button>
+                </div>
+
+                {/* Photo */}
+                <div className="flex flex-col items-center mb-6">
+                    <div className="relative mb-3">
+                        <div className="w-24 h-24 rounded-full overflow-hidden shadow-lg border-4 border-white">
+                            {photoPreview ? (
+                                <img src={photoPreview} alt="Perfil" className="w-full h-full object-cover" referrerPolicy="no-referrer" />
+                            ) : (
+                                <div className="w-full h-full bg-gradient-to-br from-[var(--primary)] to-blue-400 flex items-center justify-center text-white text-3xl font-bold">
+                                    {userInitial}
+                                </div>
+                            )}
+                        </div>
+                        <label className="absolute -bottom-1 -right-1 w-8 h-8 rounded-full bg-[var(--primary)] flex items-center justify-center text-white shadow-lg cursor-pointer active:scale-90 transition-transform">
+                            <span className="material-symbols-outlined text-sm">photo_camera</span>
+                            <input
+                                type="file"
+                                accept="image/*"
+                                onChange={handlePhotoSelect}
+                                className="hidden"
+                            />
+                        </label>
+                    </div>
+                    <p className="text-xs text-[var(--text-secondary)]">Toca la cámara para cambiar la foto</p>
+                </div>
+
+                {/* Name */}
+                <div className="mb-6">
+                    <label className="text-xs font-bold text-[var(--text-secondary)] uppercase tracking-wider mb-2 block">Nombre</label>
+                    <input
+                        type="text"
+                        value={name}
+                        onChange={e => setName(e.target.value)}
+                        className="w-full bg-[#F2F2F7] border-none rounded-2xl py-3 px-4 text-base font-medium focus:ring-2 focus:ring-[var(--primary)]/20 transition-all outline-none"
+                        placeholder="Tu nombre"
+                    />
+                </div>
+
+                {/* Email (read-only) */}
+                <div className="mb-6">
+                    <label className="text-xs font-bold text-[var(--text-secondary)] uppercase tracking-wider mb-2 block">Correo electrónico</label>
+                    <div className="w-full bg-[#F2F2F7] rounded-2xl py-3 px-4 text-base text-[var(--text-secondary)]">
+                        {user?.email}
+                    </div>
+                </div>
+
+                {/* Save */}
+                <button
+                    onClick={handleSave}
+                    disabled={saving || saved}
+                    className={`w-full py-3.5 rounded-2xl font-bold text-sm transition-all ${saved
+                            ? 'bg-emerald-500 text-white'
+                            : saving
+                                ? 'bg-gray-200 text-gray-400'
+                                : 'bg-[var(--primary)] text-white hover:opacity-90 active:scale-[0.98]'
+                        }`}
+                >
+                    {saved ? (
+                        <span className="flex items-center justify-center gap-2">
+                            <span className="material-symbols-outlined text-lg">check_circle</span>
+                            ¡Guardado!
+                        </span>
+                    ) : saving ? (
+                        'Guardando...'
+                    ) : (
+                        'Guardar Cambios'
+                    )}
+                </button>
+            </div>
         </div>
     );
 }

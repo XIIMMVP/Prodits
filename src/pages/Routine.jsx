@@ -90,8 +90,8 @@ function RoutineForm({ initial, onSave, onCancel }) {
   };
 
   return (
-    <div className="fixed inset-0 bg-black/40 backdrop-blur-sm z-[100] flex items-end sm:items-center justify-center p-0 sm:p-4" onClick={onCancel}>
-      <div className="bg-white rounded-t-3xl sm:rounded-3xl px-4 sm:px-6 py-5 sm:py-6 w-full sm:max-w-lg max-h-[90vh] max-h-[90dvh] overflow-y-auto overflow-x-hidden ios-shadow" onClick={e => e.stopPropagation()}>
+    <div className="fixed inset-0 z-[100] flex items-end sm:items-center justify-center p-0 sm:p-4" style={{ backgroundColor: 'rgba(0,0,0,0.5)', backdropFilter: 'blur(4px)', WebkitBackdropFilter: 'blur(4px)' }} onClick={onCancel}>
+      <div className="bg-white rounded-t-3xl sm:rounded-3xl px-4 sm:px-6 py-5 sm:py-6 w-full sm:max-w-lg max-h-[93vh] max-h-[93dvh] overflow-y-auto overflow-x-hidden ios-shadow" onClick={e => e.stopPropagation()}>
         <div className="flex items-center justify-between mb-5">
           <h2 className="text-lg sm:text-xl font-bold">{initial ? 'Editar Rutina' : 'Nueva Rutina'}</h2>
           <button onClick={onCancel} className="w-8 h-8 rounded-full bg-gray-100 flex items-center justify-center flex-shrink-0">

@@ -56,8 +56,21 @@ export function AuthProvider({ children }) {
         return { data, error };
     };
 
+    const updateProfile = async ({ fullName, avatarUrl }) => {
+        const updates = {};
+        if (fullName !== undefined) updates.full_name = fullName;
+        if (avatarUrl !== undefined) updates.avatar_url = avatarUrl;
+        const { data, error } = await supabase.auth.updateUser({
+            data: updates,
+        });
+        if (!error && data?.user) {
+            setUser(data.user);
+        }
+        return { data, error };
+    };
+
     return (
-        <AuthContext.Provider value={{ user, loading, signUp, signIn, signInWithGoogle, signOut, resetPassword }}>
+        <AuthContext.Provider value={{ user, loading, signUp, signIn, signInWithGoogle, signOut, resetPassword, updateProfile }}>
             {children}
         </AuthContext.Provider>
     );
