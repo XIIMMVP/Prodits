@@ -1,18 +1,56 @@
 import { Link, useLocation } from 'react-router-dom';
+import { useState, useEffect } from 'react';
+import { useAuth } from '../store/AuthContext';
+import Settings from '../pages/Settings';
 
 const navItems = [
     { name: 'Inicio', icon: 'home', path: '/' },
     { name: 'Rutinas', icon: 'calendar_today', path: '/routine' },
     { name: 'Análisis', icon: 'psychology', path: '/insights' },
     { name: 'Diario', icon: 'auto_stories', path: '/journal' },
-    { name: 'Ajustes', icon: 'settings', path: '/settings' }
 ];
 
 export default function Layout({ children }) {
     const location = useLocation();
+    const { user } = useAuth();
+    const [settingsOpen, setSettingsOpen] = useState(false);
+
+    // Lock body scroll when settings sheet is open
+    useEffect(() => {
+        if (settingsOpen) {
+            document.body.style.overflow = 'hidden';
+        } else {
+            document.body.style.overflow = '';
+        }
+        return () => { document.body.style.overflow = ''; };
+    }, [settingsOpen]);
+
+    // Get user initial for avatar
+    const userInitial = (user?.user_metadata?.full_name || user?.email || 'P')[0].toUpperCase();
+    const userPhoto = user?.user_metadata?.avatar_url || user?.user_metadata?.picture || null;
 
     return (
         <div className="bg-[var(--bg-main)] min-h-screen min-h-[100dvh] relative font-sans text-[var(--text-main)] overflow-x-hidden">
+            {/* Profile Avatar — fixed top right */}
+            <button
+                onClick={() => setSettingsOpen(true)}
+                className="fixed top-3 right-4 z-50 w-9 h-9 rounded-full overflow-hidden shadow-sm border-2 border-white/80 active:scale-90 transition-transform"
+                style={{ paddingTop: 'env(safe-area-inset-top, 0px)' }}
+            >
+                {userPhoto ? (
+                    <img
+                        src={userPhoto}
+                        alt="Perfil"
+                        className="w-full h-full object-cover"
+                        referrerPolicy="no-referrer"
+                    />
+                ) : (
+                    <div className="w-full h-full bg-gradient-to-br from-[var(--primary)] to-blue-400 flex items-center justify-center text-white text-sm font-bold">
+                        {userInitial}
+                    </div>
+                )}
+            </button>
+
             {/* Page Content */}
             <div className="w-full flex justify-center pb-28">
                 <div className="w-full">
@@ -20,13 +58,13 @@ export default function Layout({ children }) {
                 </div>
             </div>
 
-            {/* iOS App Store-style floating tab bar */}
+            {/* iOS-style floating tab bar — 4 items */}
             <div
                 className="fixed bottom-5 left-4 right-4 z-50 flex justify-center"
                 style={{ paddingBottom: 'env(safe-area-inset-bottom, 0px)' }}
             >
                 <nav
-                    className="flex items-center justify-center gap-0 w-full max-w-md"
+                    className="flex items-center justify-center gap-0 w-full max-w-sm"
                     style={{
                         backgroundColor: 'rgba(245, 245, 247, 0.82)',
                         backdropFilter: 'saturate(180%) blur(20px)',
@@ -92,6 +130,49 @@ export default function Layout({ children }) {
                     })}
                 </nav>
             </div>
+
+            {/* Settings Bottom Sheet */}
+            {settingsOpen && (
+                <div
+                    className="fixed inset-0 z-[90] bg-black/40 backdrop-blur-sm"
+                    onClick={() => setSettingsOpen(false)}
+                >
+                    <div
+                        className="absolute bottom-0 left-0 right-0 bg-[var(--bg-main)] rounded-t-[2rem] overflow-hidden animate-slide-up"
+                        style={{ maxHeight: '88vh', maxHeight: '88dvh' }}
+                        onClick={e => e.stopPropagation()}
+                    >
+                        {/* Handle bar + header */}
+                        <div className="sticky top-0 z-10 bg-[var(--bg-main)] pt-3 pb-2 px-5">
+                            <div className="w-10 h-1 rounded-full bg-gray-300 mx-auto mb-3" />
+                            <div className="flex items-center justify-between">
+                                <h2 className="text-lg font-bold">Cuenta</h2>
+                                <button
+                                    onClick={() => setSettingsOpen(false)}
+                                    className="w-8 h-8 rounded-full bg-gray-200/70 flex items-center justify-center"
+                                >
+                                    <span className="material-symbols-outlined text-lg text-gray-600">close</span>
+                                </button>
+                            </div>
+                        </div>
+                        {/* Settings Content */}
+                        <div className="overflow-y-auto overflow-x-hidden" style={{ maxHeight: 'calc(88vh - 80px)', maxHeight: 'calc(88dvh - 80px)' }}>
+                            <Settings />
+                        </div>
+                    </div>
+                </div>
+            )}
+
+            {/* Animation keyframes */}
+            <style>{`
+                @keyframes slideUp {
+                    from { transform: translateY(100%); }
+                    to { transform: translateY(0); }
+                }
+                .animate-slide-up {
+                    animation: slideUp 0.35s cubic-bezier(0.32, 0.72, 0, 1) forwards;
+                }
+            `}</style>
         </div>
     );
 }

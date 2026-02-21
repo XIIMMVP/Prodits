@@ -7,7 +7,6 @@ import Dashboard from './pages/Dashboard';
 import Routine from './pages/Routine';
 import Insights from './pages/Insights';
 import Journal from './pages/Journal';
-import Settings from './pages/Settings';
 import AuthPage from './pages/AuthPage';
 
 function ScrollToTop() {
@@ -51,7 +50,6 @@ function AppContent() {
             <Route path="/routine" element={<Routine />} />
             <Route path="/insights" element={<Insights />} />
             <Route path="/journal" element={<Journal />} />
-            <Route path="/settings" element={<Settings />} />
           </Routes>
         </Layout>
       </Router>
