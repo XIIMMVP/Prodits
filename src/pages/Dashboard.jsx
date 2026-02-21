@@ -26,7 +26,7 @@ function formatDate() {
 }
 
 // ─── Focus Timer Component ──────────────────────────────────
-function FocusTimer({ routine, check, dispatch }) {
+function FocusTimer({ routine, check, dispatch, onDelete }) {
   const [running, setRunning] = useState(false);
   const [remaining, setRemaining] = useState((routine.focusDuration || 25) * 60);
   const [total] = useState((routine.focusDuration || 25) * 60);
@@ -70,9 +70,18 @@ function FocusTimer({ routine, check, dispatch }) {
     <div className="bg-white rounded-[2rem] p-6 ios-shadow flex flex-col items-center justify-center text-center">
       <div className="w-full flex justify-between items-center mb-4">
         <span className="text-xs font-bold text-[var(--text-secondary)] uppercase tracking-wider">{routine.name}</span>
-        <button onClick={resetTimer} className="text-[var(--text-secondary)] hover:text-[var(--text-main)] transition-colors">
-          <span className="material-symbols-outlined text-lg">restart_alt</span>
-        </button>
+        <div className="flex items-center gap-2">
+          <button onClick={resetTimer} className="text-[var(--text-secondary)] hover:text-[var(--text-main)] transition-colors">
+            <span className="material-symbols-outlined text-lg">restart_alt</span>
+          </button>
+          <button
+            onClick={(e) => { e.stopPropagation(); onDelete(routine); }}
+            className="text-red-400 hover:text-red-600 transition-colors opacity-0 group-hover:opacity-100 hidden sm:flex"
+            title="Eliminar rutina"
+          >
+            <span className="material-symbols-outlined text-lg">delete</span>
+          </button>
+        </div>
       </div>
       <div className="relative w-36 h-36 flex items-center justify-center mb-4">
         <svg className="w-full h-full -rotate-90">
@@ -103,13 +112,20 @@ function FocusTimer({ routine, check, dispatch }) {
 }
 
 // ─── Counter Card ───────────────────────────────────────────
-function CounterCard({ routine, check, dispatch }) {
+function CounterCard({ routine, check, dispatch, onDelete }) {
   const count = check?.count || 0;
   const target = routine.target || 8;
   const col = COLORS[routine.color] || COLORS.blue;
 
   return (
-    <div className={`bg-white rounded-[1.5rem] p-5 ios-shadow flex items-center justify-between ${check?.done ? 'ring-2 ring-emerald-200' : ''}`}>
+    <div className={`bg-white rounded-[1.5rem] p-5 ios-shadow flex items-center justify-between relative group ${check?.done ? 'ring-2 ring-emerald-200' : ''}`}>
+      <button
+        onClick={(e) => { e.stopPropagation(); onDelete(routine); }}
+        className="absolute top-2 right-2 w-7 h-7 rounded-full bg-red-50 text-red-500 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity ios-shadow z-10 hidden sm:flex hover:bg-red-100"
+        title="Eliminar rutina"
+      >
+        <span className="material-symbols-outlined text-sm">delete</span>
+      </button>
       <div className="flex items-center gap-4">
         <div className={`w-12 h-12 rounded-2xl ${col.bg} flex items-center justify-center ${col.text}`}>
           <span className="material-symbols-outlined fill-1">{routine.icon}</span>
@@ -139,13 +155,20 @@ function CounterCard({ routine, check, dispatch }) {
 }
 
 // ─── Task Card ──────────────────────────────────────────────
-function TaskCard({ routine, check, dispatch, onNote }) {
+function TaskCard({ routine, check, dispatch, onNote, onDelete }) {
   const isDone = check?.done || false;
   const col = COLORS[routine.color] || COLORS.blue;
 
   return (
-    <div className={`bg-white rounded-[1.5rem] p-5 ios-shadow flex items-start gap-4 transition-all ${isDone ? 'opacity-60' : ''
+    <div className={`bg-white rounded-[1.5rem] p-5 ios-shadow flex items-start gap-4 transition-all relative group ${isDone ? 'opacity-60' : ''
       } ${routine.essential ? 'border-l-4 border-l-[var(--primary)]' : ''}`}>
+      <button
+        onClick={(e) => { e.stopPropagation(); onDelete(routine); }}
+        className="absolute top-2 right-2 w-7 h-7 rounded-full bg-red-50 text-red-500 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity ios-shadow z-10 hidden sm:flex hover:bg-red-100"
+        title="Eliminar rutina"
+      >
+        <span className="material-symbols-outlined text-sm">delete</span>
+      </button>
       <button
         onClick={() => dispatch({ type: 'TOGGLE_TASK', routineId: routine.id })}
         className={`w-6 h-6 rounded-full border-2 mt-1 flex-shrink-0 flex items-center justify-center transition-all ${isDone ? 'bg-emerald-500 border-emerald-500' : `${col.border} hover:border-[var(--primary)]`
@@ -247,6 +270,7 @@ export default function Dashboard() {
   const energyLevel = state.energy[d] || 0;
   const emergency = state.emergencyMode;
   const [noteModal, setNoteModal] = useState(null);
+  const [deleteConfirm, setDeleteConfirm] = useState(null);
 
   // Filter for emergency mode
   const visibleRoutines = emergency
@@ -362,10 +386,10 @@ export default function Dashboard() {
                   {routines.map(routine => {
                     const check = state.dailyChecks[d]?.[routine.id];
                     if (routine.type === 'focus') {
-                      return <FocusTimer key={routine.id} routine={routine} check={check} dispatch={dispatch} />;
+                      return <FocusTimer key={routine.id} routine={routine} check={check} dispatch={dispatch} onDelete={setDeleteConfirm} />;
                     }
                     if (routine.type === 'counter') {
-                      return <CounterCard key={routine.id} routine={routine} check={check} dispatch={dispatch} />;
+                      return <CounterCard key={routine.id} routine={routine} check={check} dispatch={dispatch} onDelete={setDeleteConfirm} />;
                     }
                     return (
                       <TaskCard
@@ -374,6 +398,7 @@ export default function Dashboard() {
                         check={check}
                         dispatch={dispatch}
                         onNote={() => setNoteModal(routine)}
+                        onDelete={setDeleteConfirm}
                       />
                     );
                   })}
@@ -392,6 +417,31 @@ export default function Dashboard() {
           onSave={(note) => dispatch({ type: 'ADD_NOTE', routineId: noteModal.id, note })}
           onClose={() => setNoteModal(null)}
         />
+      )}
+
+      {/* Delete Confirm */}
+      {deleteConfirm && (
+        <div className="fixed inset-0 bg-black/40 backdrop-blur-sm z-[110] flex items-center justify-center p-4" onClick={() => setDeleteConfirm(null)}>
+          <div className="bg-white rounded-[2rem] p-8 w-full max-w-sm ios-shadow text-center" onClick={e => e.stopPropagation()}>
+            <div className="w-16 h-16 rounded-full bg-red-50 flex items-center justify-center mx-auto mb-4">
+              <span className="material-symbols-outlined text-3xl text-red-500">delete_forever</span>
+            </div>
+            <h3 className="font-bold text-lg mb-1">¿Eliminar "{deleteConfirm.name}"?</h3>
+            <p className="text-sm text-[var(--text-secondary)] mb-6">Esta acción eliminará la rutina de forma permanente.</p>
+            <div className="flex gap-3">
+              <button onClick={() => setDeleteConfirm(null)} className="flex-1 py-3 rounded-2xl bg-gray-100 text-[var(--text-secondary)] font-semibold text-sm">Cancelar</button>
+              <button
+                onClick={() => {
+                  dispatch({ type: 'DELETE_ROUTINE', id: deleteConfirm.id });
+                  setDeleteConfirm(null);
+                }}
+                className="flex-1 py-3 rounded-2xl bg-red-500 text-white font-semibold text-sm"
+              >
+                Eliminar
+              </button>
+            </div>
+          </div>
+        </div>
       )}
     </main>
   );
