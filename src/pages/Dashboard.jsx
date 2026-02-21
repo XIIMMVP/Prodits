@@ -406,7 +406,7 @@ export default function Dashboard() {
           </div>
           <button
             onClick={() => dispatch({ type: 'SET_EMERGENCY_MODE', value: true })}
-            className="px-4 py-2 bg-orange-500 text-white rounded-xl text-xs font-bold hover:bg-orange-600 transition-colors whitespace-nowrap"
+            className="px-6 py-2 bg-blue-500 text-white rounded-xl text-xs font-bold hover:bg-blue-600 transition-colors whitespace-nowrap ios-shadow"
           >
             Activar
           </button>
@@ -423,7 +423,7 @@ export default function Dashboard() {
           </div>
           <button
             onClick={() => dispatch({ type: 'SET_ENERGETIC_MODE', value: true })}
-            className="px-4 py-2 bg-gradient-to-r from-amber-500 to-orange-500 text-white rounded-xl text-xs font-bold hover:opacity-90 transition-opacity whitespace-nowrap"
+            className="px-6 py-2 bg-amber-600 text-white rounded-xl text-xs font-bold hover:bg-amber-700 transition-colors whitespace-nowrap ios-shadow"
           >
             Activar
           </button>
