@@ -96,9 +96,7 @@ function RoutineForm({ initial, onSave, onCancel }) {
         top: '-env(safe-area-inset-top, 0px)',
         left: 0, right: 0, bottom: 0,
         paddingTop: 'env(safe-area-inset-top, 0px)',
-        backgroundColor: 'rgba(0,0,0,0.55)',
-        backdropFilter: 'blur(6px)',
-        WebkitBackdropFilter: 'blur(6px)'
+        backgroundColor: 'transparent'
       }}
       onClick={onCancel}
     >
