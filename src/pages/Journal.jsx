@@ -26,12 +26,43 @@ function NewEntryModal({ onSave, onClose }) {
   const handleFileChange = (e) => {
     const file = e.target.files[0];
     if (file) {
-      if (file.size > 2 * 1024 * 1024) {
-        alert("La imagen es demasiado grande. El máximo son 2MB.");
+      if (file.size > 10 * 1024 * 1024) {
+        alert("La imagen es demasiado pesada. El máximo son 10MB.");
         return;
       }
+
       const reader = new FileReader();
-      reader.onloadend = () => update('photo', reader.result);
+      reader.onload = (event) => {
+        const img = new Image();
+        img.onload = () => {
+          const canvas = document.createElement('canvas');
+          let width = img.width;
+          let height = img.height;
+          const maxDimension = 1280;
+
+          if (width > height) {
+            if (width > maxDimension) {
+              height *= maxDimension / width;
+              width = maxDimension;
+            }
+          } else {
+            if (height > maxDimension) {
+              width *= maxDimension / height;
+              height = maxDimension;
+            }
+          }
+
+          canvas.width = width;
+          canvas.height = height;
+          const ctx = canvas.getContext('2d');
+          ctx.drawImage(img, 0, 0, width, height);
+
+          // Compresión tipo Instagram (Calidad 0.8 es el punto dulce entre peso y nitidez)
+          const dataUrl = canvas.toDataURL('image/jpeg', 0.8);
+          update('photo', dataUrl);
+        };
+        img.src = event.target.result;
+      };
       reader.readAsDataURL(file);
     }
   };
