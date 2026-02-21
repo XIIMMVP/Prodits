@@ -360,7 +360,7 @@ export default function Dashboard() {
                 }}
                 className={`flex items-center justify-center rounded-2xl transition-all duration-300 ${energyLevel === e.level
                   ? e.level <= 1
-                    ? 'w-14 h-14 bg-orange-500 text-3xl shadow-lg shadow-orange-200 scale-110'
+                    ? 'w-14 h-14 bg-blue-500 text-3xl shadow-lg shadow-blue-200 scale-110'
                     : e.level >= 5
                       ? 'w-14 h-14 bg-gradient-to-br from-amber-400 to-orange-500 text-3xl shadow-lg shadow-amber-200 scale-110'
                       : 'w-14 h-14 bg-[var(--primary)] text-3xl shadow-lg shadow-blue-200 scale-110'
@@ -376,11 +376,11 @@ export default function Dashboard() {
 
       {/* Emergency Banner */}
       {emergency && (
-        <div className="mb-6 bg-orange-50 border border-orange-200 rounded-2xl p-4 flex items-center gap-3">
-          <span className="material-symbols-outlined text-orange-500 fill-1">priority_high</span>
+        <div className="mb-6 bg-blue-50 border border-blue-200 rounded-2xl p-4 flex items-center gap-3">
+          <span className="material-symbols-outlined text-blue-500 fill-1">priority_high</span>
           <div>
-            <p className="font-bold text-sm text-orange-700">Modo Emergencia Activo</p>
-            <p className="text-xs text-orange-500">Solo se muestran tareas esenciales. Enfócate en lo importante.</p>
+            <p className="font-bold text-sm text-blue-700">Modo Emergencia Activo</p>
+            <p className="text-xs text-blue-500">Solo se muestran tareas esenciales. Enfócate en lo importante.</p>
           </div>
         </div>
       )}
