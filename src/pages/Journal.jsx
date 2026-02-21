@@ -22,6 +22,20 @@ function NewEntryModal({ onSave, onClose }) {
   const now = new Date();
   const time = now.toLocaleTimeString('es-ES', { hour: '2-digit', minute: '2-digit', hour12: true });
 
+  const fileInputRef = useRef(null);
+  const handleFileChange = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      if (file.size > 2 * 1024 * 1024) {
+        alert("La imagen es demasiado grande. El máximo son 2MB.");
+        return;
+      }
+      const reader = new FileReader();
+      reader.onloadend = () => update('photo', reader.result);
+      reader.readAsDataURL(file);
+    }
+  };
+
   const { dragY, handlers, resetDrag } = useSwipeToClose(onClose);
 
   useEffect(() => {
@@ -85,9 +99,35 @@ function NewEntryModal({ onSave, onClose }) {
           </div>
 
           <div className="mb-4">
-            <label className="text-xs font-bold text-[var(--text-secondary)] uppercase tracking-wider mb-2 block">URL de la Foto (opcional)</label>
-            <input value={form.photo} onChange={e => update('photo', e.target.value)} placeholder="https://..." className="w-full border border-[var(--border)] rounded-2xl px-4 py-3 text-sm outline-none focus:ring-2 focus:ring-[var(--primary)]/20" />
-            <p className="text-[10px] text-[var(--text-secondary)] mt-1">Pega una URL de imagen o deja en blanco para una por defecto</p>
+            <label className="text-xs font-bold text-[var(--text-secondary)] uppercase tracking-wider mb-2 block">Foto del Éxito</label>
+            <input
+              type="file"
+              ref={fileInputRef}
+              onChange={handleFileChange}
+              accept="image/*"
+              className="hidden"
+            />
+            {form.photo ? (
+              <div className="relative group aspect-video rounded-2xl overflow-hidden border border-[var(--border)]">
+                <img src={form.photo} alt="Preview" className="w-full h-full object-cover" />
+                <button
+                  onClick={() => update('photo', '')}
+                  className="absolute top-2 right-2 w-8 h-8 rounded-full bg-black/50 text-white flex items-center justify-center backdrop-blur-md active:scale-90 transition-transform"
+                >
+                  <span className="material-symbols-outlined text-sm">close</span>
+                </button>
+              </div>
+            ) : (
+              <button
+                onClick={() => fileInputRef.current.click()}
+                className="w-full aspect-video rounded-2xl border-2 border-dashed border-[var(--border)] flex flex-col items-center justify-center gap-2 hover:border-[var(--primary)]/30 hover:bg-gray-50 transition-all group"
+              >
+                <div className="w-12 h-12 rounded-full bg-blue-50 flex items-center justify-center group-hover:scale-110 transition-transform">
+                  <span className="material-symbols-outlined text-[var(--primary)]">add_a_photo</span>
+                </div>
+                <span className="text-sm font-bold text-[var(--text-secondary)]">Toca para añadir foto</span>
+              </button>
+            )}
           </div>
 
           <div className="flex gap-3 pt-4 pb-8">
