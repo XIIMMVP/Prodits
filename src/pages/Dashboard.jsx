@@ -161,7 +161,7 @@ function TaskCard({ routine, check, dispatch, onNote, onDelete }) {
 
   return (
     <div className={`bg-white rounded-[1.5rem] p-5 ios-shadow flex items-start gap-4 transition-all relative group ${isDone ? 'opacity-60' : ''
-      } ${routine.essential ? 'border-l-4 border-l-[var(--primary)]' : ''}`}>
+      } ${routine.essential ? 'border-l-4 border-l-[var(--primary)]' : ''} ${routine.energetic ? 'border-l-4 border-l-amber-400' : ''}`}>
       <button
         onClick={(e) => { e.stopPropagation(); onDelete(routine); }}
         className="absolute top-2 right-2 w-7 h-7 rounded-full bg-red-50 text-red-500 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity ios-shadow z-10 hidden sm:flex hover:bg-red-100"
@@ -181,6 +181,9 @@ function TaskCard({ routine, check, dispatch, onNote, onDelete }) {
           <h4 className={`font-bold text-lg ${isDone ? 'line-through text-gray-400' : ''}`}>{routine.name}</h4>
           {routine.essential && (
             <span className="text-[10px] font-bold text-[var(--primary)] bg-blue-50 px-2 py-1 rounded-md uppercase tracking-wide">Esencial</span>
+          )}
+          {routine.energetic && (
+            <span className="text-[10px] font-bold text-amber-600 bg-amber-50 px-2 py-1 rounded-md uppercase tracking-wide">Extra 🔥</span>
           )}
         </div>
         <p className="text-sm text-[var(--text-secondary)] flex items-center gap-1">
@@ -273,10 +276,12 @@ export default function Dashboard() {
   const [noteModal, setNoteModal] = useState(null);
   const [deleteConfirm, setDeleteConfirm] = useState(null);
 
-  // Filter for emergency mode
+  // Filter based on active mode
   const visibleRoutines = emergency
     ? todayRoutines.filter(r => r.essential)
-    : todayRoutines;
+    : energetic
+      ? todayRoutines  // Energetic mode: show ALL including extras
+      : todayRoutines.filter(r => !r.energetic);  // Normal: hide energetic-only extras
 
   // Group by period (with backward compat for old English keys in localStorage)
   const periodNormalize = { morning: 'mañana', afternoon: 'tarde', evening: 'noche', 'mañana': 'mañana', 'tarde': 'tarde', 'noche': 'noche' };
@@ -354,12 +359,12 @@ export default function Dashboard() {
                   }
                 }}
                 className={`flex items-center justify-center rounded-2xl transition-all duration-300 ${energyLevel === e.level
-                    ? e.level <= 1
-                      ? 'w-14 h-14 bg-orange-500 text-3xl shadow-lg shadow-orange-200 scale-110'
-                      : e.level >= 5
-                        ? 'w-14 h-14 bg-gradient-to-br from-amber-400 to-orange-500 text-3xl shadow-lg shadow-amber-200 scale-110'
-                        : 'w-14 h-14 bg-[var(--primary)] text-3xl shadow-lg shadow-blue-200 scale-110'
-                    : 'w-12 h-12 hover:bg-gray-50 text-2xl hover:scale-105'
+                  ? e.level <= 1
+                    ? 'w-14 h-14 bg-orange-500 text-3xl shadow-lg shadow-orange-200 scale-110'
+                    : e.level >= 5
+                      ? 'w-14 h-14 bg-gradient-to-br from-amber-400 to-orange-500 text-3xl shadow-lg shadow-amber-200 scale-110'
+                      : 'w-14 h-14 bg-[var(--primary)] text-3xl shadow-lg shadow-blue-200 scale-110'
+                  : 'w-12 h-12 hover:bg-gray-50 text-2xl hover:scale-105'
                   }`}
               >
                 {e.emoji}

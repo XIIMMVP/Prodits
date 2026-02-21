@@ -57,7 +57,7 @@ function RoutineForm({ initial, onSave, onCancel }) {
   const [form, setForm] = useState(initial || {
     name: '', icon: 'wb_sunny', color: 'blue', category: 'salud',
     period: 'mañana', days: [1, 2, 3, 4, 5], time: '08:00',
-    essential: false, type: 'check', target: 8, focusDuration: 25,
+    essential: false, energetic: false, type: 'check', target: 8, focusDuration: 25,
     subtasks: [],
   });
 
@@ -253,6 +253,20 @@ function RoutineForm({ initial, onSave, onCancel }) {
           </button>
         </div>
 
+        {/* Energetic */}
+        <div className="mb-5 flex items-center justify-between bg-amber-50/50 rounded-2xl p-4">
+          <div>
+            <p className="font-semibold text-sm">Extra (Modo Enérgico) 🔥</p>
+            <p className="text-xs text-[var(--text-secondary)]">Tarea extra que solo aparece en Modo Enérgico</p>
+          </div>
+          <button
+            onClick={() => update('energetic', !form.energetic)}
+            className={`w-12 h-6 rounded-full relative transition-colors ${form.energetic ? 'bg-amber-500' : 'bg-gray-200'}`}
+          >
+            <div className={`absolute top-0.5 w-5 h-5 bg-white rounded-full shadow-sm transition-all ${form.energetic ? 'right-0.5' : 'left-0.5'}`} />
+          </button>
+        </div>
+
         {/* AI Breakdown */}
         <div className="mb-5">
           <div className="flex items-center justify-between mb-2">
@@ -360,6 +374,9 @@ function RoutineCard({ routine, onEdit, onDelete }) {
               <h3 className="text-lg font-semibold text-[var(--text-main)]">{routine.name}</h3>
               {routine.essential && (
                 <span className="px-1.5 py-0.5 rounded text-[8px] font-bold uppercase bg-blue-50 text-[var(--primary)]">Esencial</span>
+              )}
+              {routine.energetic && (
+                <span className="px-1.5 py-0.5 rounded text-[8px] font-bold uppercase bg-amber-50 text-amber-600">Extra 🔥</span>
               )}
             </div>
             <p className="text-[var(--text-secondary)] text-sm font-medium">
