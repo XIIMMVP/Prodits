@@ -4,7 +4,8 @@ const navItems = [
     { name: 'Inicio', icon: 'home', path: '/' },
     { name: 'Rutinas', icon: 'calendar_today', path: '/routine' },
     { name: 'Análisis', icon: 'psychology', path: '/insights' },
-    { name: 'Perfil', icon: 'person', path: '/journal' }
+    { name: 'Diario', icon: 'auto_stories', path: '/journal' },
+    { name: 'Ajustes', icon: 'settings', path: '/settings' }
 ];
 
 export default function Layout({ children }) {
