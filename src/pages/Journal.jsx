@@ -121,7 +121,7 @@ function NewEntryModal({ onSave, onClose }) {
           <div className="mb-4">
             <label className="text-xs font-bold text-[var(--text-secondary)] uppercase tracking-wider mb-2 block">Categoría</label>
             <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
-              {Object.entries(CATEGORY_MAP).filter(([k]) => k !== 'Todos').map(([label, val]) => (
+              {Object.entries(CATEGORY_MAP).filter(([k]) => k !== 'Todas').map(([label, val]) => (
                 <button key={val} onClick={() => update('category', val)} className={`py-2.5 rounded-xl text-xs font-bold transition-all border ${form.category === val ? 'bg-[var(--primary)] text-white border-[var(--primary)]' : 'bg-gray-50 text-[var(--text-secondary)] border-transparent hover:bg-gray-100'}`}>
                   {label}
                 </button>
