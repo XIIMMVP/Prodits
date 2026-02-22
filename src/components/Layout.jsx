@@ -64,12 +64,12 @@ export default function Layout({ children }) {
                     <nav
                         className="flex items-center justify-center gap-0 w-full max-w-sm"
                         style={{
-                            backgroundColor: 'rgba(255, 255, 255, 0.12)', // Casi invisible, deja ver todo detras
-                            backdropFilter: 'blur(8px) saturate(140%)', // Blur minimo para maxima nitidez
-                            WebkitBackdropFilter: 'blur(8px) saturate(140%)',
+                            backgroundColor: 'rgba(255, 255, 255, 0.05)', // Casi 100% transparente
+                            backdropFilter: 'blur(4px) saturate(120%)', // Blur mínimo absoluto
+                            WebkitBackdropFilter: 'blur(4px) saturate(120%)',
                             borderRadius: '40px',
                             padding: '6px 6px',
-                            boxShadow: '0 2px 20px rgba(0,0,0,0.06), 0 0 0 0.5px rgba(255,255,255,0.2)', // Borde blanco muy fino
+                            boxShadow: '0 2px 20px rgba(0,0,0,0.06), 0 0 0 0.5px rgba(255,255,255,0.1)', // Borde casi invisible
                         }}
                     >
                         {navItems.map((item) => {
