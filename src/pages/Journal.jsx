@@ -4,8 +4,8 @@ import { ProfileAvatar } from '../components/Layout';
 import { useSwipeToClose } from '../hooks/useSwipeToClose';
 
 const CATEGORY_LABELS = { salud: 'Salud y Vitalidad', mente: 'Crecimiento Personal', trabajo: 'Productividad', hogar: 'Estilo de Vida' };
-const FILTER_TABS = ['Todos', 'Salud', 'Trabajo', 'Mente', 'Hogar'];
-const CATEGORY_MAP = { Todos: null, Salud: 'salud', Trabajo: 'trabajo', Mente: 'mente', Hogar: 'hogar' };
+const FILTER_TABS = ['Todas', 'Salud', 'Trabajo', 'Mente', 'Hogar'];
+const CATEGORY_MAP = { Todas: null, Salud: 'salud', Trabajo: 'trabajo', Mente: 'mente', Hogar: 'hogar' };
 
 const PLACEHOLDER_PHOTOS = [
   'https://images.unsplash.com/photo-1571019614242-c5c5dee9f50b?w=600&q=80',
@@ -184,7 +184,7 @@ function NewEntryModal({ onSave, onClose }) {
 
 export default function Journal() {
   const { state, dispatch } = useStore();
-  const [activeFilter, setActiveFilter] = useState('All');
+  const [activeFilter, setActiveFilter] = useState('Todas');
   const [search, setSearch] = useState('');
   const [showNew, setShowNew] = useState(false);
 
@@ -236,7 +236,7 @@ export default function Journal() {
                 className={`px-2.5 sm:px-3 py-1.5 rounded-lg text-xs font-semibold transition-all whitespace-nowrap ${activeFilter === tab ? 'bg-white text-[var(--text-main)] ios-shadow' : 'text-[var(--text-secondary)]'
                   }`}
               >
-                {tab === 'All' ? 'Todas' : tab}
+                {tab}
               </button>
             ))}
           </div>
