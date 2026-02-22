@@ -187,6 +187,7 @@ export default function Journal() {
   const [activeFilter, setActiveFilter] = useState('Todas');
   const [search, setSearch] = useState('');
   const [showNew, setShowNew] = useState(false);
+  const [expandedImage, setExpandedImage] = useState(null);
 
   const catKey = CATEGORY_MAP[activeFilter];
   let entries = state.journal;
@@ -265,8 +266,16 @@ export default function Journal() {
                   className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
                   src={entry.photo}
                 />
-                <div className="absolute top-4 right-4 bg-black/30 backdrop-blur-md text-white text-[10px] font-bold px-2.5 py-1 rounded-full border border-white/20">
-                  {entry.time}
+                <div className="absolute top-4 right-3.5 flex items-center gap-1.5">
+                  <div className="bg-black/30 backdrop-blur-md text-white text-[10px] font-bold px-2.5 py-1.5 rounded-full border border-white/20">
+                    {entry.time}
+                  </div>
+                  <button
+                    onClick={(e) => { e.stopPropagation(); setExpandedImage(entry.photo); }}
+                    className="bg-black/30 backdrop-blur-md text-white w-7 h-7 rounded-full flex items-center justify-center border border-white/20 active:scale-90 transition-transform"
+                  >
+                    <span className="material-symbols-outlined text-sm">fullscreen</span>
+                  </button>
                 </div>
                 <button
                   onClick={() => dispatch({ type: 'DELETE_JOURNAL', id: entry.id })}
@@ -308,6 +317,28 @@ export default function Journal() {
           onSave={(entry) => dispatch({ type: 'ADD_JOURNAL', entry })}
           onClose={() => setShowNew(false)}
         />
+      )}
+      {/* Lightbox / Expanded Image */}
+      {expandedImage && (
+        <div
+          className="fixed inset-0 z-[200] bg-black/95 backdrop-blur-sm flex items-center justify-center p-4 animate-in fade-in duration-300"
+          onClick={() => setExpandedImage(null)}
+        >
+          <button
+            className="absolute top-10 right-6 w-12 h-12 rounded-full bg-white/10 text-white flex items-center justify-center backdrop-blur-md border border-white/10 active:scale-90 transition-all font-bold"
+            onClick={() => setExpandedImage(null)}
+          >
+            <span className="material-symbols-outlined text-3xl">close</span>
+          </button>
+          <img
+            src={expandedImage}
+            alt="Expanded"
+            className="max-w-full max-h-[85vh] rounded-2xl object-contain shadow-2xl animate-in zoom-in-95 duration-300 pointer-events-none"
+          />
+          <div className="absolute bottom-10 text-white/50 text-xs font-medium bg-white/5 px-4 py-2 rounded-full backdrop-blur-sm">
+            Toca en cualquier lugar para cerrar
+          </div>
+        </div>
       )}
     </main>
   );
