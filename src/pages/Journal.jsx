@@ -187,21 +187,6 @@ export default function Journal() {
   const [activeFilter, setActiveFilter] = useState('Todas');
   const [search, setSearch] = useState('');
   const [showNew, setShowNew] = useState(false);
-  const [expandedImage, setExpandedImage] = useState(null);
-
-  useEffect(() => {
-    if (expandedImage) {
-      document.body.style.overflow = 'hidden';
-      document.body.style.touchAction = 'none';
-    } else {
-      document.body.style.overflow = '';
-      document.body.style.touchAction = '';
-    }
-    return () => {
-      document.body.style.overflow = '';
-      document.body.style.touchAction = '';
-    };
-  }, [expandedImage]);
 
   const catKey = CATEGORY_MAP[activeFilter];
   let entries = state.journal;
@@ -280,16 +265,8 @@ export default function Journal() {
                   className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
                   src={entry.photo}
                 />
-                <div className="absolute top-4 right-3.5 flex items-center gap-1.5">
-                  <div className="bg-black/30 backdrop-blur-md text-white text-[10px] font-bold px-2.5 py-1.5 rounded-full border border-white/20">
-                    {entry.time}
-                  </div>
-                  <button
-                    onClick={(e) => { e.stopPropagation(); setExpandedImage(entry.photo); }}
-                    className="bg-black/30 backdrop-blur-md text-white w-7 h-7 rounded-full flex items-center justify-center border border-white/20 active:scale-90 transition-transform"
-                  >
-                    <span className="material-symbols-outlined text-sm">fullscreen</span>
-                  </button>
+                <div className="absolute top-4 right-4 bg-black/30 backdrop-blur-md text-white text-[10px] font-bold px-2.5 py-1 rounded-full border border-white/20">
+                  {entry.time}
                 </div>
                 <button
                   onClick={() => dispatch({ type: 'DELETE_JOURNAL', id: entry.id })}
@@ -332,29 +309,7 @@ export default function Journal() {
           onClose={() => setShowNew(false)}
         />
       )}
-      {/* Lightbox / Expanded Image GALLERY MODE */}
-      {expandedImage && (
-        <div
-          className="fixed inset-0 z-[200] bg-black flex items-center justify-center animate-in fade-in duration-300"
-          onClick={() => setExpandedImage(null)}
-        >
-          <div className="w-full h-full overflow-auto flex items-center justify-center overscroll-contain">
-            <img
-              src={expandedImage}
-              alt="Expanded"
-              className="max-w-none min-w-full min-h-full object-contain cursor-zoom-out"
-              style={{ touchAction: 'pinch-zoom' }}
-              onClick={(e) => e.stopPropagation()}
-            />
-          </div>
-          <button
-            className="absolute top-10 right-6 w-12 h-12 rounded-full bg-white/10 text-white flex items-center justify-center backdrop-blur-md border border-white/10 active:scale-90 transition-all font-bold"
-            onClick={() => setExpandedImage(null)}
-          >
-            <span className="material-symbols-outlined text-3xl">close</span>
-          </button>
-        </div>
-      )}
+
     </main>
   );
 }
