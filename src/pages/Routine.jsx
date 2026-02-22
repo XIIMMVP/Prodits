@@ -631,7 +631,7 @@ export default function Routine() {
       {!reorderMode && (
         <button
           onClick={() => { setEditing(null); setFormOpen(true); }}
-          className="fixed bottom-28 right-6 sm:right-8 w-14 h-14 rounded-full bg-[var(--primary)] text-white flex items-center justify-center shadow-2xl shadow-blue-500/40 hover:scale-105 active:scale-95 transition-all z-40"
+          className="fixed bottom-32 right-6 sm:right-8 w-14 h-14 rounded-full bg-[var(--primary)] text-white flex items-center justify-center shadow-2xl shadow-blue-500/40 hover:scale-105 active:scale-95 transition-all z-40"
         >
           <span className="material-symbols-outlined text-3xl">add</span>
         </button>

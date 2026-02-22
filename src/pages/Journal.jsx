@@ -189,6 +189,20 @@ export default function Journal() {
   const [showNew, setShowNew] = useState(false);
   const [expandedImage, setExpandedImage] = useState(null);
 
+  useEffect(() => {
+    if (expandedImage) {
+      document.body.style.overflow = 'hidden';
+      document.body.style.touchAction = 'none';
+    } else {
+      document.body.style.overflow = '';
+      document.body.style.touchAction = '';
+    }
+    return () => {
+      document.body.style.overflow = '';
+      document.body.style.touchAction = '';
+    };
+  }, [expandedImage]);
+
   const catKey = CATEGORY_MAP[activeFilter];
   let entries = state.journal;
   if (catKey) entries = entries.filter(e => e.category === catKey);
@@ -318,17 +332,27 @@ export default function Journal() {
           onClose={() => setShowNew(false)}
         />
       )}
-      {/* Lightbox / Expanded Image */}
+      {/* Lightbox / Expanded Image GALLERY MODE */}
       {expandedImage && (
         <div
-          className="fixed inset-0 z-[200] bg-white/10 backdrop-blur-3xl flex items-center justify-center p-0 animate-in fade-in duration-300 cursor-zoom-out"
+          className="fixed inset-0 z-[200] bg-black flex items-center justify-center animate-in fade-in duration-300"
           onClick={() => setExpandedImage(null)}
         >
-          <img
-            src={expandedImage}
-            alt="Expanded"
-            className="max-w-full max-h-full object-contain animate-in zoom-in-95 duration-200 pointer-events-none"
-          />
+          <div className="w-full h-full overflow-auto flex items-center justify-center overscroll-contain">
+            <img
+              src={expandedImage}
+              alt="Expanded"
+              className="max-w-none min-w-full min-h-full object-contain cursor-zoom-out"
+              style={{ touchAction: 'pinch-zoom' }}
+              onClick={(e) => e.stopPropagation()}
+            />
+          </div>
+          <button
+            className="absolute top-10 right-6 w-12 h-12 rounded-full bg-white/10 text-white flex items-center justify-center backdrop-blur-md border border-white/10 active:scale-90 transition-all font-bold"
+            onClick={() => setExpandedImage(null)}
+          >
+            <span className="material-symbols-outlined text-3xl">close</span>
+          </button>
         </div>
       )}
     </main>
