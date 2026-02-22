@@ -321,23 +321,14 @@ export default function Journal() {
       {/* Lightbox / Expanded Image */}
       {expandedImage && (
         <div
-          className="fixed inset-0 z-[200] bg-black/95 backdrop-blur-sm flex items-center justify-center p-4 animate-in fade-in duration-300"
+          className="fixed inset-0 z-[200] bg-white/10 backdrop-blur-3xl flex items-center justify-center p-0 animate-in fade-in duration-300 cursor-zoom-out"
           onClick={() => setExpandedImage(null)}
         >
-          <button
-            className="absolute top-10 right-6 w-12 h-12 rounded-full bg-white/10 text-white flex items-center justify-center backdrop-blur-md border border-white/10 active:scale-90 transition-all font-bold"
-            onClick={() => setExpandedImage(null)}
-          >
-            <span className="material-symbols-outlined text-3xl">close</span>
-          </button>
           <img
             src={expandedImage}
             alt="Expanded"
-            className="max-w-full max-h-[85vh] rounded-2xl object-contain shadow-2xl animate-in zoom-in-95 duration-300 pointer-events-none"
+            className="max-w-full max-h-full object-contain animate-in zoom-in-95 duration-200 pointer-events-none"
           />
-          <div className="absolute bottom-10 text-white/50 text-xs font-medium bg-white/5 px-4 py-2 rounded-full backdrop-blur-sm">
-            Toca en cualquier lugar para cerrar
-          </div>
         </div>
       )}
     </main>
