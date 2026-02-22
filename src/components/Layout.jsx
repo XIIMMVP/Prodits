@@ -64,12 +64,12 @@ export default function Layout({ children }) {
                     <nav
                         className="flex items-center justify-center gap-0 w-full max-w-sm"
                         style={{
-                            backgroundColor: 'rgba(255, 255, 255, 0.25)', // Aún más cristalino
-                            backdropFilter: 'saturate(200%) blur(40px)', // Desenfoque de cristal profundo
-                            WebkitBackdropFilter: 'saturate(200%) blur(40px)',
+                            backgroundColor: 'rgba(255, 255, 255, 0.25)',
+                            backdropFilter: 'saturate(200%) blur(15px)', // Blur reducido para efecto cristal claro
+                            WebkitBackdropFilter: 'saturate(200%) blur(15px)',
                             borderRadius: '40px',
                             padding: '6px 6px',
-                            boxShadow: '0 2px 20px rgba(0,0,0,0.06), 0 0 0 0.5px rgba(0,0,0,0.04)', // Sombra restaurada
+                            boxShadow: '0 2px 20px rgba(0,0,0,0.06), 0 0 0 0.5px rgba(0,0,0,0.04)',
                         }}
                     >
                         {navItems.map((item) => {
