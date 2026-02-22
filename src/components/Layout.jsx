@@ -64,12 +64,22 @@ export default function Layout({ children }) {
                     <nav
                         className="flex items-center justify-center gap-0 w-full max-w-sm"
                         style={{
-                            backgroundColor: 'rgba(255, 255, 255, 0.05)', // Casi 100% transparente
-                            backdropFilter: 'blur(4px) saturate(120%)', // Blur mínimo absoluto
-                            WebkitBackdropFilter: 'blur(4px) saturate(120%)',
+                            backgroundColor: 'rgba(255, 255, 255, 0.03)',
+                            backdropFilter: 'blur(10px) saturate(160%)', // Un poco más de blur para el volumen de gota
+                            WebkitBackdropFilter: 'blur(10px) saturate(160%)',
                             borderRadius: '40px',
                             padding: '6px 6px',
-                            boxShadow: '0 2px 20px rgba(0,0,0,0.06), 0 0 0 0.5px rgba(255,255,255,0.1)', // Borde casi invisible
+                            // Efecto de Gota de Agua / Liquid Glass:
+                            // 1. Sombra exterior suave
+                            // 2. Borde de brillo superior (highlight)
+                            // 3. Refracción interna (inset)
+                            boxShadow: `
+                                0 4px 24px -1px rgba(0, 0, 0, 0.1), 
+                                0 10px 30px -5px rgba(0, 0, 0, 0.05),
+                                inset 0 1px 1.5px 0.5px rgba(255, 255, 255, 0.5),
+                                inset 0 -1px 2px rgba(0, 0, 0, 0.05)
+                            `,
+                            border: '0.5px solid rgba(255, 255, 255, 0.15)',
                         }}
                     >
                         {navItems.map((item) => {
