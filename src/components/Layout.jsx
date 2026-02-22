@@ -65,8 +65,8 @@ export default function Layout({ children }) {
                         className="flex items-center justify-center gap-0 w-full max-w-sm"
                         style={{
                             backgroundColor: 'rgba(255, 255, 255, 0.03)',
-                            backdropFilter: 'blur(5px) saturate(160%)', // Blur reducido a 5px
-                            WebkitBackdropFilter: 'blur(5px) saturate(160%)',
+                            backdropFilter: 'blur(1px) saturate(160%)', // Blur mínimo absoluto (1px)
+                            WebkitBackdropFilter: 'blur(1px) saturate(160%)',
                             borderRadius: '40px',
                             padding: '6px 6px',
                             // Efecto de Gota de Agua / Liquid Glass:
