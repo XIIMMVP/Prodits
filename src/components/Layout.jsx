@@ -64,7 +64,7 @@ export default function Layout({ children }) {
                     <nav
                         className="flex items-center justify-center gap-0 w-full max-w-sm"
                         style={{
-                            backgroundColor: 'rgba(255, 255, 255, 0.03)',
+                            backgroundColor: 'rgba(255, 255, 255, 0.01)', // Máxima transparencia posible
                             backdropFilter: 'blur(0.5px) saturate(160%)', // Blur casi imperceptible para transparencia total
                             WebkitBackdropFilter: 'blur(0.5px) saturate(160%)',
                             borderRadius: '40px',
