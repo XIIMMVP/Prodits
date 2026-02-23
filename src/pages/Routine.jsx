@@ -1,4 +1,5 @@
 import { useState, useRef, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import { useStore, CATEGORIES, PERIODS, uid } from '../store/useStore';
 import { ProfileAvatar } from '../components/Layout';
 import { useSwipeToClose } from '../hooks/useSwipeToClose';
@@ -515,7 +516,10 @@ export default function Routine() {
         <div className="flex items-center justify-between">
           <div>
             <span className="text-[var(--primary)] text-xs font-bold tracking-widest uppercase mb-1 block">Gestión</span>
-            <h1 className="text-3xl sm:text-4xl font-bold tracking-tight text-[var(--text-main)]">Rutinas</h1>
+            <div className="flex items-end gap-3">
+              <h1 className="text-3xl sm:text-4xl font-bold tracking-tight text-[var(--text-main)]">Rutinas</h1>
+              <Link to="/appointments" className="text-xl sm:text-2xl font-bold tracking-tight text-gray-300 hover:text-gray-400 transition-colors mb-0.5 sm:mb-1">Citas</Link>
+            </div>
           </div>
           <div className="flex items-center gap-2">
             <button

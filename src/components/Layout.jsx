@@ -11,10 +11,10 @@ export function useSettingsSheet() {
 }
 
 const navItems = [
-    { name: 'Inicio', icon: 'home', path: '/' },
-    { name: 'Rutinas', icon: 'calendar_today', path: '/routine' },
-    { name: 'Análisis', icon: 'psychology', path: '/insights' },
-    { name: 'Diario', icon: 'auto_stories', path: '/journal' },
+    { id: 'home', name: 'Inicio', icon: 'home', path: '/' },
+    { id: 'management', name: 'Rutinas', icon: 'calendar_today', path: '/routine' },
+    { id: 'insights', name: 'Análisis', icon: 'psychology', path: '/insights' },
+    { id: 'journal', name: 'Diario', icon: 'auto_stories', path: '/journal' },
 ];
 
 export default function Layout({ children }) {
@@ -83,11 +83,26 @@ export default function Layout({ children }) {
                         }}
                     >
                         {navItems.map((item) => {
-                            const isActive = location.pathname === item.path;
+                            let isActive = location.pathname === item.path;
+                            let name = item.name;
+                            let path = item.path;
+                            let icon = item.icon;
+
+                            if (item.id === 'management') {
+                                if (location.pathname === '/routine' || location.pathname === '/appointments') {
+                                    isActive = true;
+                                    if (location.pathname === '/appointments') {
+                                        name = 'Citas';
+                                        path = '/appointments';
+                                        icon = 'event';
+                                    }
+                                }
+                            }
+
                             return (
                                 <Link
-                                    key={item.name}
-                                    to={item.path}
+                                    key={item.id}
+                                    to={path}
                                     className="flex flex-col items-center justify-center relative"
                                     style={{
                                         WebkitTapHighlightColor: 'transparent',
@@ -115,7 +130,7 @@ export default function Layout({ children }) {
                                                 transition: 'color 0.2s ease',
                                             }}
                                         >
-                                            {item.icon}
+                                            {icon}
                                         </span>
                                         <span
                                             style={{
@@ -127,7 +142,7 @@ export default function Layout({ children }) {
                                                 transition: 'color 0.2s ease',
                                             }}
                                         >
-                                            {item.name}
+                                            {name}
                                         </span>
                                     </div>
                                 </Link>

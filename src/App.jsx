@@ -8,6 +8,7 @@ import Routine from './pages/Routine';
 import Insights from './pages/Insights';
 import Journal from './pages/Journal';
 import AuthPage from './pages/AuthPage';
+import Appointments from './pages/Appointments';
 
 function ScrollToTop() {
   const { pathname } = useLocation();
@@ -48,6 +49,7 @@ function AppContent() {
           <Routes>
             <Route path="/" element={<Dashboard />} />
             <Route path="/routine" element={<Routine />} />
+            <Route path="/appointments" element={<Appointments />} />
             <Route path="/insights" element={<Insights />} />
             <Route path="/journal" element={<Journal />} />
           </Routes>
