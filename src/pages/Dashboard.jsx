@@ -296,6 +296,7 @@ export default function Dashboard() {
   const energetic = state.energeticMode;
   const [noteModal, setNoteModal] = useState(null);
   const [deleteConfirm, setDeleteConfirm] = useState(null);
+  const [collapsedDone, setCollapsedDone] = useState({});
 
   // Filter based on active mode
   const visibleRoutines = emergency
@@ -462,17 +463,34 @@ export default function Dashboard() {
         <div className="space-y-10">
           {Object.entries(grouped).map(([period, routines]) => {
             if (routines.length === 0) return null;
+            const doneCount = routines.filter(r => state.dailyChecks[d]?.[r.id]?.done).length;
+            const isCollapsed = collapsedDone[period] || false;
+            const toggleCollapse = () => setCollapsedDone(prev => ({ ...prev, [period]: !prev[period] }));
+            const visibleForPeriod = isCollapsed
+              ? routines.filter(r => !state.dailyChecks[d]?.[r.id]?.done)
+              : routines;
             return (
               <section key={period}>
                 <div className="flex items-center gap-3 mb-5">
                   <div className={`w-2 h-2 rounded-full ${periodDots[period]}`} />
                   <h3 className="text-xl font-bold text-[var(--text-main)]">{periodLabels[period]}</h3>
                   <span className="text-xs text-[var(--text-secondary)] ml-auto">
-                    {routines.filter(r => state.dailyChecks[d]?.[r.id]?.done).length}/{routines.length}
+                    {doneCount}/{routines.length}
                   </span>
+                  {doneCount > 0 && (
+                    <button
+                      onClick={toggleCollapse}
+                      className="flex items-center gap-1 text-xs font-semibold text-[var(--text-secondary)] bg-gray-100 hover:bg-gray-200 px-3 py-1.5 rounded-full transition-all active:scale-95"
+                    >
+                      <span className={`material-symbols-outlined text-sm transition-transform duration-200 ${isCollapsed ? '' : 'rotate-180'}`}>
+                        expand_less
+                      </span>
+                      {isCollapsed ? 'Mostrar' : 'Ocultar'} hechas
+                    </button>
+                  )}
                 </div>
                 <div className="grid grid-cols-1 gap-4">
-                  {routines.map(routine => {
+                  {visibleForPeriod.map(routine => {
                     const check = state.dailyChecks[d]?.[routine.id];
                     if (routine.type === 'focus') {
                       return <FocusTimer key={routine.id} routine={routine} check={check} dispatch={dispatch} onDelete={setDeleteConfirm} />;
@@ -491,6 +509,15 @@ export default function Dashboard() {
                       />
                     );
                   })}
+                  {isCollapsed && doneCount > 0 && (
+                    <button
+                      onClick={toggleCollapse}
+                      className="text-xs text-[var(--text-secondary)] font-medium py-2 flex items-center justify-center gap-1 hover:text-[var(--primary)] transition-colors"
+                    >
+                      <span className="material-symbols-outlined text-sm">visibility</span>
+                      {doneCount} tarea{doneCount > 1 ? 's' : ''} completada{doneCount > 1 ? 's' : ''} oculta{doneCount > 1 ? 's' : ''}
+                    </button>
+                  )}
                 </div>
               </section>
             );
