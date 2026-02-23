@@ -78,6 +78,7 @@ const defaultState = {
         },
     ],
     history: {},
+    appointments: [],
     focusTimer: { running: false, routineId: null, remaining: 0, total: 0 },
     lastReset: today(),
 };
@@ -160,6 +161,16 @@ function reducer(state, action) {
         case 'DELETE_JOURNAL': {
             return { ...state, journal: state.journal.filter(j => j.id !== action.id) };
         }
+        case 'ADD_APPOINTMENT': {
+            const newAppt = { id: uid(), ...action.appointment };
+            return { ...state, appointments: [...state.appointments, newAppt], _lastAppointment: newAppt };
+        }
+        case 'UPDATE_APPOINTMENT': {
+            return { ...state, appointments: state.appointments.map(a => a.id === action.id ? { ...a, ...action.data } : a) };
+        }
+        case 'DELETE_APPOINTMENT': {
+            return { ...state, appointments: state.appointments.filter(a => a.id !== action.id) };
+        }
         case 'SET_FOCUS_TIMER': {
             return { ...state, focusTimer: { ...state.focusTimer, ...action.data } };
         }
@@ -180,6 +191,7 @@ function reducer(state, action) {
                 energy: action.data.energy,
                 journal: action.data.journal,
                 history: action.data.history,
+                appointments: action.data.appointments || [],
                 emergencyMode: action.data.emergencyMode,
                 energeticMode: action.data.energeticMode,
             };
@@ -217,7 +229,7 @@ export function StoreProvider({ children }) {
         sync.loadFullState(user.id).then(data => {
             if (cancelled) return;
 
-            const hasCloudData = data.routines.length > 0 || data.journal.length > 0 || Object.keys(data.dailyChecks).length > 0;
+            const hasCloudData = data.routines.length > 0 || data.journal.length > 0 || Object.keys(data.dailyChecks).length > 0 || (data.appointments && data.appointments.length > 0);
 
             if (hasCloudData) {
                 console.log('[Sync] Found cloud data, hydrating...');
@@ -370,6 +382,29 @@ async function syncAction(userId, action, state) {
         case 'DELETE_JOURNAL': {
             console.log('[Sync] Deleting journal entry:', action.id);
             await sync.deleteJournal(action.id);
+            break;
+        }
+
+        // ── Appointments ──────────────────────────────────
+        case 'ADD_APPOINTMENT': {
+            const newAppt = state._lastAppointment;
+            if (newAppt) {
+                console.log('[Sync] Upserting appointment:', newAppt.title);
+                await sync.upsertAppointment(userId, newAppt);
+            }
+            break;
+        }
+        case 'UPDATE_APPOINTMENT': {
+            const updatedAppt = state.appointments.find(a => a.id === action.id);
+            if (updatedAppt) {
+                console.log('[Sync] Updating appointment:', updatedAppt.title);
+                await sync.upsertAppointment(userId, updatedAppt);
+            }
+            break;
+        }
+        case 'DELETE_APPOINTMENT': {
+            console.log('[Sync] Deleting appointment:', action.id);
+            await sync.deleteAppointment(action.id);
             break;
         }
 

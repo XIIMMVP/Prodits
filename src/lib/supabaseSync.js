@@ -276,17 +276,63 @@ export async function upsertUserSettings(userId, settings) {
 }
 
 // ╔══════════════════════════════════════════════════════════╗
+// ║                  APPOINTMENTS                            ║
+// ╚══════════════════════════════════════════════════════════╝
+
+export async function fetchAppointments(userId) {
+    const { data, error } = await supabase
+        .from('appointments')
+        .select('*')
+        .eq('user_id', userId)
+        .order('date', { ascending: true });
+    if (error) { console.error('fetchAppointments error:', error); throw error; }
+    return (data || []).map(a => ({
+        id: a.id,
+        title: a.title,
+        date: a.date,
+        time: a.time,
+        description: a.description
+    }));
+}
+
+export async function upsertAppointment(userId, appt) {
+    const { data, error } = await supabase
+        .from('appointments')
+        .upsert({
+            id: appt.id,
+            user_id: userId,
+            title: appt.title,
+            date: appt.date,
+            time: appt.time,
+            description: appt.description || ''
+        }, { onConflict: 'id' })
+        .select()
+        .single();
+    if (error) { console.error('upsertAppointment error:', error); throw error; }
+    return data;
+}
+
+export async function deleteAppointment(id) {
+    const { error } = await supabase
+        .from('appointments')
+        .delete()
+        .eq('id', id);
+    if (error) { console.error('deleteAppointment error:', error); throw error; }
+}
+
+// ╔══════════════════════════════════════════════════════════╗
 // ║              FULL STATE SYNC                             ║
 // ╚══════════════════════════════════════════════════════════╝
 
 export async function loadFullState(userId) {
-    const [routines, dailyChecks, energy, journal, history, settings] = await Promise.all([
+    const [routines, dailyChecks, energy, journal, history, settings, appointments] = await Promise.all([
         fetchRoutines(userId),
         fetchAllDailyChecks(userId),
         fetchEnergy(userId),
         fetchJournal(userId),
         fetchHistory(userId),
         fetchUserSettings(userId),
+        fetchAppointments(userId),
     ]);
 
     return {
@@ -295,6 +341,7 @@ export async function loadFullState(userId) {
         energy,
         journal,
         history,
+        appointments,
         emergencyMode: settings?.emergency_mode || false,
         energeticMode: settings?.energetic_mode || false,
     };
@@ -323,6 +370,11 @@ export async function pushFullState(userId, state) {
     // Push journal
     for (const entry of (state.journal || [])) {
         promises.push(upsertJournal(userId, entry));
+    }
+
+    // Push appointments
+    for (const appt of (state.appointments || [])) {
+        promises.push(upsertAppointment(userId, appt));
     }
 
     // Push history
