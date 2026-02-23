@@ -12,42 +12,58 @@ const toKey = (d) => {
 
 function getDayRatio(state, dateStr) {
   // 1. Usar historial guardado si existe
-  if (state.history && state.history[dateStr] !== undefined) return state.history[dateStr];
+  const hist = state.history?.[dateStr];
+  if (hist) {
+    // Si es el formato nuevo { ratio, mode }
+    if (typeof hist === 'object') return hist;
+    // Retrocompatibilidad si era un número directo
+    return { ratio: hist, mode: 'normal' };
+  }
 
-  // 2. Calcular al vuelo desde dailyChecks si no hay historial (para días recientes)
-  const checks = state.dailyChecks?.[dateStr];
-  if (!checks) return 0;
+  // 2. Si es HOY, calcular al vuelo respetando el modo actual
+  if (dateStr === today()) {
+    const dow = new Date().getDay();
+    const routines = state.routines.filter(r => r.days.includes(dow));
+    const visible = state.emergencyMode
+      ? routines.filter(r => r.essential)
+      : state.energeticMode
+        ? routines
+        : routines.filter(r => !r.energetic);
 
-  const d = new Date(dateStr + 'T12:00:00');
-  const dow = d.getDay();
-  const routinesForDay = state.routines.filter(r => r.days.includes(dow));
-  if (routinesForDay.length === 0) return 0;
+    if (visible.length === 0) return { ratio: 0, mode: 'normal' };
+    const done = visible.filter(r => state.dailyChecks[dateStr]?.[r.id]?.done).length;
+    return {
+      ratio: done / visible.length,
+      mode: state.emergencyMode ? 'emergencia' : state.energeticMode ? 'enérgico' : 'normal'
+    };
+  }
 
-  const done = routinesForDay.filter(r => checks[r.id]?.done).length;
-  return done / routinesForDay.length;
+  // 3. Otros días pasados sin historial
+  return { ratio: 0, mode: 'normal' };
 }
 
 function getHeatmapData(state) {
   const cells = [];
   const now = new Date();
-  const currentDay = now.getDay(); // 0 (Dom) - 6 (Sáb)
+  const currentDay = now.getDay();
 
-  // Encontrar el domingo de esta semana para que 28 días atrás sea un lunes
   const daysToSunday = (7 - currentDay) % 7;
   const lastSunday = new Date(now);
   lastSunday.setDate(now.getDate() + daysToSunday);
 
   const startDate = new Date(lastSunday);
-  startDate.setDate(lastSunday.getDate() - 27); // Ir 4 semanas exactas atrás (Lunes)
+  startDate.setDate(lastSunday.getDate() - 27);
 
   for (let i = 0; i < 28; i++) {
     const d = new Date(startDate);
     d.setDate(startDate.getDate() + i);
     const key = toKey(d);
+    const data = getDayRatio(state, key);
     cells.push({
       date: key,
       label: d.toLocaleDateString('es-ES', { month: 'short', day: 'numeric', weekday: 'short' }),
-      ratio: getDayRatio(state, key),
+      ratio: data.ratio,
+      mode: data.mode
     });
   }
   return cells;
@@ -71,11 +87,15 @@ export default function Insights() {
   const heatmapData = getHeatmapData(state);
 
   const d = today();
-  const todayRoutines = state.routines.filter(r => r.days.includes(new Date().getDay()));
-  const doneCount = todayRoutines.filter(r => state.dailyChecks[d]?.[r.id]?.done).length;
+  const dow = new Date().getDay();
+  const allRoutines = state.routines.filter(r => r.days.includes(dow));
+  const visibleRoutines = state.emergencyMode
+    ? allRoutines.filter(r => r.essential)
+    : state.energeticMode
+      ? allRoutines
+      : allRoutines.filter(r => !r.energetic);
 
-  const plannedHours = todayRoutines.length * 0.75;
-  const actualHours = doneCount * 0.9;
+  const doneCount = visibleRoutines.filter(r => state.dailyChecks[d]?.[r.id]?.done).length;
 
   const rings = [
     { label: 'Salud', sublabel: 'Vitalidad', ratio: healthRatio, color: 'stroke-emerald-500', changeColor: 'text-emerald-600', bgColor: 'bg-emerald-50' },
@@ -162,14 +182,14 @@ export default function Insights() {
               <div className="w-2 h-2 rounded-full bg-gray-200 mt-1.5" />
               <div>
                 <p className="text-[10px] text-[var(--text-secondary)] font-bold uppercase">Tareas de hoy</p>
-                <p className="text-sm font-bold">{todayRoutines.length} Programadas</p>
+                <p className="text-sm font-bold">{visibleRoutines.length} Programadas</p>
               </div>
             </div>
             <div className="flex items-start gap-2">
               <div className="w-2 h-2 rounded-full bg-[var(--primary)] mt-1.5" />
               <div>
                 <p className="text-[10px] text-[var(--text-secondary)] font-bold uppercase">Completadas</p>
-                <p className="text-sm font-bold">{doneCount} de {todayRoutines.length}</p>
+                <p className="text-sm font-bold">{doneCount} de {visibleRoutines.length}</p>
               </div>
             </div>
           </div>
@@ -205,8 +225,10 @@ export default function Insights() {
                 key={cell.date}
                 className={`aspect-square rounded-[8px] sm:rounded-[10px] ${ratioToOpacity(cell.ratio)} hover:ring-2 ring-blue-300 ring-offset-1 transition-all cursor-pointer relative group`}
               >
-                <div className="absolute -top-10 left-1/2 -translate-x-1/2 bg-gray-900 text-white text-[10px] px-2 py-1.5 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap pointer-events-none z-30 shadow-xl border border-white/10">
-                  <span className="font-bold">{cell.label}:</span> {Math.round(cell.ratio * 100)}%
+                <div className="absolute -top-12 left-1/2 -translate-x-1/2 bg-gray-900 text-white text-[10px] px-2.5 py-2 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap pointer-events-none z-30 shadow-xl border border-white/10 text-center">
+                  <div className="font-bold border-b border-white/10 pb-1 mb-1">{cell.label}</div>
+                  <div><span className="text-gray-400">Progreso:</span> {Math.round(cell.ratio * 100)}%</div>
+                  <div className="capitalize text-blue-300 font-medium">{cell.mode}</div>
                 </div>
               </div>
             ))}

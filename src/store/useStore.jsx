@@ -164,7 +164,7 @@ function reducer(state, action) {
             return { ...state, focusTimer: { ...state.focusTimer, ...action.data } };
         }
         case 'RECORD_HISTORY': {
-            return { ...state, history: { ...state.history, [action.date]: action.ratio } };
+            return { ...state, history: { ...state.history, [action.date]: { ratio: action.ratio, mode: action.mode } } };
         }
         case 'DAILY_RESET': {
             return { ...state, lastReset: today() };
@@ -245,10 +245,25 @@ export function StoreProvider({ children }) {
         if (state.lastReset !== today()) {
             const yesterday = state.lastReset;
             const dow = new Date(yesterday).getDay();
-            const todayRoutines = state.routines.filter(r => r.days.includes(dow));
-            if (todayRoutines.length > 0 && state.dailyChecks[yesterday]) {
-                const done = todayRoutines.filter(r => state.dailyChecks[yesterday]?.[r.id]?.done).length;
-                rawDispatch({ type: 'RECORD_HISTORY', date: yesterday, ratio: done / todayRoutines.length });
+
+            // Calculate ratio based on the mode the user HAD yesterday (at the moment of reset)
+            const routines = state.routines.filter(r => r.days.includes(dow));
+            const mode = state.emergencyMode ? 'emergencia' : state.energeticMode ? 'enérgico' : 'normal';
+
+            const visible = state.emergencyMode
+                ? routines.filter(r => r.essential)
+                : state.energeticMode
+                    ? routines
+                    : routines.filter(r => !r.energetic);
+
+            if (visible.length > 0 && state.dailyChecks[yesterday]) {
+                const done = visible.filter(r => state.dailyChecks[yesterday]?.[r.id]?.done).length;
+                rawDispatch({
+                    type: 'RECORD_HISTORY',
+                    date: yesterday,
+                    ratio: done / visible.length,
+                    mode: mode
+                });
             }
             rawDispatch({ type: 'DAILY_RESET' });
         }
@@ -361,7 +376,7 @@ async function syncAction(userId, action, state) {
         // ── History ───────────────────────────────────────
         case 'RECORD_HISTORY': {
             console.log('[Sync] Recording history for:', action.date);
-            await sync.upsertHistory(userId, action.date, action.ratio);
+            await sync.upsertHistory(userId, action.date, { ratio: action.ratio, mode: action.mode });
             break;
         }
     }
@@ -382,19 +397,33 @@ export function useTodayRoutines(state) {
 export function useCompletionRatio(state) {
     const d = today();
     const dow = new Date().getDay();
-    const todayRoutines = state.routines.filter(r => r.days.includes(dow));
-    if (todayRoutines.length === 0) return 0;
-    const done = todayRoutines.filter(r => state.dailyChecks[d]?.[r.id]?.done).length;
-    return done / todayRoutines.length;
+    const routines = state.routines.filter(r => r.days.includes(dow));
+
+    const visible = state.emergencyMode
+        ? routines.filter(r => r.essential)
+        : state.energeticMode
+            ? routines
+            : routines.filter(r => !r.energetic);
+
+    if (visible.length === 0) return 0;
+    const done = visible.filter(r => state.dailyChecks[d]?.[r.id]?.done).length;
+    return done / visible.length;
 }
 
 export function useCategoryCompletion(state, category) {
     const d = today();
     const dow = new Date().getDay();
-    const catRoutines = state.routines.filter(r => r.days.includes(dow) && r.category === category);
-    if (catRoutines.length === 0) return 0;
-    const done = catRoutines.filter(r => state.dailyChecks[d]?.[r.id]?.done).length;
-    return done / catRoutines.length;
+    const routines = state.routines.filter(r => r.days.includes(dow) && r.category === category);
+
+    const visible = state.emergencyMode
+        ? routines.filter(r => r.essential)
+        : state.energeticMode
+            ? routines
+            : routines.filter(r => !r.energetic);
+
+    if (visible.length === 0) return 0;
+    const done = visible.filter(r => state.dailyChecks[d]?.[r.id]?.done).length;
+    return done / visible.length;
 }
 
 export { CATEGORIES, PERIODS, today, uid };

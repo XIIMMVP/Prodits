@@ -223,17 +223,23 @@ export async function fetchHistory(userId) {
     if (error) { console.error('fetchHistory error:', error); throw error; }
 
     const history = {};
-    (data || []).forEach(h => { history[h.history_date] = h.ratio; });
+    (data || []).forEach(h => {
+        history[h.history_date] = { ratio: h.ratio, mode: h.mode || 'normal' };
+    });
     return history;
 }
 
-export async function upsertHistory(userId, date, ratio) {
+export async function upsertHistory(userId, date, historyData) {
+    const ratio = typeof historyData === 'object' ? historyData.ratio : historyData;
+    const mode = typeof historyData === 'object' ? historyData.mode : 'normal';
+
     const { error } = await supabase
         .from('completion_history')
         .upsert({
             user_id: userId,
             history_date: date,
             ratio,
+            mode,
         }, { onConflict: 'user_id,history_date' });
     if (error) { console.error('upsertHistory error:', error); throw error; }
 }
@@ -320,8 +326,8 @@ export async function pushFullState(userId, state) {
     }
 
     // Push history
-    for (const [date, ratio] of Object.entries(state.history || {})) {
-        promises.push(upsertHistory(userId, date, ratio));
+    for (const [date, historyData] of Object.entries(state.history || {})) {
+        promises.push(upsertHistory(userId, date, historyData));
     }
 
     // Push modes
