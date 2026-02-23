@@ -517,12 +517,9 @@ export default function Dashboard() {
                   <div className={`w-2 h-2 rounded-full ${periodDots[period]}`} />
                   <h3 className="text-xl font-bold text-[var(--text-main)]">{periodLabels[period]}</h3>
                   <div className="ml-auto flex items-center gap-3">
-                    <ProgressCircle
-                      current={doneCount}
-                      total={routines.length}
-                      size={32}
-                      color={period === 'mañana' ? 'var(--primary)' : period === 'tarde' ? '#fb923c' : '#a78bfa'}
-                    />
+                    <span className="text-xs text-[var(--text-secondary)] font-semibold">
+                      {doneCount}/{routines.length}
+                    </span>
                     {doneCount > 0 && (
                       <button
                         onClick={toggleCollapse}
