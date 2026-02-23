@@ -250,6 +250,47 @@ function TaskCard({ routine, check, dispatch, onNote, onDelete }) {
   );
 }
 
+// ─── Progress Circle ────────────────────────────────────────
+function ProgressCircle({ current, total, size = 42, color = 'var(--primary)' }) {
+  const percentage = total > 0 ? (current / total) * 100 : 0;
+  const strokeWidth = 3.5;
+  const radius = (size - strokeWidth) / 2 - 2;
+  const circumference = 2 * Math.PI * radius;
+  const offset = circumference - (percentage / 100) * circumference;
+
+  return (
+    <div className="relative flex items-center justify-center bg-white rounded-full ios-shadow p-0.5" style={{ width: size + 4, height: size + 4 }}>
+      <svg width={size} height={size} className="-rotate-90">
+        <circle
+          cx={size / 2}
+          cy={size / 2}
+          r={radius}
+          fill="transparent"
+          stroke="#F2F2F7"
+          strokeWidth={strokeWidth}
+        />
+        <circle
+          cx={size / 2}
+          cy={size / 2}
+          r={radius}
+          fill="transparent"
+          stroke={color}
+          strokeWidth={strokeWidth}
+          strokeDasharray={circumference}
+          strokeDashoffset={offset}
+          strokeLinecap="round"
+          className="transition-all duration-1000 ease-out"
+        />
+      </svg>
+      <div className="absolute inset-0 flex flex-col items-center justify-center">
+        <span className="text-[10px] font-black leading-none" style={{ color: current === total ? '#10b981' : 'inherit' }}>{current}</span>
+        <div className="w-3 h-[0.5px] bg-gray-200 my-[2px]" />
+        <span className="text-[8px] text-[var(--text-secondary)] font-bold leading-none">{total}</span>
+      </div>
+    </div>
+  );
+}
+
 // ─── Note Modal ─────────────────────────────────────────────
 function NoteModal({ routine, currentNote, onSave, onClose }) {
   const [note, setNote] = useState(currentNote || '');
@@ -338,9 +379,7 @@ export default function Dashboard() {
           </div>
           <div className="flex items-center gap-3">
             {totalCount > 0 && (
-              <div className="text-xs font-bold text-[var(--text-secondary)] bg-white px-3 py-1.5 rounded-full ios-shadow">
-                {totalDone}/{totalCount}
-              </div>
+              <ProgressCircle current={totalDone} total={totalCount} size={42} />
             )}
             <ProfileAvatar />
           </div>
@@ -477,20 +516,25 @@ export default function Dashboard() {
                 <div className="flex items-center gap-3 mb-5">
                   <div className={`w-2 h-2 rounded-full ${periodDots[period]}`} />
                   <h3 className="text-xl font-bold text-[var(--text-main)]">{periodLabels[period]}</h3>
-                  <span className="text-xs text-[var(--text-secondary)] ml-auto">
-                    {doneCount}/{routines.length}
-                  </span>
-                  {doneCount > 0 && (
-                    <button
-                      onClick={toggleCollapse}
-                      className="flex items-center gap-1 text-xs font-semibold text-[var(--text-secondary)] bg-gray-100 hover:bg-gray-200 px-3 py-1.5 rounded-full transition-all active:scale-95"
-                    >
-                      <span className={`material-symbols-outlined text-sm transition-transform duration-200 ${isCollapsed ? '' : 'rotate-180'}`}>
-                        expand_less
-                      </span>
-                      {isCollapsed ? 'Mostrar' : 'Ocultar'} hechas
-                    </button>
-                  )}
+                  <div className="ml-auto flex items-center gap-3">
+                    <ProgressCircle
+                      current={doneCount}
+                      total={routines.length}
+                      size={32}
+                      color={period === 'mañana' ? 'var(--primary)' : period === 'tarde' ? '#fb923c' : '#a78bfa'}
+                    />
+                    {doneCount > 0 && (
+                      <button
+                        onClick={toggleCollapse}
+                        className="flex items-center gap-1 text-xs font-semibold text-[var(--text-secondary)] bg-gray-100 hover:bg-gray-200 px-3 py-1.5 rounded-full transition-all active:scale-95"
+                      >
+                        <span className={`material-symbols-outlined text-sm transition-transform duration-200 ${isCollapsed ? '' : 'rotate-180'}`}>
+                          expand_less
+                        </span>
+                        {isCollapsed ? 'Mostrar' : 'Ocultar'}
+                      </button>
+                    )}
+                  </div>
                 </div>
                 <div className="grid grid-cols-1 gap-4">
                   {visibleForPeriod.map(routine => {
