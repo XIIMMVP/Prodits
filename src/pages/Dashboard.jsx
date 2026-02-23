@@ -296,7 +296,10 @@ export default function Dashboard() {
   const energetic = state.energeticMode;
   const [noteModal, setNoteModal] = useState(null);
   const [deleteConfirm, setDeleteConfirm] = useState(null);
-  const [collapsedDone, setCollapsedDone] = useState({});
+  const [collapsedDone, setCollapsedDone] = useState(() => {
+    try { return JSON.parse(localStorage.getItem('collapsedDone') || '{}'); } catch { return {}; }
+  });
+  useEffect(() => { localStorage.setItem('collapsedDone', JSON.stringify(collapsedDone)); }, [collapsedDone]);
 
   // Filter based on active mode
   const visibleRoutines = emergency
