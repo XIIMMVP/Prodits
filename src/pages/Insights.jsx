@@ -139,26 +139,37 @@ export default function Insights() {
           <div className="relative w-28 h-28 sm:w-36 sm:h-36">
             <svg className="w-full h-full -rotate-90" viewBox="0 0 100 100">
               <circle cx={50} cy={50} fill="transparent" r={40} stroke="#F2F2F7" strokeWidth={10} />
-              <circle cx={50} cy={50} fill="transparent" r={40} stroke="var(--primary)" strokeDasharray={`${Math.round(plannedHours * 20)} 251`} strokeLinecap="round" strokeWidth={10} />
-              <circle cx={50} cy={50} fill="transparent" r={40} stroke="#FF9500" strokeDasharray={`${Math.round(actualHours * 20)} 251`} strokeDashoffset={`-${Math.round(plannedHours * 20)}`} strokeLinecap="round" strokeWidth={10} />
+              {/* Círculo de progreso real: porcentaje de tareas hechas hoy */}
+              <circle
+                cx={50}
+                cy={50}
+                fill="transparent"
+                r={40}
+                stroke="var(--primary)"
+                strokeWidth={10}
+                strokeDasharray={`${Math.min(todayRatio * 251.3, 251.3)} 251.3`}
+                strokeLinecap="round"
+                className="transition-all duration-1000 ease-out"
+              />
             </svg>
-            <div className="absolute inset-0 flex items-center justify-center">
-              <span className="text-[10px] text-[var(--text-secondary)] font-bold uppercase">Tiempo Real</span>
+            <div className="absolute inset-0 flex flex-col items-center justify-center">
+              <span className="text-[10px] text-[var(--text-secondary)] font-bold uppercase">Progreso</span>
+              <span className="text-sm font-bold">{Math.round(todayRatio * 100)}%</span>
             </div>
           </div>
           <div className="flex flex-col gap-4">
             <div className="flex items-start gap-2">
-              <div className="w-2 h-2 rounded-full bg-[var(--primary)] mt-1.5" />
+              <div className="w-2 h-2 rounded-full bg-gray-200 mt-1.5" />
               <div>
-                <p className="text-[10px] text-[var(--text-secondary)] font-bold uppercase">Planeado</p>
-                <p className="text-sm font-bold">{plannedHours.toFixed(1)}h Hoy</p>
+                <p className="text-[10px] text-[var(--text-secondary)] font-bold uppercase">Tareas de hoy</p>
+                <p className="text-sm font-bold">{todayRoutines.length} Programadas</p>
               </div>
             </div>
             <div className="flex items-start gap-2">
-              <div className="w-2 h-2 rounded-full bg-[#FF9500] mt-1.5" />
+              <div className="w-2 h-2 rounded-full bg-[var(--primary)] mt-1.5" />
               <div>
-                <p className="text-[10px] text-[var(--text-secondary)] font-bold uppercase">Real</p>
-                <p className="text-sm font-bold">{actualHours.toFixed(1)}h Hoy</p>
+                <p className="text-[10px] text-[var(--text-secondary)] font-bold uppercase">Completadas</p>
+                <p className="text-sm font-bold">{doneCount} de {todayRoutines.length}</p>
               </div>
             </div>
           </div>
@@ -184,17 +195,17 @@ export default function Insights() {
             <span className="text-[10px] text-[var(--text-secondary)] font-bold uppercase">Pico</span>
           </div>
         </div>
-        <div className="overflow-x-auto -mx-1">
-          <div className="grid grid-cols-7 gap-1.5 sm:gap-3 min-w-0">
+        <div>
+          <div className="grid grid-cols-7 gap-1.5 sm:gap-3">
             {['Lun', 'Mar', 'Mié', 'Jue', 'Vie', 'Sáb', 'Dom'].map(d => (
               <div key={d} className="text-center text-[10px] font-bold text-[var(--text-secondary)] uppercase tracking-widest pb-3">{d}</div>
             ))}
             {heatmapData.map(cell => (
               <div
                 key={cell.date}
-                className={`aspect-square rounded-[10px] ${ratioToOpacity(cell.ratio)} hover:ring-2 ring-blue-400 ring-offset-2 transition-all cursor-pointer relative group`}
+                className={`aspect-square rounded-[8px] sm:rounded-[10px] ${ratioToOpacity(cell.ratio)} hover:ring-2 ring-blue-300 ring-offset-1 transition-all cursor-pointer relative group`}
               >
-                <div className="absolute bottom-full mb-2 left-1/2 -translate-x-1/2 bg-gray-900 text-white text-[10px] px-2 py-1.5 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap pointer-events-none z-20 shadow-xl border border-white/10">
+                <div className="absolute -top-10 left-1/2 -translate-x-1/2 bg-gray-900 text-white text-[10px] px-2 py-1.5 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap pointer-events-none z-30 shadow-xl border border-white/10">
                   <span className="font-bold">{cell.label}:</span> {Math.round(cell.ratio * 100)}%
                 </div>
               </div>
