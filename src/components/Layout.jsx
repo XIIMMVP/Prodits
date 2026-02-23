@@ -40,6 +40,13 @@ export default function Layout({ children }) {
         return () => { document.body.style.overflow = ''; };
     }, [settingsOpen]);
 
+    // Track last management path
+    useEffect(() => {
+        if (location.pathname === '/routine' || location.pathname === '/appointments') {
+            localStorage.setItem('lastManagementPath', location.pathname);
+        }
+    }, [location.pathname]);
+
     // Context value for child pages
     const settingsCtx = {
         openSettings: () => setSettingsOpen(true),
@@ -89,9 +96,17 @@ export default function Layout({ children }) {
                             let icon = item.icon;
 
                             if (item.id === 'management') {
+                                const lastPath = localStorage.getItem('lastManagementPath') || '/routine';
+
                                 if (location.pathname === '/routine' || location.pathname === '/appointments') {
                                     isActive = true;
                                     if (location.pathname === '/appointments') {
+                                        name = 'Citas';
+                                        path = '/appointments';
+                                        icon = 'event';
+                                    }
+                                } else {
+                                    if (lastPath === '/appointments') {
                                         name = 'Citas';
                                         path = '/appointments';
                                         icon = 'event';
