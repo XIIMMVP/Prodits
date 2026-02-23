@@ -3,16 +3,51 @@ import { ProfileAvatar } from '../components/Layout';
 
 const DAY_NAMES = ['domingos', 'lunes', 'martes', 'miércoles', 'jueves', 'viernes', 'sábados'];
 
-function getHeatmapData(history) {
+const toKey = (d) => {
+  const year = d.getFullYear();
+  const month = String(d.getMonth() + 1).padStart(2, '0');
+  const day = String(d.getDate()).padStart(2, '0');
+  return `${year}-${month}-${day}`;
+};
+
+function getDayRatio(state, dateStr) {
+  // 1. Usar historial guardado si existe
+  if (state.history && state.history[dateStr] !== undefined) return state.history[dateStr];
+
+  // 2. Calcular al vuelo desde dailyChecks si no hay historial (para días recientes)
+  const checks = state.dailyChecks?.[dateStr];
+  if (!checks) return 0;
+
+  const d = new Date(dateStr + 'T12:00:00');
+  const dow = d.getDay();
+  const routinesForDay = state.routines.filter(r => r.days.includes(dow));
+  if (routinesForDay.length === 0) return 0;
+
+  const done = routinesForDay.filter(r => checks[r.id]?.done).length;
+  return done / routinesForDay.length;
+}
+
+function getHeatmapData(state) {
   const cells = [];
   const now = new Date();
-  for (let i = 27; i >= 0; i--) {
-    const d = new Date(now);
-    d.setDate(d.getDate() - i);
-    const key = d.toISOString().split('T')[0];
+  const currentDay = now.getDay(); // 0 (Dom) - 6 (Sáb)
+
+  // Encontrar el domingo de esta semana para que 28 días atrás sea un lunes
+  const daysToSunday = (7 - currentDay) % 7;
+  const lastSunday = new Date(now);
+  lastSunday.setDate(now.getDate() + daysToSunday);
+
+  const startDate = new Date(lastSunday);
+  startDate.setDate(lastSunday.getDate() - 27); // Ir 4 semanas exactas atrás (Lunes)
+
+  for (let i = 0; i < 28; i++) {
+    const d = new Date(startDate);
+    d.setDate(startDate.getDate() + i);
+    const key = toKey(d);
     cells.push({
       date: key,
-      ratio: history[key] ?? (i > 0 ? Math.random() * 0.6 + 0.3 : 0),
+      label: d.toLocaleDateString('es-ES', { month: 'short', day: 'numeric', weekday: 'short' }),
+      ratio: getDayRatio(state, key),
     });
   }
   return cells;
@@ -20,10 +55,10 @@ function getHeatmapData(history) {
 
 function ratioToOpacity(ratio) {
   if (ratio <= 0) return 'bg-gray-100';
-  if (ratio < 0.25) return 'bg-primary/20';
-  if (ratio < 0.5) return 'bg-primary/40';
-  if (ratio < 0.75) return 'bg-primary/70';
-  return 'bg-primary';
+  if (ratio < 0.25) return 'bg-blue-100';
+  if (ratio < 0.5) return 'bg-blue-300';
+  if (ratio < 0.75) return 'bg-blue-500';
+  return 'bg-blue-600';
 }
 
 export default function Insights() {
@@ -33,7 +68,7 @@ export default function Insights() {
   const hogarRatio = useCategoryCompletion(state, 'hogar');
   const trabajoRatio = useCategoryCompletion(state, 'trabajo');
   const todayRatio = useCompletionRatio(state);
-  const heatmapData = getHeatmapData(state.history);
+  const heatmapData = getHeatmapData(state);
 
   const d = today();
   const todayRoutines = state.routines.filter(r => r.days.includes(new Date().getDay()));
@@ -157,11 +192,10 @@ export default function Insights() {
             {heatmapData.map(cell => (
               <div
                 key={cell.date}
-                className={`aspect-square rounded-[10px] ${ratioToOpacity(cell.ratio)} hover:ring-2 ring-primary ring-offset-2 transition-all cursor-pointer relative group`}
-                title={`${cell.date}: ${Math.round(cell.ratio * 100)}%`}
+                className={`aspect-square rounded-[10px] ${ratioToOpacity(cell.ratio)} hover:ring-2 ring-blue-400 ring-offset-2 transition-all cursor-pointer relative group`}
               >
-                <div className="absolute -top-8 left-1/2 -translate-x-1/2 bg-gray-900 text-white text-[10px] px-2 py-1 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap pointer-events-none">
-                  {Math.round(cell.ratio * 100)}%
+                <div className="absolute bottom-full mb-2 left-1/2 -translate-x-1/2 bg-gray-900 text-white text-[10px] px-2 py-1.5 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap pointer-events-none z-20 shadow-xl border border-white/10">
+                  <span className="font-bold">{cell.label}:</span> {Math.round(cell.ratio * 100)}%
                 </div>
               </div>
             ))}
