@@ -358,8 +358,8 @@ export default function Dashboard() {
   });
 
   // Completion
-  const totalDone = todayRoutines.filter(r => state.dailyChecks[d]?.[r.id]?.done).length;
-  const totalCount = todayRoutines.length;
+  const totalDone = visibleRoutines.filter(r => state.dailyChecks[d]?.[r.id]?.done).length;
+  const totalCount = visibleRoutines.length;
 
   const periodLabels = { 'mañana': 'Mañana', 'tarde': 'Tarde', 'noche': 'Noche' };
   const periodDots = {
