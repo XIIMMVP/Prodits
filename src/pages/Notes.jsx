@@ -72,6 +72,7 @@ export default function Notes() {
     const [showNew, setShowNew] = useState(false);
     const [editing, setEditing] = useState(null);
     const [showFavoritesOnly, setShowFavoritesOnly] = useState(false);
+    const [sortOrder, setSortOrder] = useState('desc'); // desc = newest first, asc = oldest first
 
     const notes = state.notes || [];
 
@@ -89,7 +90,7 @@ export default function Notes() {
 
         const dateA = new Date(a.createdAt || 0).getTime();
         const dateB = new Date(b.createdAt || 0).getTime();
-        return dateB - dateA;
+        return sortOrder === 'desc' ? dateB - dateA : dateA - dateB;
     });
 
     const toggleStatus = (e, note, field) => {
@@ -122,6 +123,15 @@ export default function Notes() {
                             placeholder="Buscar notas..."
                         />
                     </div>
+                    <button
+                        onClick={() => setSortOrder(prev => prev === 'desc' ? 'asc' : 'desc')}
+                        className="w-10 h-10 sm:w-11 sm:h-11 rounded-2xl sm:rounded-full shrink-0 flex items-center justify-center transition-all bg-gray-100 text-[var(--text-secondary)] hover:bg-gray-200"
+                        title={sortOrder === 'desc' ? "Ordenadas de más recientes a antiguas (Tocar para invertir)" : "Ordenadas de más antiguas a recientes (Tocar para invertir)"}
+                    >
+                        <span className="material-symbols-outlined text-[1.2rem]">
+                            {sortOrder === 'desc' ? 'arrow_downward' : 'arrow_upward'}
+                        </span>
+                    </button>
                     <button
                         onClick={() => setShowFavoritesOnly(!showFavoritesOnly)}
                         className={`w-10 h-10 sm:w-11 sm:h-11 rounded-2xl sm:rounded-full shrink-0 flex items-center justify-center transition-all ${showFavoritesOnly ? 'bg-amber-400 text-white ios-shadow' : 'bg-gray-100 text-[var(--text-secondary)] hover:bg-gray-200'}`}
