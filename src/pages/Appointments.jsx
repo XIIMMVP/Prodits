@@ -25,13 +25,12 @@ function AppointmentForm({ initial, selectedDate, onSave, onCancel }) {
                 top: '-env(safe-area-inset-top, 0px)',
                 left: 0, right: 0, bottom: 0,
                 paddingTop: 'env(safe-area-inset-top, 0px)',
-                backgroundColor: 'rgba(0,0,0,0.4)',
-                backdropFilter: 'blur(4px)'
+                backgroundColor: 'transparent'
             }}
             onClick={onCancel}
         >
             <div
-                className={`bg-[var(--bg-main)] rounded-t-[2.5rem] sm:rounded-3xl w-full sm:max-w-lg max-h-[90vh] sm:h-auto sm:max-h-[90vh] overflow-hidden ios-shadow ${dragY > 0 ? '' : 'animate-slide-up'}`}
+                className={`bg-[var(--bg-main)] rounded-t-[2.5rem] sm:rounded-3xl w-full sm:max-w-lg max-h-[90vh] max-h-[90dvh] sm:h-auto sm:max-h-[90vh] overflow-hidden ios-shadow ${dragY > 0 ? '' : 'animate-slide-up'}`}
                 style={{
                     transform: `translateY(${dragY}px)`,
                     transition: dragY > 0 ? 'none' : 'transform 0.3s cubic-bezier(0.4, 0, 0.2, 1)'
