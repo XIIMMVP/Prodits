@@ -80,6 +80,20 @@ export default function Notes() {
         filtered = filtered.filter(n => (n.title || '').toLowerCase().includes(q) || (n.text || '').toLowerCase().includes(q));
     }
 
+    filtered = [...filtered].sort((a, b) => {
+        if (a.isPinned !== b.isPinned) return a.isPinned ? -1 : 1;
+        if (a.isFavorite !== b.isFavorite) return a.isFavorite ? -1 : 1;
+
+        const dateA = new Date(a.createdAt || 0).getTime();
+        const dateB = new Date(b.createdAt || 0).getTime();
+        return dateB - dateA;
+    });
+
+    const toggleStatus = (e, note, field) => {
+        e.stopPropagation();
+        dispatch({ type: 'UPDATE_SAVED_NOTE', id: note.id, data: { [field]: !note[field] } });
+    };
+
     const handleSave = (form) => {
         if (editing) {
             dispatch({ type: 'UPDATE_SAVED_NOTE', id: editing.id, data: form });
@@ -145,11 +159,23 @@ export default function Notes() {
                             key={note.id}
                             className={`mb-4 sm:mb-6 break-inside-avoid rounded-2xl sm:rounded-3xl p-5 ios-shadow border transition-all hover:shadow-lg relative overflow-hidden group bg-gray-50 text-[var(--text-main)] border-[var(--border)]`}
                         >
-                            <div className="absolute right-3 top-3 flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity z-20">
-                                <button onClick={(e) => { e.stopPropagation(); setEditing(note); setShowNew(true); }} className="w-8 h-8 rounded-full bg-white/50 text-black/70 flex items-center justify-center hover:bg-white/80 transition-colors shadow-sm">
+                            <div className="absolute right-3 top-3 flex items-center gap-1 z-20">
+                                <button
+                                    onClick={(e) => toggleStatus(e, note, 'isPinned')}
+                                    className={`w-8 h-8 rounded-full flex items-center justify-center transition-all shadow-sm ${note.isPinned ? 'bg-[var(--primary)] text-white opacity-100' : 'bg-white/50 text-black/70 opacity-0 group-hover:opacity-100 hover:bg-white/80'}`}
+                                >
+                                    <span className={`material-symbols-outlined text-sm ${note.isPinned ? '!text-white' : ''}`} style={note.isPinned ? { fontVariationSettings: "'FILL' 1" } : {}}>keep</span>
+                                </button>
+                                <button
+                                    onClick={(e) => toggleStatus(e, note, 'isFavorite')}
+                                    className={`w-8 h-8 rounded-full flex items-center justify-center transition-all shadow-sm ${note.isFavorite ? 'bg-amber-400 text-white opacity-100' : 'bg-white/50 text-black/70 opacity-0 group-hover:opacity-100 hover:bg-white/80'}`}
+                                >
+                                    <span className={`material-symbols-outlined text-sm ${note.isFavorite ? '!text-white' : ''}`} style={note.isFavorite ? { fontVariationSettings: "'FILL' 1" } : {}}>star</span>
+                                </button>
+                                <button onClick={(e) => { e.stopPropagation(); setEditing(note); setShowNew(true); }} className="w-8 h-8 rounded-full bg-white/50 text-black/70 flex items-center justify-center hover:bg-white/80 transition-colors shadow-sm opacity-0 group-hover:opacity-100">
                                     <span className="material-symbols-outlined text-sm">edit</span>
                                 </button>
-                                <button onClick={(e) => { e.stopPropagation(); handleDelete(note.id); }} className="w-8 h-8 rounded-full bg-white/50 text-red-600 flex items-center justify-center hover:bg-white/80 transition-colors shadow-sm">
+                                <button onClick={(e) => { e.stopPropagation(); handleDelete(note.id); }} className="w-8 h-8 rounded-full bg-white/50 text-red-600 flex items-center justify-center hover:bg-white/80 transition-colors shadow-sm opacity-0 group-hover:opacity-100">
                                     <span className="material-symbols-outlined text-sm">delete</span>
                                 </button>
                             </div>
@@ -157,8 +183,8 @@ export default function Notes() {
                                 className="cursor-pointer"
                                 onClick={() => { setEditing(note); setShowNew(true); }}
                             >
-                                {note.title && <h3 className="font-bold text-lg mb-2 leading-tight pr-16">{note.title}</h3>}
-                                <p className="text-sm leading-relaxed whitespace-pre-wrap opacity-90">{note.text}</p>
+                                {note.title && <h3 className="font-bold text-lg mb-2 leading-tight pr-32">{note.title}</h3>}
+                                <p className="text-sm leading-relaxed whitespace-pre-wrap opacity-90 pr-32">{note.text}</p>
                                 <p className="text-[10px] opacity-60 mt-4 font-semibold uppercase tracking-wider">
                                     {new Date(note.createdAt).toLocaleString('es-ES', { month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' })}
                                 </p>

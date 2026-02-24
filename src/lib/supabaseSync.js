@@ -336,6 +336,8 @@ export async function fetchNotes(userId) {
         title: n.title,
         text: n.text,
         color: n.color || 'gray',
+        isPinned: !!n.is_pinned,
+        isFavorite: !!n.is_favorite,
         createdAt: n.created_at,
         updatedAt: n.updated_at
     }));
@@ -350,6 +352,8 @@ export async function upsertNote(userId, note) {
             title: note.title,
             text: note.text,
             color: note.color || 'gray',
+            is_pinned: !!note.isPinned,
+            is_favorite: !!note.isFavorite,
             created_at: note.createdAt || new Date().toISOString(),
             updated_at: note.updatedAt || new Date().toISOString()
         }, { onConflict: 'id' })
