@@ -194,10 +194,10 @@ function TaskCard({ routine, check, dispatch, onNote, onDelete }) {
         <div className="flex items-start gap-2 mb-1 flex-wrap">
           <h4 className={`font-bold text-base sm:text-lg ${isDone ? 'line-through text-gray-400' : ''}`}>{routine.name}</h4>
           {routine.essential && (
-            <span className="text-[9px] sm:text-[10px] font-bold text-[var(--primary)] bg-black/5 dark:bg-white/10 px-2 py-0.5 rounded-full uppercase tracking-wide whitespace-nowrap">Esencial</span>
+            <span className="text-[9px] sm:text-[10px] font-bold text-[var(--primary)] bg-black/[0.015] dark:bg-white/[0.03] px-2 py-0.5 rounded-full uppercase tracking-wide whitespace-nowrap">Esencial</span>
           )}
           {routine.energetic && (
-            <span className="text-[9px] sm:text-[10px] font-bold text-amber-600 dark:text-amber-500 bg-black/5 dark:bg-white/10 px-2 py-0.5 rounded-full uppercase tracking-wide whitespace-nowrap">Extra 🔥</span>
+            <span className="text-[9px] sm:text-[10px] font-bold text-amber-600 dark:text-amber-500 bg-black/[0.015] dark:bg-white/[0.03] px-2 py-0.5 rounded-full uppercase tracking-wide whitespace-nowrap">Extra 🔥</span>
           )}
         </div>
         <p className="text-sm text-[var(--text-secondary)] flex items-center gap-1">
