@@ -79,6 +79,7 @@ const defaultState = {
     ],
     history: {},
     appointments: [],
+    notes: [],
     focusTimer: { running: false, routineId: null, remaining: 0, total: 0 },
     lastReset: today(),
 };
@@ -171,6 +172,16 @@ function reducer(state, action) {
         case 'DELETE_APPOINTMENT': {
             return { ...state, appointments: state.appointments.filter(a => a.id !== action.id) };
         }
+        case 'ADD_SAVED_NOTE': {
+            const newNote = { id: uid(), ...action.note, createdAt: new Date().toISOString(), updatedAt: new Date().toISOString() };
+            return { ...state, notes: [newNote, ...(state.notes || [])], _lastAddedNote: newNote };
+        }
+        case 'UPDATE_SAVED_NOTE': {
+            return { ...state, notes: (state.notes || []).map(n => n.id === action.id ? { ...n, ...action.data, updatedAt: new Date().toISOString() } : n) };
+        }
+        case 'DELETE_SAVED_NOTE': {
+            return { ...state, notes: (state.notes || []).filter(n => n.id !== action.id) };
+        }
         case 'SET_FOCUS_TIMER': {
             return { ...state, focusTimer: { ...state.focusTimer, ...action.data } };
         }
@@ -192,6 +203,7 @@ function reducer(state, action) {
                 journal: action.data.journal,
                 history: action.data.history,
                 appointments: action.data.appointments || [],
+                notes: action.data.notes || state.notes || [],
                 emergencyMode: action.data.emergencyMode,
                 energeticMode: action.data.energeticMode,
             };

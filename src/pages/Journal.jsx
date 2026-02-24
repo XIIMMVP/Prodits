@@ -1,4 +1,5 @@
 import { useState, useRef, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import { useStore, uid, today } from '../store/useStore';
 import { ProfileAvatar } from '../components/Layout';
 import { useSwipeToClose } from '../hooks/useSwipeToClose';
@@ -224,7 +225,11 @@ export default function Journal() {
       {/* Title + Filters */}
       <div className="flex flex-col gap-3 sm:gap-4 mb-6 sm:mb-8">
         <div>
-          <h2 className="text-2xl sm:text-3xl font-bold tracking-tight mb-1 text-[var(--text-main)]">Tu Feed de Éxitos</h2>
+          <span className="text-[var(--primary)] text-xs font-bold tracking-widest uppercase mb-1 block">Gestión</span>
+          <div className="flex items-end gap-3 mb-1">
+            <h2 className="text-2xl sm:text-3xl font-bold tracking-tight text-[var(--text-main)]">Tu Feed de Éxitos</h2>
+            <Link to="/notes" className="text-xl sm:text-2xl font-bold tracking-tight text-[var(--text-secondary)] opacity-50 hover:opacity-100 transition-opacity mb-0.5 sm:mb-1">Notas</Link>
+          </div>
           <p className="text-sm text-[var(--text-secondary)] font-medium">Siguiendo tu camino hacia la excelencia.</p>
         </div>
         <div className="flex items-center gap-3">

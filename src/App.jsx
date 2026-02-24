@@ -7,6 +7,7 @@ import Dashboard from './pages/Dashboard';
 import Routine from './pages/Routine';
 import Insights from './pages/Insights';
 import Journal from './pages/Journal';
+import Notes from './pages/Notes';
 import AuthPage from './pages/AuthPage';
 import Appointments from './pages/Appointments';
 
@@ -52,6 +53,7 @@ function AppContent() {
             <Route path="/appointments" element={<Appointments />} />
             <Route path="/insights" element={<Insights />} />
             <Route path="/journal" element={<Journal />} />
+            <Route path="/notes" element={<Notes />} />
           </Routes>
         </Layout>
       </Router>
