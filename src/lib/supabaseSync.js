@@ -321,11 +321,58 @@ export async function deleteAppointment(id) {
 }
 
 // ╔══════════════════════════════════════════════════════════╗
+// ║                    NOTES                                 ║
+// ╚══════════════════════════════════════════════════════════╝
+
+export async function fetchNotes(userId) {
+    const { data, error } = await supabase
+        .from('notes')
+        .select('*')
+        .eq('user_id', userId)
+        .order('created_at', { ascending: false });
+    if (error) { console.error('fetchNotes error:', error); throw error; }
+    return (data || []).map(n => ({
+        id: n.id,
+        title: n.title,
+        text: n.text,
+        color: n.color || 'gray',
+        createdAt: n.created_at,
+        updatedAt: n.updated_at
+    }));
+}
+
+export async function upsertNote(userId, note) {
+    const { data, error } = await supabase
+        .from('notes')
+        .upsert({
+            id: note.id,
+            user_id: userId,
+            title: note.title,
+            text: note.text,
+            color: note.color || 'gray',
+            created_at: note.createdAt || new Date().toISOString(),
+            updated_at: note.updatedAt || new Date().toISOString()
+        }, { onConflict: 'id' })
+        .select()
+        .single();
+    if (error) { console.error('upsertNote error:', error); throw error; }
+    return data;
+}
+
+export async function deleteNote(id) {
+    const { error } = await supabase
+        .from('notes')
+        .delete()
+        .eq('id', id);
+    if (error) { console.error('deleteNote error:', error); throw error; }
+}
+
+// ╔══════════════════════════════════════════════════════════╗
 // ║              FULL STATE SYNC                             ║
 // ╚══════════════════════════════════════════════════════════╝
 
 export async function loadFullState(userId) {
-    const [routines, dailyChecks, energy, journal, history, settings, appointments] = await Promise.all([
+    const [routines, dailyChecks, energy, journal, history, settings, appointments, notes] = await Promise.all([
         fetchRoutines(userId),
         fetchAllDailyChecks(userId),
         fetchEnergy(userId),
@@ -333,6 +380,7 @@ export async function loadFullState(userId) {
         fetchHistory(userId),
         fetchUserSettings(userId),
         fetchAppointments(userId),
+        fetchNotes(userId),
     ]);
 
     return {
@@ -342,6 +390,7 @@ export async function loadFullState(userId) {
         journal,
         history,
         appointments,
+        notes,
         emergencyMode: settings?.emergency_mode || false,
         energeticMode: settings?.energetic_mode || false,
     };
@@ -380,6 +429,11 @@ export async function pushFullState(userId, state) {
     // Push history
     for (const [date, historyData] of Object.entries(state.history || {})) {
         promises.push(upsertHistory(userId, date, historyData));
+    }
+
+    // Push notes
+    for (const note of (state.notes || [])) {
+        promises.push(upsertNote(userId, note));
     }
 
     // Push modes

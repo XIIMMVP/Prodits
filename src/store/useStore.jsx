@@ -426,6 +426,29 @@ async function syncAction(userId, action, state) {
             await sync.upsertHistory(userId, action.date, { ratio: action.ratio, mode: action.mode });
             break;
         }
+
+        // ── Notes ─────────────────────────────────────────
+        case 'ADD_SAVED_NOTE': {
+            const newNote = state._lastAddedNote || state.notes[0];
+            if (newNote) {
+                console.log('[Sync] Upserting note:', newNote.title);
+                await sync.upsertNote(userId, newNote);
+            }
+            break;
+        }
+        case 'UPDATE_SAVED_NOTE': {
+            const updatedNote = state.notes.find(n => n.id === action.id);
+            if (updatedNote) {
+                console.log('[Sync] Updating note:', updatedNote.title);
+                await sync.upsertNote(userId, updatedNote);
+            }
+            break;
+        }
+        case 'DELETE_SAVED_NOTE': {
+            console.log('[Sync] Deleting note:', action.id);
+            await sync.deleteNote(action.id);
+            break;
+        }
     }
 }
 
