@@ -28,7 +28,7 @@
     --primary: #0A84FF;
     --ios-blue: #0A84FF;
     --text-main: #FFFFFF;
-    --text-secondary: #98989D;
+    --text-secondary: #A1A1A6;
     --border: #38383A;
     --shadow-soft: 0 4px 20px rgba(0, 0, 0, 0.5);
     --shadow-deep: 0 20px 50px -12px rgba(0, 0, 0, 0.5);
@@ -138,15 +138,38 @@
   }
 
   .dark .bg-gray-50 {
-    background-color: var(--bg-main) !important;
+    background-color: rgba(255, 255, 255, 0.06) !important;
   }
 
   .dark .bg-gray-100 {
-    background-color: #2C2C2E !important;
+    background-color: rgba(255, 255, 255, 0.12) !important;
   }
 
   .dark .bg-gray-200 {
-    background-color: #3A3A3C !important;
+    background-color: rgba(255, 255, 255, 0.18) !important;
+  }
+
+  /* Pill Backgrounds Override */
+  .dark .bg-blue-50 {
+    background-color: rgba(10, 132, 255, 0.15) !important;
+    color: #0A84FF !important;
+  }
+
+  .dark .bg-amber-50,
+  .dark .bg-yellow-50 {
+    background-color: rgba(255, 159, 10, 0.15) !important;
+    color: #FF9F0A !important;
+  }
+
+  .dark .bg-red-50 {
+    background-color: rgba(255, 69, 58, 0.15) !important;
+    color: #FF453A !important;
+  }
+
+  .dark .bg-emerald-50,
+  .dark .bg-green-50 {
+    background-color: rgba(48, 209, 88, 0.15) !important;
+    color: #30D158 !important;
   }
 
   .dark .border-gray-100,

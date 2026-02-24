@@ -518,7 +518,7 @@ export default function Routine() {
             <span className="text-[var(--primary)] text-xs font-bold tracking-widest uppercase mb-1 block">Gestión</span>
             <div className="flex items-end gap-3">
               <h1 className="text-3xl sm:text-4xl font-bold tracking-tight text-[var(--text-main)]">Rutinas</h1>
-              <Link to="/appointments" className="text-xl sm:text-2xl font-bold tracking-tight text-gray-300 hover:text-gray-400 transition-colors mb-0.5 sm:mb-1">Citas</Link>
+              <Link to="/appointments" className="text-xl sm:text-2xl font-bold tracking-tight text-[var(--text-secondary)] opacity-50 hover:opacity-100 transition-opacity mb-0.5 sm:mb-1">Citas</Link>
             </div>
           </div>
           <div className="flex items-center gap-2">

@@ -158,7 +158,7 @@ export default function Insights() {
         <div className="flex items-center justify-between gap-4 sm:gap-6">
           <div className="relative w-28 h-28 sm:w-36 sm:h-36">
             <svg className="w-full h-full -rotate-90" viewBox="0 0 100 100">
-              <circle cx={50} cy={50} fill="transparent" r={40} stroke="#F2F2F7" strokeWidth={10} />
+              <circle cx={50} cy={50} fill="transparent" r={40} stroke="var(--border)" strokeWidth={10} />
               {/* Círculo de progreso real: porcentaje de tareas hechas hoy */}
               <circle
                 cx={50}

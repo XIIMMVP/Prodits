@@ -68,27 +68,7 @@ export default function Layout({ children }) {
                     className="fixed bottom-1 left-4 right-4 z-50 flex justify-center"
                     style={{ paddingBottom: 'env(safe-area-inset-bottom, 0px)' }}
                 >
-                    <nav
-                        className="flex items-center justify-center gap-0 w-full max-w-sm"
-                        style={{
-                            backgroundColor: 'rgba(255, 255, 255, 0.01)', // Máxima transparencia posible
-                            backdropFilter: 'blur(0.5px) saturate(160%)', // Blur casi imperceptible para transparencia total
-                            WebkitBackdropFilter: 'blur(0.5px) saturate(160%)',
-                            borderRadius: '40px',
-                            padding: '6px 6px',
-                            // Efecto de Gota de Agua / Liquid Glass:
-                            // 1. Sombra exterior suave
-                            // 2. Borde de brillo superior (highlight)
-                            // 3. Refracción interna (inset)
-                            boxShadow: `
-                                0 4px 24px -1px rgba(0, 0, 0, 0.1), 
-                                0 10px 30px -5px rgba(0, 0, 0, 0.05),
-                                inset 0 1px 1.5px 0.5px rgba(255, 255, 255, 0.5),
-                                inset 0 -1px 2px rgba(0, 0, 0, 0.05)
-                            `,
-                            border: '0.5px solid rgba(255, 255, 255, 0.15)',
-                        }}
-                    >
+                    <nav className="flex items-center justify-center gap-0 w-full max-w-sm glass-nav rounded-[40px] p-1.5 border border-[var(--border)] ios-shadow">
                         {navItems.map((item) => {
                             let isActive = location.pathname === item.path;
                             let name = item.name;
@@ -126,14 +106,7 @@ export default function Layout({ children }) {
                                     }}
                                 >
                                     {isActive && (
-                                        <div
-                                            className="absolute inset-[2px]"
-                                            style={{
-                                                borderRadius: '34px',
-                                                background: 'rgba(255,255,255,0.75)',
-                                                boxShadow: '0 1px 4px rgba(0,0,0,0.04), 0 0 0 0.5px rgba(0,0,0,0.02)',
-                                            }}
-                                        />
+                                        <div className="absolute inset-[2px] rounded-[34px] bg-[var(--card-bg)] shadow-sm shadow-black/5" />
                                     )}
                                     <div className="relative z-10 flex flex-col items-center py-[7px]">
                                         <span
@@ -141,7 +114,7 @@ export default function Layout({ children }) {
                                             style={{
                                                 fontSize: '26px',
                                                 lineHeight: 1,
-                                                color: isActive ? '#007AFF' : '#1C1C1E',
+                                                color: isActive ? 'var(--primary)' : 'var(--text-secondary)',
                                                 transition: 'color 0.2s ease',
                                             }}
                                         >
@@ -153,7 +126,7 @@ export default function Layout({ children }) {
                                                 fontWeight: isActive ? 600 : 500,
                                                 letterSpacing: '0.01em',
                                                 marginTop: '2px',
-                                                color: isActive ? '#007AFF' : '#1C1C1E',
+                                                color: isActive ? 'var(--primary)' : 'var(--text-secondary)',
                                                 transition: 'color 0.2s ease',
                                             }}
                                         >

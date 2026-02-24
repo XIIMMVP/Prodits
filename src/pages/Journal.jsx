@@ -206,7 +206,7 @@ export default function Journal() {
             <input
               value={search}
               onChange={e => setSearch(e.target.value)}
-              className="w-full bg-[#F2F2F7] border-none rounded-2xl py-2.5 sm:py-3 pl-12 pr-4 text-sm focus:ring-2 focus:ring-[var(--primary)]/20 transition-all outline-none placeholder:text-[var(--text-secondary)]"
+              className="w-full bg-gray-100 border-none rounded-2xl py-2.5 sm:py-3 pl-12 pr-4 text-sm focus:ring-2 focus:ring-[var(--primary)]/20 transition-all outline-none placeholder:text-[var(--text-secondary)] text-[var(--text-main)]"
               placeholder="Buscar entradas..."
             />
           </div>
