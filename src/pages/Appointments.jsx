@@ -61,22 +61,24 @@ function AppointmentForm({ initial, selectedDate, onSave, onCancel }) {
 
                     {/* Date & Time */}
                     <div className="grid grid-cols-2 gap-3 mb-5">
-                        <div>
+                        <div className="min-w-0">
                             <label className="text-xs font-bold text-[var(--text-secondary)] uppercase tracking-wider mb-2 block">Fecha</label>
                             <input
                                 type="date"
                                 value={form.date}
                                 onChange={e => update('date', e.target.value)}
-                                className="w-full h-12 border border-[var(--border)] rounded-2xl px-4 text-sm outline-none bg-white"
+                                className="w-full h-12 border border-[var(--border)] rounded-2xl px-4 text-sm outline-none bg-white flex items-center leading-none"
+                                style={{ WebkitAppearance: 'none', lineHeight: 'normal' }}
                             />
                         </div>
-                        <div>
+                        <div className="min-w-0">
                             <label className="text-xs font-bold text-[var(--text-secondary)] uppercase tracking-wider mb-2 block">Hora</label>
                             <input
                                 type="time"
                                 value={form.time}
                                 onChange={e => update('time', e.target.value)}
-                                className="w-full h-12 border border-[var(--border)] rounded-2xl px-4 text-sm outline-none bg-white"
+                                className="w-full h-12 border border-[var(--border)] rounded-2xl px-4 text-sm outline-none bg-white flex items-center leading-none"
+                                style={{ WebkitAppearance: 'none', lineHeight: 'normal' }}
                             />
                         </div>
                     </div>
