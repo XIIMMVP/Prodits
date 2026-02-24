@@ -126,7 +126,7 @@ export default function Insights() {
               {/* Ring */}
               <div className="relative w-16 h-16 flex-shrink-0">
                 <svg className="w-full h-full" viewBox="0 0 36 36">
-                  <circle className="stroke-gray-100" cx={18} cy={18} fill="none" r={16} strokeWidth={3.5} />
+                  <circle className="stroke-[var(--border)]" cx={18} cy={18} fill="none" r={16} strokeWidth={3.5} />
                   <circle className={ring.color} cx={18} cy={18} fill="none" r={16} strokeDasharray={dasharray} strokeLinecap="round" strokeWidth={3.5} style={{ transition: 'stroke-dasharray 1s ease' }} />
                 </svg>
                 <div className="absolute inset-0 flex items-center justify-center">

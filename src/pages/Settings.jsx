@@ -47,7 +47,7 @@ function SectionCard({ title, children }) {
     return (
         <div className="mb-5">
             <h3 className="text-xs font-bold text-[var(--text-secondary)] uppercase tracking-wider px-1 mb-2">{title}</h3>
-            <div className="bg-white rounded-2xl ios-shadow divide-y divide-gray-100 overflow-hidden">
+            <div className="bg-white rounded-2xl ios-shadow overflow-hidden">
                 {children}
             </div>
         </div>
@@ -214,7 +214,7 @@ export default function Settings() {
                 className="w-full bg-white rounded-2xl ios-shadow p-5 mb-5 text-left active:scale-[0.98] transition-transform"
             >
                 <div className="flex items-center gap-4 mb-4">
-                    <div className="w-14 h-14 rounded-full overflow-hidden shadow-lg shadow-blue-200 flex-shrink-0">
+                    <div className="w-14 h-14 rounded-full overflow-hidden flex-shrink-0 relative z-10">
                         {userPhoto ? (
                             <img src={userPhoto} alt="Perfil" className="w-full h-full object-cover" referrerPolicy="no-referrer" />
                         ) : (
