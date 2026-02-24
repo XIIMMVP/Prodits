@@ -109,13 +109,17 @@ export default function Settings() {
     // Local settings (persisted in localStorage separately)
     const [settings, setSettings] = useState(() => {
         try {
-            return JSON.parse(localStorage.getItem('prodits_settings')) || {
+            const raw = localStorage.getItem('prodits_settings');
+            const parsed = raw ? JSON.parse(raw) : null;
+            return {
                 notifications: true,
                 dailyReminder: true,
                 reminderTime: '08:00',
                 sound: true,
                 vibration: true,
                 weekStart: 'lunes',
+                theme: 'sistema',
+                ...(parsed || {})
             };
         } catch {
             return {
@@ -125,14 +129,30 @@ export default function Settings() {
                 sound: true,
                 vibration: true,
                 weekStart: 'lunes',
+                theme: 'sistema',
             };
         }
     });
+
+    const applyTheme = (themeValue) => {
+        const isDark = themeValue === 'oscuro' || (themeValue === 'sistema' && window.matchMedia('(prefers-color-scheme: dark)').matches);
+        if (isDark) {
+            document.documentElement.classList.add('dark');
+            document.querySelector('meta[name="theme-color"]')?.setAttribute('content', '#000000');
+        } else {
+            document.documentElement.classList.remove('dark');
+            document.querySelector('meta[name="theme-color"]')?.setAttribute('content', '#FBFBFD');
+        }
+    };
 
     const updateSetting = (key, value) => {
         const next = { ...settings, [key]: value };
         setSettings(next);
         localStorage.setItem('prodits_settings', JSON.stringify(next));
+
+        if (key === 'theme') {
+            applyTheme(value);
+        }
     };
 
     // Modal states
@@ -253,6 +273,19 @@ export default function Settings() {
 
             {/* ─── General ──────────────────────────────────── */}
             <SectionCard title="General">
+                <SettingRow icon="palette" label="Apariencia" description="Selecciona el tema de la app">
+                    <div className="flex bg-gray-100 p-1 rounded-xl">
+                        {['sistema', 'claro', 'oscuro'].map(t => (
+                            <button
+                                key={t}
+                                onClick={() => updateSetting('theme', t)}
+                                className={`px-2 sm:px-3 py-1.5 text-[11px] sm:text-xs font-semibold rounded-lg capitalize transition-colors ${settings.theme === t ? 'bg-white ios-shadow text-[var(--text-main)]' : 'text-[var(--text-secondary)] hover:text-[var(--text-main)]'}`}
+                            >
+                                {t}
+                            </button>
+                        ))}
+                    </div>
+                </SettingRow>
                 <SettingRow icon="calendar_month" label="Inicio de semana" description={settings.weekStart === 'lunes' ? 'Lunes' : 'Domingo'}>
                     <button
                         onClick={() => updateSetting('weekStart', settings.weekStart === 'lunes' ? 'domingo' : 'lunes')}

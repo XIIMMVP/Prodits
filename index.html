@@ -19,7 +19,24 @@
 
   <!-- Meta etiquetas de optimización y PWA inicial -->
   <meta name="description" content="A professional application for productivity tracking and habits" />
-  <meta name="theme-color" content="#FBFBFD" />
+  <script>
+    try {
+      const stored = localStorage.getItem('prodits_settings');
+      let theme = 'sistema';
+      if (stored) {
+        const parsed = JSON.parse(stored);
+        if (parsed.theme) theme = parsed.theme;
+      }
+      const isDark = theme === 'oscuro' || (theme === 'sistema' && window.matchMedia('(prefers-color-scheme: dark)').matches);
+      if (isDark) {
+        document.documentElement.classList.add('dark');
+        document.querySelector('meta[name="theme-color"]')?.setAttribute('content', '#000000');
+      } else {
+        document.documentElement.classList.remove('dark');
+        document.querySelector('meta[name="theme-color"]')?.setAttribute('content', '#FBFBFD');
+      }
+    } catch (e) { }
+  </script>
 </head>
 
 <body>

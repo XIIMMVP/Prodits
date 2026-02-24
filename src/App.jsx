@@ -60,6 +60,29 @@ function AppContent() {
 }
 
 function App() {
+  // Escuchar cambios de tema del sistema
+  useEffect(() => {
+    const handleSystemThemeChange = (e) => {
+      try {
+        const stored = JSON.parse(localStorage.getItem('prodits_settings'));
+        const theme = stored?.theme || 'sistema';
+        if (theme === 'sistema') {
+          if (e.matches) {
+            document.documentElement.classList.add('dark');
+            document.querySelector('meta[name="theme-color"]')?.setAttribute('content', '#000000');
+          } else {
+            document.documentElement.classList.remove('dark');
+            document.querySelector('meta[name="theme-color"]')?.setAttribute('content', '#FBFBFD');
+          }
+        }
+      } catch (err) { }
+    };
+
+    const mq = window.matchMedia('(prefers-color-scheme: dark)');
+    mq.addEventListener('change', handleSystemThemeChange);
+    return () => mq.removeEventListener('change', handleSystemThemeChange);
+  }, []);
+
   return (
     <AuthProvider>
       <AppContent />
