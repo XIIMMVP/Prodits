@@ -21,7 +21,7 @@ function SettingRow({ icon, label, description, children, onClick, danger }) {
     return (
         <Wrapper
             onClick={onClick}
-            className={`w-full flex items-center justify-between p-4 hover:bg-gray-50/50 transition-colors ${onClick ? 'cursor-pointer active:bg-gray-100' : ''}`}
+            className={`w-full flex items-center justify-between p-4 hover:bg-gray-50/50 dark:hover:bg-white/5 transition-colors ${onClick ? 'cursor-pointer active:bg-gray-100 dark:active:bg-white/10' : ''}`}
         >
             <div className="flex items-center gap-3 flex-1 min-w-0">
                 <div className={`w-9 h-9 rounded-xl flex items-center justify-center ${danger ? 'bg-red-50 text-red-500' : 'bg-gray-100 text-[var(--text-secondary)]'}`}>
@@ -71,7 +71,7 @@ function ConfirmModal({ title, message, confirmLabel, onConfirm, onClose, danger
                 <div className="flex gap-3">
                     <button
                         onClick={onClose}
-                        className="flex-1 py-3 rounded-2xl font-bold text-sm bg-gray-100 text-[var(--text-main)] hover:bg-gray-200 transition-colors"
+                        className="flex-1 py-3 rounded-2xl font-bold text-sm bg-gray-100 dark:bg-white/10 text-[var(--text-main)] hover:bg-gray-200 dark:hover:bg-white/20 transition-colors"
                     >
                         Cancelar
                     </button>
@@ -83,7 +83,7 @@ function ConfirmModal({ title, message, confirmLabel, onConfirm, onClose, danger
                     </button>
                 </div>
             </div>
-        </div>
+        </div >
     );
 }
 
@@ -515,13 +515,13 @@ function EditProfileModal({ user, userPhoto, userName, userInitial, updateProfil
                     className="cursor-grab active:cursor-grabbing touch-none py-2 -mt-2 -mx-6 mb-2"
                     {...handlers}
                 >
-                    <div className="w-12 h-1.5 rounded-full bg-gray-200/80 mx-auto" />
+                    <div className="w-12 h-1.5 rounded-full bg-gray-200/80 dark:bg-white/20 mx-auto" />
                 </div>
 
                 {/* Header */}
                 <div className="flex items-center justify-between mb-6">
                     <h3 className="text-lg font-bold">Editar Perfil</h3>
-                    <button onClick={onClose} className="w-8 h-8 rounded-full bg-gray-100 flex items-center justify-center active:scale-95 transition-transform">
+                    <button onClick={onClose} className="w-8 h-8 rounded-full bg-gray-100 dark:bg-white/10 flex items-center justify-center active:scale-95 transition-transform">
                         <span className="material-symbols-outlined text-lg">close</span>
                     </button>
                 </div>
@@ -558,7 +558,7 @@ function EditProfileModal({ user, userPhoto, userName, userInitial, updateProfil
                         type="text"
                         value={name}
                         onChange={e => setName(e.target.value)}
-                        className="w-full bg-[#F2F2F7] border-none rounded-2xl py-3 px-4 text-base font-medium focus:ring-2 focus:ring-[var(--primary)]/20 transition-all outline-none"
+                        className="w-full bg-[#F2F2F7] dark:bg-white/10 border-none rounded-2xl py-3 px-4 text-base font-medium focus:ring-2 focus:ring-[var(--primary)]/20 transition-all outline-none"
                         placeholder="Tu nombre"
                     />
                 </div>
@@ -566,7 +566,7 @@ function EditProfileModal({ user, userPhoto, userName, userInitial, updateProfil
                 {/* Email (read-only) */}
                 <div className="mb-6">
                     <label className="text-xs font-bold text-[var(--text-secondary)] uppercase tracking-wider mb-2 block">Correo electrónico</label>
-                    <div className="w-full bg-[#F2F2F7] rounded-2xl py-3 px-4 text-base text-[var(--text-secondary)]">
+                    <div className="w-full bg-[#F2F2F7] dark:bg-white/10 rounded-2xl py-3 px-4 text-base text-[var(--text-secondary)]">
                         {user?.email}
                     </div>
                 </div>

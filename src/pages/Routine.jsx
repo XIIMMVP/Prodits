@@ -117,12 +117,12 @@ function RoutineForm({ initial, onSave, onCancel }) {
           className="sticky top-0 z-10 bg-[var(--bg-main)] pt-3 pb-3 px-5 sm:px-6 cursor-grab active:cursor-grabbing touch-none"
           {...handlers}
         >
-          <div className="w-12 h-1.5 rounded-full bg-gray-200/80 mx-auto mb-4" />
+          <div className="w-12 h-1.5 rounded-full bg-gray-200/80 dark:bg-white/20 mx-auto mb-4" />
           <div className="flex items-center justify-between">
             <h2 className="text-lg font-bold">{initial ? 'Editar Rutina' : 'Nueva Rutina'}</h2>
             <button
               onClick={onCancel}
-              className="w-8 h-8 rounded-full bg-gray-100 flex items-center justify-center flex-shrink-0 active:scale-95 transition-transform"
+              className="w-8 h-8 rounded-full bg-gray-100 dark:bg-white/10 flex items-center justify-center flex-shrink-0 active:scale-95 transition-transform"
             >
               <span className="material-symbols-outlined text-lg">close</span>
             </button>
@@ -151,7 +151,7 @@ function RoutineForm({ initial, onSave, onCancel }) {
                 <button
                   key={t.value}
                   onClick={() => update('type', t.value)}
-                  className={`flex items-center justify-center gap-1 py-3 rounded-xl text-[11px] sm:text-xs font-bold transition-all border ${form.type === t.value ? 'bg-[var(--primary)] text-white border-[var(--primary)]' : 'bg-gray-50 text-[var(--text-secondary)] border-transparent hover:bg-gray-100'
+                  className={`flex items-center justify-center gap-1 py-3 rounded-xl text-[11px] sm:text-xs font-bold transition-all border ${form.type === t.value ? 'bg-[var(--primary)] text-white border-[var(--primary)]' : 'bg-gray-50 dark:bg-white/5 text-[var(--text-secondary)] border-transparent hover:bg-gray-100 dark:hover:bg-white/10'
                     }`}
                 >
                   <span className="material-symbols-outlined text-base">{t.icon}</span>
@@ -231,7 +231,7 @@ function RoutineForm({ initial, onSave, onCancel }) {
                 <button
                   key={idx}
                   onClick={() => toggleDay(idx)}
-                  className={`h-10 rounded-xl text-[10px] sm:text-xs font-bold transition-all ${form.days.includes(idx) ? 'bg-[var(--primary)] text-white' : 'bg-gray-50 text-[var(--text-secondary)]'
+                  className={`h-10 rounded-xl text-[10px] sm:text-xs font-bold transition-all ${form.days.includes(idx) ? 'bg-[var(--primary)] text-white' : 'bg-gray-50 dark:bg-white/5 text-[var(--text-secondary)] md:hover:bg-gray-100 md:dark:hover:bg-white/10'
                     }`}
                 >
                   {label}
@@ -248,7 +248,7 @@ function RoutineForm({ initial, onSave, onCancel }) {
                 <button
                   key={icon}
                   onClick={() => update('icon', icon)}
-                  className={`aspect-square rounded-xl flex items-center justify-center transition-all ${form.icon === icon ? 'bg-[var(--primary)] text-white' : 'bg-gray-50 text-[var(--text-secondary)] hover:bg-gray-100'
+                  className={`aspect-square rounded-xl flex items-center justify-center transition-all ${form.icon === icon ? 'bg-[var(--primary)] text-white shadow-md shadow-blue-500/20' : 'bg-gray-100 dark:bg-white/5 hover:bg-gray-200 dark:hover:bg-white/10 text-[var(--text-main)]'
                     }`}
                 >
                   <span className="material-symbols-outlined text-lg">{icon}</span>
@@ -265,7 +265,7 @@ function RoutineForm({ initial, onSave, onCancel }) {
                 <button
                   key={c}
                   onClick={() => update('color', c)}
-                  className={`w-7 h-7 sm:w-8 sm:h-8 rounded-full transition-all ${COLORS[c]?.bg} ${form.color === c ? 'ring-2 ring-[var(--primary)] ring-offset-2 scale-110' : ''
+                  className={`w-7 h-7 sm:w-8 sm:h-8 rounded-full transition-all flex items-center justify-center ${COLORS[c]?.bg} ${form.color === c ? 'ring-2 ring-[var(--primary)] ring-offset-2 dark:ring-offset-[var(--bg-main)] scale-110' : 'border border-black/10 dark:border-white/10'
                     }`}
                 >
                   <div className={`w-full h-full rounded-full ${COLORS[c]?.bg}`} />
@@ -275,28 +275,28 @@ function RoutineForm({ initial, onSave, onCancel }) {
           </div>
 
           {/* Essential */}
-          <div className="mb-4 flex items-center justify-between gap-3 bg-gray-50 rounded-2xl p-3 sm:p-4">
+          <div className="mb-4 flex items-center justify-between gap-3 bg-gray-50 dark:bg-white/5 border border-transparent dark:border-white/10 rounded-2xl p-3 sm:p-4">
             <div className="min-w-0">
               <p className="font-semibold text-sm">Esencial</p>
               <p className="text-[11px] sm:text-xs text-[var(--text-secondary)]">Se muestra en Modo Emergencia</p>
             </div>
             <button
               onClick={() => update('essential', !form.essential)}
-              className={`w-12 h-6 rounded-full relative transition-colors flex-shrink-0 ${form.essential ? 'bg-[var(--primary)]' : 'bg-gray-200'}`}
+              className={`w-12 h-6 rounded-full relative transition-colors flex-shrink-0 ${form.essential ? 'bg-[var(--primary)]' : 'bg-gray-200 dark:bg-white/10'}`}
             >
               <div className={`absolute top-0.5 w-5 h-5 bg-white rounded-full shadow-sm transition-all ${form.essential ? 'right-0.5' : 'left-0.5'}`} />
             </button>
           </div>
 
           {/* Energetic */}
-          <div className="mb-4 flex items-center justify-between gap-3 bg-amber-50/50 rounded-2xl p-3 sm:p-4">
+          <div className="mb-4 flex items-center justify-between gap-3 bg-amber-50/50 dark:bg-amber-500/10 border border-transparent dark:border-amber-500/10 rounded-2xl p-3 sm:p-4">
             <div className="min-w-0">
               <p className="font-semibold text-sm">Extra 🔥</p>
               <p className="text-[11px] sm:text-xs text-[var(--text-secondary)]">Solo aparece en Modo Enérgico</p>
             </div>
             <button
               onClick={() => update('energetic', !form.energetic)}
-              className={`w-12 h-6 rounded-full relative transition-colors flex-shrink-0 ${form.energetic ? 'bg-amber-500' : 'bg-gray-200'}`}
+              className={`w-12 h-6 rounded-full relative transition-colors flex-shrink-0 ${form.energetic ? 'bg-amber-500' : 'bg-gray-200 dark:bg-white/10'}`}
             >
               <div className={`absolute top-0.5 w-5 h-5 bg-white rounded-full shadow-sm transition-all ${form.energetic ? 'right-0.5' : 'left-0.5'}`} />
             </button>
@@ -339,7 +339,7 @@ function RoutineForm({ initial, onSave, onCancel }) {
 
           {/* Actions */}
           <div className="flex gap-3 pt-4 pb-8">
-            <button onClick={onCancel} className="flex-1 py-4 rounded-2xl bg-gray-100 text-[var(--text-secondary)] font-bold">Cancelar</button>
+            <button onClick={onCancel} className="flex-1 py-4 rounded-2xl bg-gray-100 dark:bg-white/10 text-[var(--text-main)] font-bold">Cancelar</button>
             <button
               onClick={() => { if (form.name.trim()) onSave(form); }}
               className="flex-1 py-4 rounded-2xl bg-[var(--primary)] text-white font-bold hover:opacity-90 transition-all shadow-lg shadow-blue-500/20"
