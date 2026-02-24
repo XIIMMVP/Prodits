@@ -47,6 +47,13 @@ export default function Layout({ children }) {
         }
     }, [location.pathname]);
 
+    // Track last journal path
+    useEffect(() => {
+        if (location.pathname === '/journal' || location.pathname === '/notes') {
+            localStorage.setItem('lastJournalPath', location.pathname);
+        }
+    }, [location.pathname]);
+
     // Context value for child pages
     const settingsCtx = {
         openSettings: () => setSettingsOpen(true),
@@ -90,6 +97,23 @@ export default function Layout({ children }) {
                                         name = 'Citas';
                                         path = '/appointments';
                                         icon = 'event';
+                                    }
+                                }
+                            } else if (item.id === 'journal') {
+                                const lastJournalPath = localStorage.getItem('lastJournalPath') || '/journal';
+
+                                if (location.pathname === '/journal' || location.pathname === '/notes') {
+                                    isActive = true;
+                                    if (location.pathname === '/notes') {
+                                        name = 'Notas';
+                                        path = '/notes';
+                                        icon = 'edit_note';
+                                    }
+                                } else {
+                                    if (lastJournalPath === '/notes') {
+                                        name = 'Notas';
+                                        path = '/notes';
+                                        icon = 'edit_note';
                                     }
                                 }
                             }

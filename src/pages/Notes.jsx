@@ -5,11 +5,9 @@ import { ProfileAvatar } from '../components/Layout';
 import { useSwipeToClose } from '../hooks/useSwipeToClose';
 
 function NoteModal({ initial, onSave, onClose }) {
-    const [form, setForm] = useState(initial || { title: '', text: '', color: 'gray' });
+    const [form, setForm] = useState(initial || { title: '', text: '' });
     const update = (k, v) => setForm(p => ({ ...p, [k]: v }));
     const { dragY, handlers } = useSwipeToClose(onClose);
-
-    const colorsList = ['blue', 'indigo', 'purple', 'rose', 'orange', 'teal', 'emerald', 'gray'];
 
     return (
         <div
@@ -49,23 +47,6 @@ function NoteModal({ initial, onSave, onClose }) {
                     <div className="mb-4">
                         <label className="text-xs font-bold text-[var(--text-secondary)] uppercase tracking-wider mb-2 block">Contenido</label>
                         <textarea value={form.text} onChange={e => update('text', e.target.value)} placeholder="Escribe tu nota aquí..." className="w-full border border-[var(--border)] rounded-2xl px-4 py-3 text-sm outline-none h-48 resize-none focus:ring-2 focus:ring-[var(--primary)]/20" />
-                    </div>
-
-                    <div className="mb-4">
-                        <label className="text-xs font-bold text-[var(--text-secondary)] uppercase tracking-wider mb-2 block">Color</label>
-                        <div className="flex gap-2 overflow-x-auto pb-2">
-                            {['bg-blue-100', 'bg-indigo-100', 'bg-purple-100', 'bg-rose-100', 'bg-orange-100', 'bg-teal-100', 'bg-emerald-100', 'bg-gray-100'].map(cClass => {
-                                const c = cClass.split('-')[1];
-                                return (
-                                    <button
-                                        key={c}
-                                        onClick={() => update('color', c)}
-                                        className={`w-10 h-10 rounded-full flex-shrink-0 border-2 transition-all ${cClass} ${form.color === c ? 'border-black scale-110' : 'border-transparent hover:scale-105'
-                                            }`}
-                                    />
-                                );
-                            })}
-                        </div>
                     </div>
 
                     <div className="flex gap-3 pt-4 pb-8">
@@ -109,20 +90,6 @@ export default function Notes() {
 
     const handleDelete = (id) => {
         dispatch({ type: 'DELETE_SAVED_NOTE', id });
-    };
-
-    const getColorClass = (c) => {
-        const map = {
-            blue: 'bg-blue-50 text-blue-900 border-blue-100',
-            indigo: 'bg-indigo-50 text-indigo-900 border-indigo-100',
-            purple: 'bg-purple-50 text-purple-900 border-purple-100',
-            rose: 'bg-rose-50 text-rose-900 border-rose-100',
-            orange: 'bg-orange-50 text-orange-900 border-orange-100',
-            teal: 'bg-teal-50 text-teal-900 border-teal-100',
-            emerald: 'bg-emerald-50 text-emerald-900 border-emerald-100',
-            gray: 'bg-gray-50 text-gray-900 border-gray-100'
-        };
-        return map[c] || map.gray;
     };
 
     return (
@@ -176,7 +143,7 @@ export default function Notes() {
                     {filtered.map(note => (
                         <div
                             key={note.id}
-                            className={`mb-4 sm:mb-6 break-inside-avoid rounded-2xl sm:rounded-3xl p-5 ios-shadow border transition-all hover:shadow-lg relative overflow-hidden group ${getColorClass(note.color)}`}
+                            className={`mb-4 sm:mb-6 break-inside-avoid rounded-2xl sm:rounded-3xl p-5 ios-shadow border transition-all hover:shadow-lg relative overflow-hidden group bg-gray-50 text-[var(--text-main)] border-[var(--border)]`}
                         >
                             <div className="absolute right-3 top-3 flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity z-20">
                                 <button onClick={(e) => { e.stopPropagation(); setEditing(note); setShowNew(true); }} className="w-8 h-8 rounded-full bg-white/50 text-black/70 flex items-center justify-center hover:bg-white/80 transition-colors shadow-sm">
