@@ -160,7 +160,7 @@ export default function Notes() {
                                 {note.title && <h3 className="font-bold text-lg mb-2 leading-tight pr-16">{note.title}</h3>}
                                 <p className="text-sm leading-relaxed whitespace-pre-wrap opacity-90">{note.text}</p>
                                 <p className="text-[10px] opacity-60 mt-4 font-semibold uppercase tracking-wider">
-                                    {new Date(note.createdAt).toLocaleDateString('es-ES', { month: 'short', day: 'numeric' })}
+                                    {new Date(note.createdAt).toLocaleString('es-ES', { month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' })}
                                 </p>
                             </div>
                         </div>
