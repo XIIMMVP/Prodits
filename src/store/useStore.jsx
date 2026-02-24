@@ -241,10 +241,23 @@ export function StoreProvider({ children }) {
         sync.loadFullState(user.id).then(data => {
             if (cancelled) return;
 
-            const hasCloudData = data.routines.length > 0 || data.journal.length > 0 || Object.keys(data.dailyChecks).length > 0 || (data.appointments && data.appointments.length > 0);
+            const hasCloudData = data.routines.length > 0 || data.journal.length > 0 || Object.keys(data.dailyChecks).length > 0 || (data.appointments && data.appointments.length > 0) || (data.notes && data.notes.length > 0);
 
             if (hasCloudData) {
                 console.log('[Sync] Found cloud data, hydrating...');
+
+                // Merge local notes that might not be in cloud (created offline or before migration)
+                const cloudNotes = data.notes || [];
+                const localNotes = stateRef.current.notes || [];
+                const missingInCloud = localNotes.filter(ln => !cloudNotes.some(cn => cn.id === ln.id));
+
+                if (missingInCloud.length > 0) {
+                    data.notes = [...cloudNotes, ...missingInCloud];
+                    missingInCloud.forEach(note => {
+                        sync.upsertNote(user.id, note).catch(console.error);
+                    });
+                }
+
                 rawDispatch({ type: 'HYDRATE_FROM_CLOUD', data });
             } else {
                 console.log('[Sync] No cloud data found, pushing local state...');
