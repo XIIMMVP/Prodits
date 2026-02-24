@@ -106,7 +106,7 @@ export default function Layout({ children }) {
                                     }}
                                 >
                                     {isActive && (
-                                        <div className="absolute inset-[2px] rounded-[34px] bg-[var(--card-bg)] shadow-sm shadow-black/5" />
+                                        <div className="absolute inset-[2px] rounded-[34px] bg-black/5 dark:bg-white/10" />
                                     )}
                                     <div className="relative z-10 flex flex-col items-center py-[7px]">
                                         <span
