@@ -151,24 +151,24 @@
 
   /* Pill Backgrounds Override */
   .dark .bg-blue-50 {
-    background-color: rgba(10, 132, 255, 0.15) !important;
+    background-color: rgba(10, 132, 255, 0.08) !important;
     color: #0A84FF !important;
   }
 
   .dark .bg-amber-50,
   .dark .bg-yellow-50 {
-    background-color: rgba(255, 159, 10, 0.15) !important;
+    background-color: rgba(255, 159, 10, 0.08) !important;
     color: #FF9F0A !important;
   }
 
   .dark .bg-red-50 {
-    background-color: rgba(255, 69, 58, 0.15) !important;
+    background-color: rgba(255, 69, 58, 0.08) !important;
     color: #FF453A !important;
   }
 
   .dark .bg-emerald-50,
   .dark .bg-green-50 {
-    background-color: rgba(48, 209, 88, 0.15) !important;
+    background-color: rgba(48, 209, 88, 0.08) !important;
     color: #30D158 !important;
   }
 
