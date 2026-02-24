@@ -86,7 +86,6 @@ export default function Notes() {
 
     filtered = [...filtered].sort((a, b) => {
         if (a.isPinned !== b.isPinned) return a.isPinned ? -1 : 1;
-        if (a.isFavorite !== b.isFavorite) return a.isFavorite ? -1 : 1;
 
         const dateA = new Date(a.createdAt || 0).getTime();
         const dateB = new Date(b.createdAt || 0).getTime();
