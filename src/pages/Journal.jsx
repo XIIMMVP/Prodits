@@ -258,7 +258,7 @@ export default function Journal() {
       ) : (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
           {entries.map(entry => (
-            <div key={entry.id} className="bg-white rounded-2xl sm:rounded-3xl overflow-hidden ios-shadow border border-[var(--border)]/50 group transition-all hover:shadow-lg">
+            <div key={entry.id} className="bg-white rounded-2xl sm:rounded-3xl overflow-hidden ios-shadow group transition-all hover:shadow-lg">
               <div className="aspect-[4/3] overflow-hidden relative">
                 <img
                   alt={entry.title}
