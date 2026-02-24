@@ -421,11 +421,11 @@ export default function Dashboard() {
                 }}
                 className={`flex items-center justify-center rounded-2xl transition-all duration-300 ${energyLevel === e.level
                   ? e.level <= 2
-                    ? 'w-12 h-12 sm:w-14 sm:h-14 bg-blue-500 text-2xl sm:text-3xl shadow-lg shadow-blue-200 scale-110'
+                    ? 'w-12 h-12 sm:w-14 sm:h-14 bg-blue-500 text-2xl sm:text-3xl scale-110'
                     : e.level >= 4
-                      ? 'w-12 h-12 sm:w-14 sm:h-14 bg-gradient-to-br from-amber-400 to-orange-500 text-2xl sm:text-3xl shadow-lg shadow-amber-200 scale-110'
-                      : 'w-12 h-12 sm:w-14 sm:h-14 bg-gray-100 text-2xl sm:text-3xl shadow-lg shadow-gray-200 scale-110'
-                  : 'w-10 h-10 sm:w-12 sm:h-12 hover:bg-gray-50 text-xl sm:text-2xl hover:scale-105'
+                      ? 'w-12 h-12 sm:w-14 sm:h-14 bg-gradient-to-br from-amber-400 to-orange-500 text-2xl sm:text-3xl scale-110'
+                      : 'w-12 h-12 sm:w-14 sm:h-14 bg-gray-100 dark:bg-white/10 text-2xl sm:text-3xl scale-110'
+                  : 'w-10 h-10 sm:w-12 sm:h-12 hover:bg-gray-50 dark:hover:bg-white/5 text-xl sm:text-2xl hover:scale-105'
                   }`}
               >
                 {e.emoji}
@@ -437,7 +437,7 @@ export default function Dashboard() {
 
       {/* Emergency Banner */}
       {emergency && (
-        <div className="mb-6 bg-blue-50 border border-blue-200 rounded-2xl p-4 flex items-center gap-3">
+        <div className="mb-6 bg-blue-50 border border-blue-200 dark:border-blue-500/20 rounded-2xl p-4 flex items-center gap-3">
           <span className="material-symbols-outlined text-blue-500 fill-1">priority_high</span>
           <div>
             <p className="font-bold text-sm text-blue-700">Modo Emergencia Activo</p>
@@ -448,7 +448,7 @@ export default function Dashboard() {
 
       {/* Energetic Mode Banner */}
       {energetic && (
-        <div className="mb-6 bg-gradient-to-r from-amber-50 to-orange-50 border border-amber-200 rounded-2xl p-4 flex items-center gap-3">
+        <div className="mb-6 bg-amber-50 border border-amber-200 dark:border-amber-500/20 rounded-2xl p-4 flex items-center gap-3">
           <span className="material-symbols-outlined text-amber-500 fill-1">bolt</span>
           <div>
             <p className="font-bold text-sm text-amber-700">🔥 Modo Enérgico Activo</p>
@@ -459,7 +459,7 @@ export default function Dashboard() {
 
       {/* Low energy banner */}
       {energyLevel === 2 && !emergency && (
-        <div className="mb-6 bg-blue-50 border border-blue-200 rounded-2xl p-4 flex items-center gap-3">
+        <div className="mb-6 bg-blue-50 border border-blue-200 dark:border-blue-500/20 rounded-2xl p-4 flex items-center gap-3">
           <span className="material-symbols-outlined text-blue-500">info</span>
           <div className="flex-1">
             <p className="font-bold text-sm text-blue-700">Energía baja detectada</p>
@@ -476,7 +476,7 @@ export default function Dashboard() {
 
       {/* High energy suggestion banner */}
       {energyLevel === 4 && !energetic && (
-        <div className="mb-6 bg-amber-50 border border-amber-200 rounded-2xl p-4 flex items-center gap-3">
+        <div className="mb-6 bg-amber-50 border border-amber-200 dark:border-amber-500/20 rounded-2xl p-4 flex items-center gap-3">
           <span className="material-symbols-outlined text-amber-500">bolt</span>
           <div className="flex-1">
             <p className="font-bold text-sm text-amber-700">¡Buena energía detectada!</p>
@@ -484,7 +484,7 @@ export default function Dashboard() {
           </div>
           <button
             onClick={() => dispatch({ type: 'SET_ENERGETIC_MODE', value: true })}
-            className="px-6 py-2 bg-gradient-to-br from-amber-400 to-orange-500 text-white rounded-xl text-xs font-bold hover:opacity-90 transition-opacity whitespace-nowrap shadow-lg shadow-amber-200"
+            className="px-6 py-2 bg-gradient-to-br from-amber-400 to-orange-500 text-white rounded-xl text-xs font-bold hover:opacity-90 transition-opacity whitespace-nowrap"
           >
             Activar
           </button>
