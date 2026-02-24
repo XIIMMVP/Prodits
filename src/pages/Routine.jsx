@@ -4,9 +4,7 @@ import { useStore, CATEGORIES, PERIODS, uid } from '../store/useStore';
 import { ProfileAvatar } from '../components/Layout';
 import { useSwipeToClose } from '../hooks/useSwipeToClose';
 
-const ICONS = ['wb_sunny', 'fitness_center', 'water_drop', 'menu_book', 'laptop_mac', 'self_improvement', 'restaurant', 'directions_car', 'cleaning_services', 'brush', 'school', 'music_note', 'pets', 'local_florist', 'shopping_cart', 'medication', 'bed', 'hiking'];
-const COLOR_OPTIONS = ['orange', 'blue', 'indigo', 'teal', 'purple', 'red', 'green', 'pink'];
-const DAY_LABELS = ['Dom', 'Lun', 'Mar', 'Mié', 'Jue', 'Vie', 'Sáb'];
+const ICONS = ['wb_sunny', 'fitness_center', 'water_drop', 'menu_book', 'laptop_mac', 'self_improvement', 'restaurant', 'directions_car', 'cleaning_services', 'brush', 'school', 'music_note', 'pets', 'local_florist', 'shopping_cart', 'medication', 'bed', 'hiking']; const DAY_LABELS = ['Dom', 'Lun', 'Mar', 'Mié', 'Jue', 'Vie', 'Sáb'];
 const PERIOD_LABELS = { mañana: 'Mañana', tarde: 'Tarde', noche: 'Noche' };
 const CATEGORY_LABELS = { salud: 'Salud', mente: 'Mente', hogar: 'Hogar', trabajo: 'Trabajo' };
 const TYPE_OPTIONS = [
@@ -15,16 +13,9 @@ const TYPE_OPTIONS = [
   { value: 'focus', label: 'Temporizador', icon: 'timer' },
 ];
 
-const COLORS = {
-  orange: { bg: 'bg-orange-50', text: 'text-orange-500' },
-  blue: { bg: 'bg-blue-50', text: 'text-blue-500' },
-  indigo: { bg: 'bg-indigo-50', text: 'text-indigo-500' },
-  teal: { bg: 'bg-teal-50', text: 'text-teal-500' },
-  purple: { bg: 'bg-purple-50', text: 'text-purple-500' },
-  red: { bg: 'bg-red-50', text: 'text-red-500' },
-  green: { bg: 'bg-emerald-50', text: 'text-emerald-500' },
-  pink: { bg: 'bg-pink-50', text: 'text-pink-500' },
-};
+const COLORS = new Proxy({}, {
+  get: () => ({ bg: 'bg-blue-50 dark:bg-[var(--primary)]/10 text-[var(--primary)]', text: 'text-[var(--primary)]', border: 'border-blue-200 dark:border-[var(--primary)]/30' })
+});
 
 // ─── AI Task Breakdown (simulated) ──────────────────────────
 function generateAIBreakdown(name) {
@@ -257,22 +248,6 @@ function RoutineForm({ initial, onSave, onCancel }) {
             </div>
           </div>
 
-          {/* Color */}
-          <div className="mb-4">
-            <label className="text-xs font-bold text-[var(--text-secondary)] uppercase tracking-wider mb-2 block">Color</label>
-            <div className="flex gap-2 sm:gap-3">
-              {COLOR_OPTIONS.map(c => (
-                <button
-                  key={c}
-                  onClick={() => update('color', c)}
-                  className={`w-7 h-7 sm:w-8 sm:h-8 rounded-full transition-all flex items-center justify-center ${COLORS[c]?.bg} ${form.color === c ? 'ring-2 ring-[var(--primary)] ring-offset-2 dark:ring-offset-[var(--bg-main)] scale-110' : 'border border-black/10 dark:border-white/10'
-                    }`}
-                >
-                  <div className={`w-full h-full rounded-full ${COLORS[c]?.bg}`} />
-                </button>
-              ))}
-            </div>
-          </div>
 
           {/* Essential */}
           <div className="mb-4 flex items-center justify-between gap-3 bg-gray-50 dark:bg-white/5 border border-transparent dark:border-white/10 rounded-2xl p-3 sm:p-4">

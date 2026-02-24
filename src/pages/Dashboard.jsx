@@ -10,16 +10,9 @@ const ENERGY_EMOJIS = [
   { emoji: '🔥', label: 'Motivado', level: 5 },
 ];
 
-const COLORS = {
-  orange: { bg: 'bg-orange-50', text: 'text-orange-500', border: 'border-orange-200' },
-  blue: { bg: 'bg-blue-50', text: 'text-blue-500', border: 'border-blue-200' },
-  indigo: { bg: 'bg-indigo-50', text: 'text-indigo-500', border: 'border-indigo-200' },
-  teal: { bg: 'bg-teal-50', text: 'text-teal-500', border: 'border-teal-200' },
-  purple: { bg: 'bg-purple-50', text: 'text-purple-500', border: 'border-purple-200' },
-  red: { bg: 'bg-red-50', text: 'text-red-500', border: 'border-red-200' },
-  green: { bg: 'bg-emerald-50', text: 'text-emerald-500', border: 'border-emerald-200' },
-  pink: { bg: 'bg-pink-50', text: 'text-pink-500', border: 'border-pink-200' },
-};
+const COLORS = new Proxy({}, {
+  get: () => ({ bg: 'bg-blue-50 dark:bg-[var(--primary)]/10 text-[var(--primary)]', text: 'text-[var(--primary)]', border: 'border-blue-200 dark:border-[var(--primary)]/30' })
+});
 
 function formatDate() {
   const d = new Date();

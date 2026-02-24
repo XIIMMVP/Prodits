@@ -154,7 +154,6 @@ export default function Layout({ children }) {
                         <div
                             className={`absolute bottom-0 left-0 right-0 bg-[var(--bg-main)] rounded-t-[2.5rem] overflow-hidden ${dragY > 0 ? '' : 'animate-slide-up'}`}
                             style={{
-                                maxHeight: '90vh',
                                 maxHeight: '90dvh',
                                 transform: `translateY(${dragY}px)`,
                                 transition: dragY > 0 ? 'none' : 'transform 0.3s cubic-bezier(0.4, 0, 0.2, 1)'
@@ -170,13 +169,13 @@ export default function Layout({ children }) {
                                     <h2 className="text-lg font-bold">Cuenta</h2>
                                     <button
                                         onClick={() => setSettingsOpen(false)}
-                                        className="w-8 h-8 rounded-full bg-gray-200/70 flex items-center justify-center active:scale-95 transition-transform"
+                                        className="w-8 h-8 rounded-full bg-gray-100 dark:bg-white/10 flex items-center justify-center active:scale-95 transition-transform"
                                     >
-                                        <span className="material-symbols-outlined text-lg text-gray-600">close</span>
+                                        <span className="material-symbols-outlined text-lg text-gray-600 dark:text-gray-200">close</span>
                                     </button>
                                 </div>
                             </div>
-                            <div className="overflow-y-auto overflow-x-hidden" style={{ maxHeight: 'calc(90vh - 100px)', maxHeight: 'calc(90dvh - 100px)' }}>
+                            <div className="overflow-y-auto overflow-x-hidden" style={{ maxHeight: 'calc(90dvh - 100px)' }}>
                                 <Settings />
                             </div>
                         </div>
