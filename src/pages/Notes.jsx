@@ -71,10 +71,14 @@ export default function Notes() {
     const [search, setSearch] = useState('');
     const [showNew, setShowNew] = useState(false);
     const [editing, setEditing] = useState(null);
+    const [showFavoritesOnly, setShowFavoritesOnly] = useState(false);
 
     const notes = state.notes || [];
 
     let filtered = notes;
+    if (showFavoritesOnly) {
+        filtered = filtered.filter(n => n.isFavorite);
+    }
     if (search.trim()) {
         const q = search.toLowerCase();
         filtered = filtered.filter(n => (n.title || '').toLowerCase().includes(q) || (n.text || '').toLowerCase().includes(q));
@@ -119,6 +123,13 @@ export default function Notes() {
                             placeholder="Buscar notas..."
                         />
                     </div>
+                    <button
+                        onClick={() => setShowFavoritesOnly(!showFavoritesOnly)}
+                        className={`w-10 h-10 sm:w-11 sm:h-11 rounded-2xl sm:rounded-full shrink-0 flex items-center justify-center transition-all ${showFavoritesOnly ? 'bg-amber-400 text-white ios-shadow' : 'bg-gray-100 text-[var(--text-secondary)] hover:bg-gray-200'}`}
+                        title="Ver solo favoritos"
+                    >
+                        <span className="material-symbols-outlined text-[1.2rem]" style={showFavoritesOnly ? { fontVariationSettings: "'FILL' 1" } : {}}>star</span>
+                    </button>
                     <ProfileAvatar />
                 </div>
                 <button
@@ -157,37 +168,41 @@ export default function Notes() {
                     {filtered.map(note => (
                         <div
                             key={note.id}
-                            className={`mb-4 sm:mb-6 break-inside-avoid rounded-2xl sm:rounded-3xl p-5 ios-shadow border transition-all hover:shadow-lg relative overflow-hidden group bg-gray-50 text-[var(--text-main)] border-[var(--border)]`}
+                            className={`mb-4 sm:mb-6 break-inside-avoid rounded-2xl sm:rounded-3xl p-5 ios-shadow border transition-all hover:shadow-lg relative overflow-hidden group bg-gray-50 text-[var(--text-main)] border-[var(--border)] flex flex-col`}
                         >
-                            <div className="absolute right-3 top-3 flex items-center gap-1 z-20">
+                            <div className="absolute right-3 top-3 z-20">
                                 <button
                                     onClick={(e) => toggleStatus(e, note, 'isPinned')}
                                     className={`w-8 h-8 rounded-full flex items-center justify-center transition-all shadow-sm ${note.isPinned ? 'bg-[var(--primary)] text-white opacity-100' : 'bg-white/50 text-black/70 opacity-0 group-hover:opacity-100 hover:bg-white/80'}`}
                                 >
                                     <span className={`material-symbols-outlined text-sm ${note.isPinned ? '!text-white' : ''}`} style={note.isPinned ? { fontVariationSettings: "'FILL' 1" } : {}}>keep</span>
                                 </button>
-                                <button
-                                    onClick={(e) => toggleStatus(e, note, 'isFavorite')}
-                                    className={`w-8 h-8 rounded-full flex items-center justify-center transition-all shadow-sm ${note.isFavorite ? 'bg-amber-400 text-white opacity-100' : 'bg-white/50 text-black/70 opacity-0 group-hover:opacity-100 hover:bg-white/80'}`}
-                                >
-                                    <span className={`material-symbols-outlined text-sm ${note.isFavorite ? '!text-white' : ''}`} style={note.isFavorite ? { fontVariationSettings: "'FILL' 1" } : {}}>star</span>
-                                </button>
-                                <button onClick={(e) => { e.stopPropagation(); setEditing(note); setShowNew(true); }} className="w-8 h-8 rounded-full bg-white/50 text-black/70 flex items-center justify-center hover:bg-white/80 transition-colors shadow-sm opacity-0 group-hover:opacity-100">
-                                    <span className="material-symbols-outlined text-sm">edit</span>
-                                </button>
-                                <button onClick={(e) => { e.stopPropagation(); handleDelete(note.id); }} className="w-8 h-8 rounded-full bg-white/50 text-red-600 flex items-center justify-center hover:bg-white/80 transition-colors shadow-sm opacity-0 group-hover:opacity-100">
-                                    <span className="material-symbols-outlined text-sm">delete</span>
-                                </button>
                             </div>
                             <div
-                                className="cursor-pointer"
+                                className="cursor-pointer flex-1"
                                 onClick={() => { setEditing(note); setShowNew(true); }}
                             >
-                                {note.title && <h3 className="font-bold text-lg mb-2 leading-tight pr-32">{note.title}</h3>}
-                                <p className="text-sm leading-relaxed whitespace-pre-wrap opacity-90 pr-32">{note.text}</p>
-                                <p className="text-[10px] opacity-60 mt-4 font-semibold uppercase tracking-wider">
+                                {note.title && <h3 className="font-bold text-lg mb-2 leading-tight pr-10">{note.title}</h3>}
+                                <p className="text-sm leading-relaxed whitespace-pre-wrap opacity-90">{note.text}</p>
+                            </div>
+                            <div className="flex items-end justify-between mt-5 pt-3 border-t border-[var(--border)]/40 relative z-20">
+                                <p className="text-[10px] opacity-60 font-semibold uppercase tracking-wider">
                                     {new Date(note.createdAt).toLocaleString('es-ES', { month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' })}
                                 </p>
+                                <div className="flex items-center gap-0.5 sm:gap-1 lg:opacity-0 group-hover:opacity-100 transition-opacity">
+                                    <button
+                                        onClick={(e) => toggleStatus(e, note, 'isFavorite')}
+                                        className={`w-8 h-8 rounded-full flex items-center justify-center transition-all shadow-sm ${note.isFavorite ? 'bg-amber-400 text-white opacity-100' : 'bg-white/50 text-black/70 hover:bg-white/80'}`}
+                                    >
+                                        <span className={`material-symbols-outlined text-sm ${note.isFavorite ? '!text-white' : ''}`} style={note.isFavorite ? { fontVariationSettings: "'FILL' 1" } : {}}>star</span>
+                                    </button>
+                                    <button onClick={(e) => { e.stopPropagation(); setEditing(note); setShowNew(true); }} className="w-8 h-8 rounded-full bg-white/50 text-black/70 flex items-center justify-center hover:bg-white/80 transition-colors shadow-sm">
+                                        <span className="material-symbols-outlined text-sm">edit</span>
+                                    </button>
+                                    <button onClick={(e) => { e.stopPropagation(); handleDelete(note.id); }} className="w-8 h-8 rounded-full bg-white/50 text-red-600 flex items-center justify-center hover:bg-white/80 transition-colors shadow-sm">
+                                        <span className="material-symbols-outlined text-sm">delete</span>
+                                    </button>
+                                </div>
                             </div>
                         </div>
                     ))}
