@@ -384,10 +384,10 @@ function RoutineCard({ routine, onEdit, onDelete }) {
             <div className="flex items-center gap-1.5 flex-wrap">
               <h3 className="text-base sm:text-lg font-semibold text-[var(--text-main)] truncate">{routine.name}</h3>
               {routine.essential && (
-                <span className="px-1.5 py-0.5 rounded text-[8px] font-bold uppercase bg-blue-50 text-[var(--primary)]">Esencial</span>
+                <span className="px-2 py-0.5 rounded-full text-[8px] font-bold uppercase bg-black/5 dark:bg-white/10 text-[var(--primary)]">Esencial</span>
               )}
               {routine.energetic && (
-                <span className="px-1.5 py-0.5 rounded text-[8px] font-bold uppercase bg-amber-50 text-amber-600">Extra 🔥</span>
+                <span className="px-2 py-0.5 rounded-full text-[8px] font-bold uppercase bg-black/5 dark:bg-white/10 text-amber-600 dark:text-amber-500">Extra 🔥</span>
               )}
             </div>
             <p className="text-[var(--text-secondary)] text-sm font-medium">
