@@ -107,13 +107,13 @@ export default function Layout({ children }) {
                                     if (location.pathname === '/notes') {
                                         name = 'Notas';
                                         path = '/notes';
-                                        icon = 'edit_note';
+                                        icon = 'description';
                                     }
                                 } else {
                                     if (lastJournalPath === '/notes') {
                                         name = 'Notas';
                                         path = '/notes';
-                                        icon = 'edit_note';
+                                        icon = 'description';
                                     }
                                 }
                             }

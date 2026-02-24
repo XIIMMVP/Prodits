@@ -130,7 +130,7 @@ export default function Notes() {
             {filtered.length === 0 ? (
                 <div className="flex flex-col items-center justify-center py-20 text-center">
                     <div className="w-24 h-24 rounded-full bg-gray-100 flex items-center justify-center mb-6">
-                        <span className="material-symbols-outlined text-5xl text-[var(--text-secondary)]">edit_note</span>
+                        <span className="material-symbols-outlined text-5xl text-[var(--text-secondary)]">description</span>
                     </div>
                     <h3 className="text-xl font-bold mb-2">No hay notas todavía</h3>
                     <p className="text-[var(--text-secondary)] max-w-sm mb-6">Tu espacio para escribir libremente. Todo aquello que no quieras olvidar.</p>
