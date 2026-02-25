@@ -4,6 +4,7 @@ import { AuthProvider, useAuth } from './store/AuthContext';
 import { StoreProvider } from './store/useStore';
 import Layout from './components/Layout';
 import Dashboard from './pages/Dashboard';
+import FocusSession from './pages/FocusSession';
 import Routine from './pages/Routine';
 import Insights from './pages/Insights';
 import Journal from './pages/Journal';
@@ -54,6 +55,7 @@ function AppContent() {
             <Route path="/insights" element={<Insights />} />
             <Route path="/journal" element={<Journal />} />
             <Route path="/notes" element={<Notes />} />
+            <Route path="/focus/:id" element={<FocusSession />} />
           </Routes>
         </Layout>
       </Router>

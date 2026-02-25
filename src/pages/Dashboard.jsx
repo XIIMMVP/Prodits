@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef, useCallback } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { useStore, useTodayRoutines, today } from '../store/useStore';
 import { ProfileAvatar } from '../components/Layout';
 
@@ -21,6 +22,7 @@ function formatDate() {
 
 // ─── Focus Timer Component ──────────────────────────────────
 function FocusTimer({ routine, check, dispatch, onDelete }) {
+  const navigate = useNavigate();
   const [running, setRunning] = useState(false);
   const [total] = useState((routine.focusDuration || 25) * 60);
   const [remaining, setRemaining] = useState(total);
@@ -113,6 +115,10 @@ function FocusTimer({ routine, check, dispatch, onDelete }) {
           )}
         </div>
         <div className="flex items-center gap-2">
+          {/* Botón para expandir a pantalla completa */}
+          <button onClick={() => navigate(`/focus/${routine.id}`)} className="text-[var(--text-secondary)] hover:text-[var(--primary)] transition-colors">
+            <span className="material-symbols-outlined text-lg">fullscreen</span>
+          </button>
           <button onClick={resetTimer} className="text-[var(--text-secondary)] hover:text-[var(--text-main)] transition-colors">
             <span className="material-symbols-outlined text-lg">restart_alt</span>
           </button>

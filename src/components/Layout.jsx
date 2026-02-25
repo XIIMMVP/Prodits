@@ -71,97 +71,99 @@ export default function Layout({ children }) {
                 </div>
 
                 {/* iOS-style floating tab bar — 4 items */}
-                <div
-                    className="fixed bottom-1 left-4 right-4 z-50 flex justify-center"
-                    style={{ paddingBottom: 'env(safe-area-inset-bottom, 0px)' }}
-                >
-                    <nav className="flex items-center justify-center gap-0 w-full max-w-sm glass-nav rounded-[40px] p-1.5 border border-[var(--border)] ios-shadow">
-                        {navItems.map((item) => {
-                            let isActive = location.pathname === item.path;
-                            let name = item.name;
-                            let path = item.path;
-                            let icon = item.icon;
+                {!location.pathname.startsWith('/focus/') && (
+                    <div
+                        className="fixed bottom-1 left-4 right-4 z-50 flex justify-center"
+                        style={{ paddingBottom: 'env(safe-area-inset-bottom, 0px)' }}
+                    >
+                        <nav className="flex items-center justify-center gap-0 w-full max-w-sm glass-nav rounded-[40px] p-1.5 border border-[var(--border)] ios-shadow">
+                            {navItems.map((item) => {
+                                let isActive = location.pathname === item.path;
+                                let name = item.name;
+                                let path = item.path;
+                                let icon = item.icon;
 
-                            if (item.id === 'management') {
-                                const lastPath = localStorage.getItem('lastManagementPath') || '/routine';
+                                if (item.id === 'management') {
+                                    const lastPath = localStorage.getItem('lastManagementPath') || '/routine';
 
-                                if (location.pathname === '/routine' || location.pathname === '/appointments') {
-                                    isActive = true;
-                                    if (location.pathname === '/appointments') {
-                                        name = 'Citas';
-                                        path = '/appointments';
-                                        icon = 'event';
+                                    if (location.pathname === '/routine' || location.pathname === '/appointments') {
+                                        isActive = true;
+                                        if (location.pathname === '/appointments') {
+                                            name = 'Citas';
+                                            path = '/appointments';
+                                            icon = 'event';
+                                        }
+                                    } else {
+                                        if (lastPath === '/appointments') {
+                                            name = 'Citas';
+                                            path = '/appointments';
+                                            icon = 'event';
+                                        }
                                     }
-                                } else {
-                                    if (lastPath === '/appointments') {
-                                        name = 'Citas';
-                                        path = '/appointments';
-                                        icon = 'event';
+                                } else if (item.id === 'journal') {
+                                    const lastJournalPath = localStorage.getItem('lastJournalPath') || '/journal';
+
+                                    if (location.pathname === '/journal' || location.pathname === '/notes') {
+                                        isActive = true;
+                                        if (location.pathname === '/notes') {
+                                            name = 'Notas';
+                                            path = '/notes';
+                                            icon = 'description';
+                                        }
+                                    } else {
+                                        if (lastJournalPath === '/notes') {
+                                            name = 'Notas';
+                                            path = '/notes';
+                                            icon = 'description';
+                                        }
                                     }
                                 }
-                            } else if (item.id === 'journal') {
-                                const lastJournalPath = localStorage.getItem('lastJournalPath') || '/journal';
 
-                                if (location.pathname === '/journal' || location.pathname === '/notes') {
-                                    isActive = true;
-                                    if (location.pathname === '/notes') {
-                                        name = 'Notas';
-                                        path = '/notes';
-                                        icon = 'description';
-                                    }
-                                } else {
-                                    if (lastJournalPath === '/notes') {
-                                        name = 'Notas';
-                                        path = '/notes';
-                                        icon = 'description';
-                                    }
-                                }
-                            }
-
-                            return (
-                                <Link
-                                    key={item.id}
-                                    to={path}
-                                    className="flex flex-col items-center justify-center relative"
-                                    style={{
-                                        WebkitTapHighlightColor: 'transparent',
-                                        flex: '1 1 0%',
-                                        minWidth: 0,
-                                    }}
-                                >
-                                    {isActive && (
-                                        <div className="absolute inset-[2px] rounded-[34px] bg-gray-500/10 dark:bg-gray-400/15 backdrop-blur-md backdrop-saturate-150" />
-                                    )}
-                                    <div className="relative z-10 flex flex-col items-center py-[7px]">
-                                        <span
-                                            className={`material-symbols-outlined ${isActive ? 'fill-1' : ''}`}
-                                            style={{
-                                                fontSize: '26px',
-                                                lineHeight: 1,
-                                                color: isActive ? 'var(--primary)' : 'var(--text-secondary)',
-                                                transition: 'color 0.2s ease',
-                                            }}
-                                        >
-                                            {icon}
-                                        </span>
-                                        <span
-                                            style={{
-                                                fontSize: '10px',
-                                                fontWeight: isActive ? 600 : 500,
-                                                letterSpacing: '0.01em',
-                                                marginTop: '2px',
-                                                color: isActive ? 'var(--primary)' : 'var(--text-secondary)',
-                                                transition: 'color 0.2s ease',
-                                            }}
-                                        >
-                                            {name}
-                                        </span>
-                                    </div>
-                                </Link>
-                            );
-                        })}
-                    </nav>
-                </div>
+                                return (
+                                    <Link
+                                        key={item.id}
+                                        to={path}
+                                        className="flex flex-col items-center justify-center relative"
+                                        style={{
+                                            WebkitTapHighlightColor: 'transparent',
+                                            flex: '1 1 0%',
+                                            minWidth: 0,
+                                        }}
+                                    >
+                                        {isActive && (
+                                            <div className="absolute inset-[2px] rounded-[34px] bg-gray-500/10 dark:bg-gray-400/15 backdrop-blur-md backdrop-saturate-150" />
+                                        )}
+                                        <div className="relative z-10 flex flex-col items-center py-[7px]">
+                                            <span
+                                                className={`material-symbols-outlined ${isActive ? 'fill-1' : ''}`}
+                                                style={{
+                                                    fontSize: '26px',
+                                                    lineHeight: 1,
+                                                    color: isActive ? 'var(--primary)' : 'var(--text-secondary)',
+                                                    transition: 'color 0.2s ease',
+                                                }}
+                                            >
+                                                {icon}
+                                            </span>
+                                            <span
+                                                style={{
+                                                    fontSize: '10px',
+                                                    fontWeight: isActive ? 600 : 500,
+                                                    letterSpacing: '0.01em',
+                                                    marginTop: '2px',
+                                                    color: isActive ? 'var(--primary)' : 'var(--text-secondary)',
+                                                    transition: 'color 0.2s ease',
+                                                }}
+                                            >
+                                                {name}
+                                            </span>
+                                        </div>
+                                    </Link>
+                                );
+                            })}
+                        </nav>
+                    </div>
+                )}
 
                 {/* Settings Bottom Sheet */}
                 {settingsOpen && (
