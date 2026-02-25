@@ -245,32 +245,6 @@ export default function Settings() {
                 </div>
             </button>
 
-            {/* ─── Notificaciones ───────────────────────────── */}
-            <SectionCard title="Notificaciones">
-                <SettingRow icon="notifications" label="Notificaciones" description="Recibe recordatorios de tus hábitos">
-                    <Toggle value={settings.notifications} onChange={v => updateSetting('notifications', v)} />
-                </SettingRow>
-                <SettingRow icon="alarm" label="Recordatorio Diario" description="Te avisamos para que no olvides tus rutinas">
-                    <Toggle value={settings.dailyReminder} onChange={v => updateSetting('dailyReminder', v)} />
-                </SettingRow>
-                {settings.dailyReminder && (
-                    <SettingRow icon="schedule" label="Hora del recordatorio" description={settings.reminderTime}>
-                        <input
-                            type="time"
-                            value={settings.reminderTime}
-                            onChange={e => updateSetting('reminderTime', e.target.value)}
-                            className="text-sm text-[var(--primary)] font-semibold bg-transparent outline-none"
-                        />
-                    </SettingRow>
-                )}
-                <SettingRow icon="volume_up" label="Sonidos" description="Reproducir sonidos al completar tareas">
-                    <Toggle value={settings.sound} onChange={v => updateSetting('sound', v)} />
-                </SettingRow>
-                <SettingRow icon="vibration" label="Vibración" description="Vibrar al interactuar">
-                    <Toggle value={settings.vibration} onChange={v => updateSetting('vibration', v)} />
-                </SettingRow>
-            </SectionCard>
-
             {/* ─── General ──────────────────────────────────── */}
             <SectionCard title="General">
                 <SettingRow icon="palette" label="Apariencia" description="Selecciona el tema de la app">
