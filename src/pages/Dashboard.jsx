@@ -60,34 +60,6 @@ function FocusTimer({ routine, check, dispatch, onDelete }) {
           setEndTime(null);
           localStorage.removeItem(`prodits_timer_${routine.id}`);
 
-          // Trigger notifications via Service Worker (required for PWA/iOS)
-          if ('Notification' in window && Notification.permission === 'granted') {
-            if (navigator.serviceWorker) {
-              navigator.serviceWorker.ready.then(reg => {
-                reg.showNotification('¡Tiempo Completo!', {
-                  body: `Has terminado la rutina de: ${routine.name}`,
-                  icon: '/icon-light-192.png',
-                  vibrate: [200, 100, 200]
-                });
-              }).catch(() => {
-                try {
-                  new Notification('¡Tiempo Completo!', { body: `Has terminado la rutina de: ${routine.name}`, icon: '/icon-light-192.png' });
-                } catch (e) { console.error('Notification API not supported in this context', e); }
-              });
-            } else {
-              try {
-                new Notification('¡Tiempo Completo!', { body: `Has terminado la rutina de: ${routine.name}`, icon: '/icon-light-192.png' });
-              } catch (e) { console.error(e); }
-            }
-          }
-          if (navigator.vibrate) navigator.vibrate([200, 100, 200]);
-
-          try {
-            // Play a gentle notification chime
-            const audio = new Audio('https://assets.mixkit.co/active_storage/sfx/2869/2869-preview.mp3');
-            audio.play().catch(e => console.log('Audio autoplay blocked', e));
-          } catch (e) { }
-
           if (!check?.done) {
             dispatch({ type: 'TOGGLE_TASK', routineId: routine.id });
           }
@@ -106,10 +78,6 @@ function FocusTimer({ routine, check, dispatch, onDelete }) {
   const toggleTimer = () => {
     if (check?.done) return;
     if (!running) {
-      // Pedir permisos de notificación la primera vez
-      if ('Notification' in window && Notification.permission === 'default') {
-        Notification.requestPermission();
-      }
       const newEndTime = Date.now() + remaining * 1000;
       setEndTime(newEndTime);
       setRunning(true);
