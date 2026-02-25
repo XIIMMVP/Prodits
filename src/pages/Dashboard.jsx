@@ -22,26 +22,80 @@ function formatDate() {
 // ─── Focus Timer Component ──────────────────────────────────
 function FocusTimer({ routine, check, dispatch, onDelete }) {
   const [running, setRunning] = useState(false);
-  const [remaining, setRemaining] = useState((routine.focusDuration || 25) * 60);
   const [total] = useState((routine.focusDuration || 25) * 60);
+  const [remaining, setRemaining] = useState(total);
+  const [endTime, setEndTime] = useState(null);
   const intervalRef = useRef(null);
 
+  // Load from localStorage on mount
   useEffect(() => {
-    if (running && remaining > 0) {
+    try {
+      const saved = localStorage.getItem(`prodits_timer_${routine.id}`);
+      if (saved && !check?.done) {
+        const { savedEnd, savedRem } = JSON.parse(saved);
+        if (savedEnd && savedEnd > Date.now()) {
+          setEndTime(savedEnd);
+          setRemaining(Math.ceil((savedEnd - Date.now()) / 1000));
+          setRunning(true);
+        } else if (savedRem) {
+          setRemaining(Math.max(0, savedRem));
+        } else if (savedEnd && savedEnd <= Date.now()) {
+          setRemaining(0);
+        }
+      }
+    } catch { /* ignore */ }
+  }, [routine.id, check?.done]);
+
+  // Timestamp based timer logic
+  useEffect(() => {
+    if (running && endTime) {
       intervalRef.current = setInterval(() => {
-        setRemaining(prev => {
-          if (prev <= 1) {
-            clearInterval(intervalRef.current);
-            setRunning(false);
-            dispatch({ type: 'TOGGLE_TASK', routineId: routine.id });
-            return 0;
+        const now = Date.now();
+        const timeLeft = Math.max(0, Math.ceil((endTime - now) / 1000));
+        setRemaining(timeLeft);
+
+        if (timeLeft <= 0) {
+          clearInterval(intervalRef.current);
+          setRunning(false);
+          setEndTime(null);
+          localStorage.removeItem(`prodits_timer_${routine.id}`);
+
+          // Trigger notifications via Service Worker (required for PWA/iOS)
+          if ('Notification' in window && Notification.permission === 'granted') {
+            if (navigator.serviceWorker) {
+              navigator.serviceWorker.ready.then(reg => {
+                reg.showNotification('¡Tiempo Completo!', {
+                  body: `Has terminado la rutina de: ${routine.name}`,
+                  icon: '/icon-light-192.png',
+                  vibrate: [200, 100, 200]
+                });
+              }).catch(() => {
+                try {
+                  new Notification('¡Tiempo Completo!', { body: `Has terminado la rutina de: ${routine.name}`, icon: '/icon-light-192.png' });
+                } catch (e) { console.error('Notification API not supported in this context', e); }
+              });
+            } else {
+              try {
+                new Notification('¡Tiempo Completo!', { body: `Has terminado la rutina de: ${routine.name}`, icon: '/icon-light-192.png' });
+              } catch (e) { console.error(e); }
+            }
           }
-          return prev - 1;
-        });
-      }, 1000);
+          if (navigator.vibrate) navigator.vibrate([200, 100, 200]);
+
+          try {
+            // Play a gentle notification chime
+            const audio = new Audio('https://assets.mixkit.co/active_storage/sfx/2869/2869-preview.mp3');
+            audio.play().catch(e => console.log('Audio autoplay blocked', e));
+          } catch (e) { }
+
+          if (!check?.done) {
+            dispatch({ type: 'TOGGLE_TASK', routineId: routine.id });
+          }
+        }
+      }, 500); // 500ms intervals for better resync
     }
     return () => clearInterval(intervalRef.current);
-  }, [running, remaining, dispatch, routine.id]);
+  }, [running, endTime, dispatch, routine.id, routine.name, check?.done]);
 
   const mins = Math.floor(remaining / 60).toString().padStart(2, '0');
   const secs = (remaining % 60).toString().padStart(2, '0');
@@ -51,13 +105,28 @@ function FocusTimer({ routine, check, dispatch, onDelete }) {
 
   const toggleTimer = () => {
     if (check?.done) return;
-    setRunning(!running);
+    if (!running) {
+      // Pedir permisos de notificación la primera vez
+      if ('Notification' in window && Notification.permission === 'default') {
+        Notification.requestPermission();
+      }
+      const newEndTime = Date.now() + remaining * 1000;
+      setEndTime(newEndTime);
+      setRunning(true);
+      localStorage.setItem(`prodits_timer_${routine.id}`, JSON.stringify({ savedEnd: newEndTime, savedRem: remaining }));
+    } else {
+      setRunning(false);
+      setEndTime(null);
+      localStorage.setItem(`prodits_timer_${routine.id}`, JSON.stringify({ savedEnd: null, savedRem: remaining }));
+    }
   };
 
   const resetTimer = () => {
     setRunning(false);
+    setEndTime(null);
     clearInterval(intervalRef.current);
     setRemaining(total);
+    localStorage.removeItem(`prodits_timer_${routine.id}`);
     if (check?.done) {
       dispatch({ type: 'TOGGLE_TASK', routineId: routine.id });
     }
