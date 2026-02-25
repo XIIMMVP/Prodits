@@ -119,26 +119,10 @@ export default function Notes() {
                         <input
                             value={search}
                             onChange={e => setSearch(e.target.value)}
-                            className="w-full bg-gray-100 border-none rounded-2xl py-2.5 sm:py-3 pl-12 pr-4 text-sm focus:ring-2 focus:ring-[var(--primary)]/20 transition-all outline-none placeholder:text-[var(--text-secondary)] text-[var(--text-main)]"
+                            className="w-full bg-gray-100 dark:bg-white/5 border-none rounded-2xl py-2.5 sm:py-3 pl-12 pr-4 text-sm focus:ring-2 focus:ring-[var(--primary)]/20 transition-all outline-none placeholder:text-[var(--text-secondary)] text-[var(--text-main)]"
                             placeholder="Buscar notas..."
                         />
                     </div>
-                    <button
-                        onClick={() => setSortOrder(prev => prev === 'desc' ? 'asc' : 'desc')}
-                        className="w-10 h-10 sm:w-11 sm:h-11 rounded-2xl sm:rounded-full shrink-0 flex items-center justify-center transition-all bg-gray-100 text-[var(--text-secondary)] hover:bg-gray-200"
-                        title={sortOrder === 'desc' ? "Ordenadas de más recientes a antiguas (Tocar para invertir)" : "Ordenadas de más antiguas a recientes (Tocar para invertir)"}
-                    >
-                        <span className="material-symbols-outlined text-[1.2rem]">
-                            {sortOrder === 'desc' ? 'arrow_downward' : 'arrow_upward'}
-                        </span>
-                    </button>
-                    <button
-                        onClick={() => setShowFavoritesOnly(!showFavoritesOnly)}
-                        className={`w-10 h-10 sm:w-11 sm:h-11 rounded-2xl sm:rounded-full shrink-0 flex items-center justify-center transition-all ${showFavoritesOnly ? 'bg-amber-400 text-white ios-shadow' : 'bg-gray-100 text-[var(--text-secondary)] hover:bg-gray-200'}`}
-                        title="Ver solo favoritos"
-                    >
-                        <span className="material-symbols-outlined text-[1.2rem]" style={showFavoritesOnly ? { fontVariationSettings: "'FILL' 1" } : {}}>star</span>
-                    </button>
                     <ProfileAvatar />
                 </div>
                 <button
@@ -156,6 +140,24 @@ export default function Notes() {
                     <div className="flex items-end gap-3 mb-1">
                         <Link to="/journal" className="text-xl sm:text-2xl font-bold tracking-tight text-[var(--text-secondary)] opacity-50 hover:opacity-100 transition-opacity mb-0.5 sm:mb-1">Tu Feed de Éxitos</Link>
                         <h2 className="text-2xl sm:text-3xl font-bold tracking-tight text-[var(--text-main)]">Notas</h2>
+                        <div className="flex items-center gap-2 ml-auto">
+                            <button
+                                onClick={() => setSortOrder(prev => prev === 'desc' ? 'asc' : 'desc')}
+                                className="w-9 h-9 sm:w-10 sm:h-10 rounded-xl shrink-0 flex items-center justify-center transition-all bg-[var(--background)] border border-[var(--border)] text-[var(--text-secondary)] hover:bg-[var(--border)]/30 ios-shadow"
+                                title={sortOrder === 'desc' ? "Ordenadas de más recientes a antiguas (Tocar para invertir)" : "Ordenadas de más antiguas a recientes (Tocar para invertir)"}
+                            >
+                                <span className="material-symbols-outlined text-lg">
+                                    {sortOrder === 'desc' ? 'arrow_downward' : 'arrow_upward'}
+                                </span>
+                            </button>
+                            <button
+                                onClick={() => setShowFavoritesOnly(!showFavoritesOnly)}
+                                className={`w-9 h-9 sm:w-10 sm:h-10 rounded-xl shrink-0 flex items-center justify-center transition-all ios-shadow ${showFavoritesOnly ? 'bg-amber-400 text-white border border-amber-400' : 'bg-[var(--background)] border border-[var(--border)] text-[var(--text-secondary)] hover:bg-[var(--border)]/30'}`}
+                                title="Ver solo favoritos"
+                            >
+                                <span className="material-symbols-outlined text-lg" style={showFavoritesOnly ? { fontVariationSettings: "'FILL' 1" } : {}}>star</span>
+                            </button>
+                        </div>
                     </div>
                     <p className="text-sm text-[var(--text-secondary)] font-medium">Captura tus ideas y pensamientos.</p>
                 </div>
@@ -177,12 +179,12 @@ export default function Notes() {
                     {filtered.map(note => (
                         <div
                             key={note.id}
-                            className={`mb-4 sm:mb-6 break-inside-avoid rounded-2xl sm:rounded-3xl p-5 ios-shadow border transition-all hover:shadow-lg relative overflow-hidden group bg-gray-50 text-[var(--text-main)] border-[var(--border)] flex flex-col`}
+                            className={`mb-4 sm:mb-6 break-inside-avoid rounded-2xl sm:rounded-3xl p-5 ios-shadow border transition-all hover:shadow-lg relative overflow-hidden group bg-[var(--background)] text-[var(--text-main)] border-[var(--border)] flex flex-col`}
                         >
                             <div className="absolute right-3 top-3 z-20">
                                 <button
                                     onClick={(e) => toggleStatus(e, note, 'isPinned')}
-                                    className={`w-8 h-8 rounded-full flex items-center justify-center transition-all shadow-sm ${note.isPinned ? 'bg-[var(--primary)] text-white opacity-100' : 'bg-white/50 text-black/70 opacity-0 group-hover:opacity-100 hover:bg-white/80'}`}
+                                    className={`w-8 h-8 rounded-full flex items-center justify-center transition-all shadow-sm ${note.isPinned ? 'bg-[var(--primary)] text-white opacity-100' : 'bg-black/5 dark:bg-white/10 text-[var(--text-secondary)] opacity-0 group-hover:opacity-100 hover:bg-black/10 dark:hover:bg-white/20'}`}
                                 >
                                     <span className={`material-symbols-outlined text-sm ${note.isPinned ? '!text-white' : ''}`} style={note.isPinned ? { fontVariationSettings: "'FILL' 1" } : {}}>keep</span>
                                 </button>
@@ -194,21 +196,21 @@ export default function Notes() {
                                 {note.title && <h3 className="font-bold text-lg mb-2 leading-tight pr-10">{note.title}</h3>}
                                 <p className="text-sm leading-relaxed whitespace-pre-wrap opacity-90">{note.text}</p>
                             </div>
-                            <div className="flex items-end justify-between mt-5 pt-3 border-t border-[var(--border)]/40 relative z-20">
+                            <div className="flex items-end justify-between mt-5 relative z-20">
                                 <p className="text-[10px] opacity-60 font-semibold uppercase tracking-wider">
                                     {new Date(note.createdAt).toLocaleString('es-ES', { month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' })}
                                 </p>
                                 <div className="flex items-center gap-0.5 sm:gap-1 lg:opacity-0 group-hover:opacity-100 transition-opacity">
                                     <button
                                         onClick={(e) => toggleStatus(e, note, 'isFavorite')}
-                                        className={`w-8 h-8 rounded-full flex items-center justify-center transition-all shadow-sm ${note.isFavorite ? 'bg-amber-400 text-white opacity-100' : 'bg-white/50 text-black/70 hover:bg-white/80'}`}
+                                        className={`w-8 h-8 rounded-full flex items-center justify-center transition-all shadow-sm ${note.isFavorite ? 'bg-amber-400 text-white opacity-100' : 'bg-black/5 dark:bg-white/10 text-[var(--text-secondary)] hover:bg-black/10 dark:hover:bg-white/20'}`}
                                     >
                                         <span className={`material-symbols-outlined text-sm ${note.isFavorite ? '!text-white' : ''}`} style={note.isFavorite ? { fontVariationSettings: "'FILL' 1" } : {}}>star</span>
                                     </button>
-                                    <button onClick={(e) => { e.stopPropagation(); setEditing(note); setShowNew(true); }} className="w-8 h-8 rounded-full bg-white/50 text-black/70 flex items-center justify-center hover:bg-white/80 transition-colors shadow-sm">
+                                    <button onClick={(e) => { e.stopPropagation(); setEditing(note); setShowNew(true); }} className="w-8 h-8 rounded-full bg-black/5 dark:bg-white/10 text-[var(--text-secondary)] flex items-center justify-center hover:bg-black/10 dark:hover:bg-white/20 transition-colors shadow-sm">
                                         <span className="material-symbols-outlined text-sm">edit</span>
                                     </button>
-                                    <button onClick={(e) => { e.stopPropagation(); handleDelete(note.id); }} className="w-8 h-8 rounded-full bg-white/50 text-red-600 flex items-center justify-center hover:bg-white/80 transition-colors shadow-sm">
+                                    <button onClick={(e) => { e.stopPropagation(); handleDelete(note.id); }} className="w-8 h-8 rounded-full bg-red-500/10 dark:bg-red-500/20 text-red-600 dark:text-red-400 flex items-center justify-center hover:bg-red-500/20 dark:hover:bg-red-500/30 transition-colors shadow-sm">
                                         <span className="material-symbols-outlined text-sm">delete</span>
                                     </button>
                                 </div>
