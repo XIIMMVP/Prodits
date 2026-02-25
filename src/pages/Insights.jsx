@@ -223,8 +223,11 @@ export default function Insights() {
             {heatmapData.map(cell => (
               <div
                 key={cell.date}
-                className={`aspect-square rounded-[8px] sm:rounded-[10px] ${ratioToOpacity(cell.ratio)} hover:ring-2 ring-blue-300 ring-offset-1 transition-all cursor-pointer relative group`}
+                className={`aspect-square rounded-[8px] sm:rounded-[10px] ${ratioToOpacity(cell.ratio)} hover:ring-2 ring-blue-300 ring-offset-1 transition-all cursor-pointer relative group flex items-center justify-center`}
               >
+                <span className="text-[10px] font-bold text-black/30 mix-blend-color-burn pointer-events-none">
+                  {parseInt(cell.date.split('-')[2], 10)}
+                </span>
                 <div className="absolute -top-12 left-1/2 -translate-x-1/2 bg-gray-900 text-white text-[10px] px-2.5 py-2 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap pointer-events-none z-30 shadow-xl border border-white/10 text-center">
                   <div className="font-bold border-b border-white/10 pb-1 mb-1">{cell.label}</div>
                   <div><span className="text-gray-400">Progreso:</span> {Math.round(cell.ratio * 100)}%</div>

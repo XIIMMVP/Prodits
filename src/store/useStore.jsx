@@ -294,17 +294,29 @@ export function StoreProvider({ children }) {
                     : routines.filter(r => !r.energetic);
 
             if (visible.length > 0 && state.dailyChecks[yesterday]) {
-                const done = visible.filter(r => state.dailyChecks[yesterday]?.[r.id]?.done).length;
+                const ratio = visible.filter(r => state.dailyChecks[yesterday]?.[r.id]?.done).length / visible.length;
+
+                // Record history locally
                 rawDispatch({
                     type: 'RECORD_HISTORY',
                     date: yesterday,
-                    ratio: done / visible.length,
+                    ratio: ratio,
                     mode: mode
                 });
+
+                // Push history to Supabase exactly as it would occur in syncAction
+                if (user) {
+                    sync.upsertHistory(user.id, yesterday, { ratio, mode }).catch(err => {
+                        console.error('[Sync] Reset history sync failed:', err);
+                    });
+                }
             }
             rawDispatch({ type: 'DAILY_RESET' });
+
+            // Note: Since DAILY_RESET mostly affects local app state (not a DB column currently),
+            // we don't need a dedicated Supabase function for it unless we explicitly add a last_reset column.
         }
-    }, [state.lastReset, state.routines, state.dailyChecks]);
+    }, [state.lastReset, state.routines, state.dailyChecks, user]);
 
     // ─── Smart dispatch: sync each action to Supabase ───
     const dispatch = useCallback((action) => {
