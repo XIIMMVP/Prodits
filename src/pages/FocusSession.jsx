@@ -117,10 +117,10 @@ export default function FocusSession() {
                     <h2 className="text-xs font-bold tracking-wider uppercase text-[var(--text-main)]">{routine.name}</h2>
                 </div>
 
-                <div className="relative w-64 h-64 sm:w-80 sm:h-80 flex items-center justify-center my-8">
-                    <svg className="w-full h-full -rotate-90 drop-shadow-sm">
-                        <circle cx="50%" cy="50%" fill="none" r={140} stroke="var(--border)" strokeWidth={8} />
-                        <circle cx="50%" cy="50%" fill="none" r={140} stroke={check?.done ? '#10b981' : 'var(--primary)'} strokeDasharray={circumference} strokeDashoffset={check?.done ? 0 : offset} strokeLinecap="round" strokeWidth={12} className="transition-all duration-500 opacity-90" />
+                <div className="relative w-72 h-72 sm:w-80 sm:h-80 flex items-center justify-center my-8">
+                    <svg viewBox="0 0 320 320" className="w-full h-full -rotate-90 drop-shadow-sm">
+                        <circle cx="160" cy="160" fill="none" r={140} stroke="var(--border)" strokeWidth={8} />
+                        <circle cx="160" cy="160" fill="none" r={140} stroke={check?.done ? '#10b981' : 'var(--primary)'} strokeDasharray={circumference} strokeDashoffset={check?.done ? 0 : offset} strokeLinecap="round" strokeWidth={12} className="transition-all duration-500 opacity-90" />
                     </svg>
                     <div className="absolute inset-0 flex flex-col items-center justify-center">
                         <span className={`text-6xl sm:text-7xl font-bold tracking-tighter ${check?.done ? 'text-emerald-500' : 'text-[var(--text-main)]'}`} style={{ fontVariantNumeric: 'tabular-nums' }}>
@@ -140,8 +140,8 @@ export default function FocusSession() {
                     onClick={toggleTimer}
                     disabled={check?.done}
                     className={`w-full max-w-sm mx-auto h-16 sm:h-20 rounded-3xl font-bold text-lg sm:text-xl flex items-center justify-center gap-2 sm:gap-3 transition-all active:scale-95 ${check?.done ? 'bg-emerald-500 text-white shadow-lg shadow-emerald-500/30' :
-                            running ? 'bg-red-500 text-white shadow-lg shadow-red-500/30' :
-                                'bg-[var(--primary)] text-white shadow-lg shadow-blue-500/30'
+                        running ? 'bg-red-500 text-white shadow-lg shadow-red-500/30' :
+                            'bg-[var(--primary)] text-white shadow-lg shadow-blue-500/30'
                         }`}
                 >
                     <span className="material-symbols-outlined fill-1 text-2xl sm:text-3xl">
