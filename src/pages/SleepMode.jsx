@@ -13,6 +13,15 @@ export default function SleepMode() {
         // Forzar dark mode inmersivo y ocultar barras de scroll
         document.documentElement.classList.add('dark');
         document.body.style.backgroundColor = '#0a0a0f';
+        document.documentElement.style.backgroundColor = '#0a0a0f';
+
+        // Modificar el meta tag theme-color para la barra de estado superior de iOS/Android
+        let metaThemeColor = document.querySelector('meta[name="theme-color"]');
+        let oldThemeColor = '';
+        if (metaThemeColor) {
+            oldThemeColor = metaThemeColor.getAttribute('content');
+            metaThemeColor.setAttribute('content', '#0a0a0f');
+        }
 
         return () => {
             const stored = JSON.parse(localStorage.getItem('prodits_settings') || '{}');
@@ -26,6 +35,10 @@ export default function SleepMode() {
                 }
             }
             document.body.style.backgroundColor = '';
+            document.documentElement.style.backgroundColor = '';
+            if (metaThemeColor && oldThemeColor) {
+                metaThemeColor.setAttribute('content', oldThemeColor);
+            }
         };
     }, []);
 
