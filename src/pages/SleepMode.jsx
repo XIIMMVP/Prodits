@@ -189,19 +189,19 @@ export default function SleepMode() {
                     <circle cx="160" cy="160" r="130" fill="none" stroke="#6366f1" strokeWidth="24" strokeLinecap="round"
                         strokeDasharray={circumference}
                         strokeDashoffset={offset}
-                        className="transition-all duration-75"
+                        className={isDragging ? '' : 'transition-all duration-300'}
                     />
                     {/* Thumb / Handle inside SVG coordinating system */}
                     {/* cos(0) y sin(0) es la derecha, pero como esta rotado es ARRIBA */}
                     <circle
                         cx={160 + 130 * Math.cos(ringProgress * 2 * Math.PI)}
                         cy={160 + 130 * Math.sin(ringProgress * 2 * Math.PI)}
-                        r="18" fill="#ffffff" className="drop-shadow-lg transition-all duration-75"
+                        r="18" fill="#ffffff" className={`drop-shadow-lg ${isDragging ? '' : 'transition-all duration-300'}`}
                     />
                     <circle
                         cx={160 + 130 * Math.cos(ringProgress * 2 * Math.PI)}
                         cy={160 + 130 * Math.sin(ringProgress * 2 * Math.PI)}
-                        r="6" fill="#6366f1" className="transition-all duration-75"
+                        r="6" fill="#6366f1" className={isDragging ? '' : 'transition-all duration-300'}
                     />
                 </svg>
 
