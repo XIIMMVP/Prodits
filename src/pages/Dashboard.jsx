@@ -373,10 +373,19 @@ export default function Dashboard() {
   const energetic = state.energeticMode;
   const [noteModal, setNoteModal] = useState(null);
   const [deleteConfirm, setDeleteConfirm] = useState(null);
+  const [sleepConfirm, setSleepConfirm] = useState(false);
+  const navigate = useNavigate();
   const [collapsedDone, setCollapsedDone] = useState(() => {
     try { return JSON.parse(localStorage.getItem('collapsedDone') || '{}'); } catch { return {}; }
   });
   useEffect(() => { localStorage.setItem('collapsedDone', JSON.stringify(collapsedDone)); }, [collapsedDone]);
+
+  // Si abres la app y estabas "durmiendo", oblígalo
+  useEffect(() => {
+    if (localStorage.getItem('prodits_sleep_start')) {
+      navigate('/sleep');
+    }
+  }, [navigate]);
 
   // Filter based on active mode
   const visibleRoutines = emergency
@@ -414,6 +423,13 @@ export default function Dashboard() {
             <h1 className="text-3xl sm:text-4xl font-bold tracking-tight text-[var(--text-main)]">Hoy</h1>
           </div>
           <div className="flex items-center gap-3">
+            <button
+              onClick={() => setSleepConfirm(true)}
+              className="w-10 h-10 sm:w-11 sm:h-11 rounded-full bg-indigo-50 dark:bg-indigo-500/10 text-indigo-500 flex items-center justify-center hover:bg-indigo-100 dark:hover:bg-indigo-500/20 active:scale-95 transition-all ios-shadow"
+              title="Modo Descanso (Sueño)"
+            >
+              <span className="material-symbols-outlined text-[22px] sm:text-2xl fill-1">dark_mode</span>
+            </button>
             {totalCount > 0 && (
               <ProgressCircle current={totalDone} total={totalCount} size={42} />
             )}
@@ -635,6 +651,21 @@ export default function Dashboard() {
               >
                 Eliminar
               </button>
+            </div>
+          </div>
+        </div>
+      )}
+      {sleepConfirm && (
+        <div className="fixed inset-0 bg-black/40 backdrop-blur-sm z-[100] flex items-center justify-center p-4 animate-fade-in" onClick={() => setSleepConfirm(false)}>
+          <div className="bg-white rounded-[2rem] p-6 sm:p-8 w-full max-w-sm ios-shadow animate-slide-up" onClick={e => e.stopPropagation()}>
+            <div className="w-16 h-16 rounded-full bg-indigo-50 dark:bg-indigo-500/10 flex items-center justify-center mx-auto mb-4">
+              <span className="material-symbols-outlined text-3xl text-indigo-500 fill-1">dark_mode</span>
+            </div>
+            <h3 className="font-bold text-xl text-center mb-2">Descansar</h3>
+            <p className="text-sm text-center text-[var(--text-secondary)] mb-6 leading-relaxed">¿Listo para dormir? Se iniciará el temporizador de sueño y todo quedará en silencio.</p>
+            <div className="flex gap-3">
+              <button onClick={() => setSleepConfirm(false)} className="flex-1 py-3.5 rounded-2xl font-bold bg-gray-100 dark:bg-white/5 text-[var(--text-secondary)] hover:bg-gray-200 active:scale-95 transition-all">Cancelar</button>
+              <button onClick={() => navigate('/sleep')} className="flex-1 py-3.5 rounded-2xl font-bold bg-indigo-500 text-white hover:bg-indigo-600 active:scale-95 transition-all">A Dormir</button>
             </div>
           </div>
         </div>

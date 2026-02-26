@@ -71,7 +71,7 @@ export default function Layout({ children }) {
                 </div>
 
                 {/* iOS-style floating tab bar — 4 items */}
-                {!location.pathname.startsWith('/focus/') && (
+                {!location.pathname.startsWith('/focus/') && !location.pathname.startsWith('/sleep') && (
                     <div
                         className="fixed bottom-1 left-4 right-4 z-50 flex justify-center"
                         style={{ paddingBottom: 'env(safe-area-inset-bottom, 0px)' }}

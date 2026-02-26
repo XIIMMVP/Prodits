@@ -5,6 +5,7 @@ import { StoreProvider } from './store/useStore';
 import Layout from './components/Layout';
 import Dashboard from './pages/Dashboard';
 import FocusSession from './pages/FocusSession';
+import SleepMode from './pages/SleepMode';
 import Routine from './pages/Routine';
 import Insights from './pages/Insights';
 import Journal from './pages/Journal';
@@ -56,6 +57,7 @@ function AppContent() {
             <Route path="/journal" element={<Journal />} />
             <Route path="/notes" element={<Notes />} />
             <Route path="/focus/:id" element={<FocusSession />} />
+            <Route path="/sleep" element={<SleepMode />} />
           </Routes>
         </Layout>
       </Router>
