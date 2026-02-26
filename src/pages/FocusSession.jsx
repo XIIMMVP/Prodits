@@ -99,7 +99,8 @@ export default function FocusSession() {
     };
 
     return (
-        <div className="fixed inset-0 bg-[var(--bg-main)] z-[100] flex flex-col pt-10 pb-8 px-6 text-center shadow-2xl animate-slide-up" style={{ paddingTop: 'calc(env(safe-area-inset-top, 20px) + 20px)' }}>
+        <div className="fixed inset-0 bg-[var(--bg-main)] z-[100] flex flex-col pt-10 pb-8 px-6 text-center shadow-2xl animate-slide-up overflow-hidden"
+            style={{ paddingTop: 'calc(env(safe-area-inset-top, 20px) + 20px)', touchAction: 'none', overscrollBehavior: 'none' }}>
             {/* Header / Back button */}
             <div className="flex items-center justify-between mb-auto">
                 <button onClick={() => navigate(-1)} className="w-12 h-12 rounded-full bg-white dark:bg-white/5 border border-gray-100 dark:border-white/10 ios-shadow flex items-center justify-center active:scale-95 transition-transform">

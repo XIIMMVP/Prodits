@@ -146,7 +146,8 @@ export default function SleepMode() {
     const fWake = new Date(wakeTime).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
 
     return (
-        <div className="fixed inset-0 bg-[#0a0a0f] text-white z-[100] flex flex-col pt-10 pb-8 px-6 animate-fade-in text-center" style={{ paddingTop: 'calc(env(safe-area-inset-top, 20px) + 20px)' }}>
+        <div className="fixed inset-0 bg-[#0a0a0f] text-white z-[100] flex flex-col pt-10 pb-8 px-6 animate-fade-in text-center overflow-hidden"
+            style={{ paddingTop: 'calc(env(safe-area-inset-top, 20px) + 20px)', touchAction: 'none', overscrollBehavior: 'none' }}>
 
             {/* Nav Header */}
             <div className="flex items-center justify-between mb-auto">
@@ -183,7 +184,7 @@ export default function SleepMode() {
                 onPointerLeave={handlePointerUp}
             >
                 {/* SVG Ring rotated -90deg */}
-                <svg viewBox="0 0 320 320" className="w-full h-full -rotate-90 drop-shadow-2xl">
+                <svg ref={svgRef} viewBox="0 0 320 320" className="w-full h-full -rotate-90 drop-shadow-2xl">
                     <circle cx="160" cy="160" r="130" fill="none" stroke="#1c1c24" strokeWidth="24" />
                     <circle cx="160" cy="160" r="130" fill="none" stroke="#6366f1" strokeWidth="24" strokeLinecap="round"
                         strokeDasharray={circumference}
