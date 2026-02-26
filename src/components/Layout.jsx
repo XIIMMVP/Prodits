@@ -64,7 +64,7 @@ export default function Layout({ children }) {
         <SettingsSheetContext.Provider value={settingsCtx}>
             <div className="bg-[var(--bg-main)] min-h-screen min-h-[100dvh] relative font-sans text-[var(--text-main)] overflow-x-hidden">
                 {/* Page Content */}
-                <div className="w-full flex justify-center pb-28">
+                <div className="w-full flex justify-center pb-28" style={{ paddingTop: 'env(safe-area-inset-top, 0px)' }}>
                     <div className="w-full">
                         {children}
                     </div>
