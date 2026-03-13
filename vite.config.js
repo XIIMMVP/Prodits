@@ -8,7 +8,7 @@ export default defineConfig({
     react(),
     VitePWA({
       registerType: 'autoUpdate',
-      includeAssets: ['icon-light-192.png', 'icon-light-512.png', 'apple-touch-icon-light.png'],
+      includeAssets: ['icon-light-192.png', 'icon-light-512.png', 'icon-dark-192.png', 'icon-dark-512.png', 'apple-touch-icon-light.png', 'apple-touch-icon-dark.png'],
       manifest: {
         name: 'Prodits - Tu Gestor de Hábitos',
         short_name: 'Prodits',
@@ -32,6 +32,16 @@ export default defineConfig({
             sizes: '512x512',
             type: 'image/png',
             purpose: 'any maskable'
+          },
+          {
+            src: 'icon-dark-192.png',
+            sizes: '192x192',
+            type: 'image/png'
+          },
+          {
+            src: 'icon-dark-512.png',
+            sizes: '512x512',
+            type: 'image/png'
           }
         ]
       }

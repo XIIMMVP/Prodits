@@ -51,8 +51,8 @@ export default function AuthPage() {
             <div className="w-full max-w-sm">
                 {/* Logo */}
                 <div className="text-center mb-6 sm:mb-10">
-                    <div className="w-16 h-16 sm:w-20 sm:h-20 rounded-2xl sm:rounded-3xl bg-gradient-to-br from-[var(--primary)] to-blue-400 flex items-center justify-center mx-auto mb-3 shadow-lg shadow-blue-200">
-                        <span className="text-3xl sm:text-4xl">🎯</span>
+                    <div className="w-16 h-16 sm:w-20 sm:h-20 rounded-2xl sm:rounded-3xl bg-black flex items-center justify-center mx-auto mb-3 shadow-lg overflow-hidden">
+                        <img src="/icon-light-512.png" alt="Prodits Logo" className="w-full h-full object-cover" />
                     </div>
                     <h1 className="text-2xl sm:text-3xl font-black tracking-tight">Prodits</h1>
                     <p className="text-sm text-[var(--text-secondary)] mt-1">Tu gestor de hábitos</p>
